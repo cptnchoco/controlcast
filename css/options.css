@@ -1,0 +1,491 @@
+.options {
+    position: absolute;
+    width: 400px;
+    top: 0;
+    right: 0;
+    padding: 15px;
+}
+
+.edit_key_header {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.key_pos_label {
+    margin-left: 10px;
+}
+
+.options > div {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.options > div:first-child {
+    margin-bottom: 25px;
+}
+
+#key_description {
+    margin-bottom: 15px;
+}
+
+.options > div:last-child {
+    margin: 25px 0 0 0;
+}
+
+.abs-right {
+    position: absolute;
+    right: 0;
+}
+
+.title {
+    width: 75px;
+    float: left;
+    display: block;
+}
+
+.options > div > div {
+    display: flex;
+}
+
+.color_select div {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 10px;
+    border: 2px solid #18191A;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.color_select div.selected {
+    width: 26px;
+    height: 26px;
+    margin-right: 0;
+    position: relative;
+    right: 5px;
+    bottom: 5px;
+    border: 2px solid #000;
+}
+
+.color_select .OFF {
+    background: #EEE;
+}
+
+.color_select .OFF img {
+    height: 15px;
+    position: relative;
+    top: 1px;
+}
+
+.color_select .OFF img.selected {
+    height: 24px;
+}
+
+.color_select .LOW_RED {
+    background: #F26C6A;
+}
+
+.color_select .RED {
+    background: #ED2324;
+}
+
+.color_select .LOW_AMBER {
+    background: #E8CE5D;
+}
+
+.color_select .AMBER {
+    background: #FEBF0F;
+}
+
+.color_select .LOW_GREEN {
+    background: #AED691;
+}
+
+.color_select .GREEN {
+    background: #69BD45;
+}
+
+.color_select span {
+    position: relative;
+    top: -4px;
+}
+
+.clear {
+    clear: both;
+    display: block;
+}
+
+.subtext {
+    font-size: 75%;
+    font-style: italic;
+    position: relative;
+    top: 2px;
+}
+
+.align-right {
+    width: 95%;
+    text-align: right;
+}
+
+.flex {
+    display: flex;
+}
+
+.audio > div {
+    margin-bottom: 15px;
+}
+
+.small {
+    font-size: 75%;
+}
+
+input[type="text"] {
+    background: #18191A;
+    border: 1px solid #555;
+    border-radius: 2px;
+    margin-right: 5px;
+    height: 20px;
+    width: 200px;
+    position: relative;
+    top: 1px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+#volume_slider_container {
+    width: 150px;
+    position: relative;
+    margin: 15px 10px 0 10px;
+}
+
+#volume_slider {
+    margin: 0 auto 0 auto;
+    height: 10px;
+    width: 150px;
+    background: url('../images/volume-empty.png') no-repeat left top;
+    background-size: 150px 10px;
+    border: none;
+    outline: none;
+}
+
+#volume_slider .ui-slider-range-min {
+    height: 10px;
+    width: 150px;
+    position: absolute;
+    background: url('../images/volume-full.png') no-repeat left top;
+    background-size: 150px 10px;
+    border: none;
+    outline: none;
+}
+
+#volume_slider .ui-slider-handle {
+    width: 25px;
+    height: 25px;
+    background: url('../images/volume-knob.png') no-repeat left top;
+    background-size: 25px 25px;
+    position: absolute;
+    top: -4px;
+    margin-left: -10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.options button {
+    font-size: 80%;
+    background: #2B2D30;
+    border: none;
+    color: #5b5f62;
+    width: 95px;
+    height: 24px;
+    border-radius: 2px;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#save_settings {
+    background: #24B24B;
+    color: #DDD;
+}
+
+.options button:active {
+    position: relative;
+    top: 1px;
+}
+
+#reset_key:active {
+    position: absolute;
+    top: 1px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+label {
+    background: #18191A;
+    color: #555;
+    font-weight: bold;
+    height: 24px;
+    border: 1px solid #555;
+    border-radius: 2px;
+    padding: 0;
+    margin: 0;
+    width: 75px;
+}
+
+input:checked + label {
+    background: #EC5d0F;
+    color: #DDD;
+}
+
+.edit_key_header {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.key_pos_label {
+    margin-left: 10px;
+}
+
+.options > div {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.options > div:first-child {
+    margin-bottom: 25px;
+}
+
+#key_description {
+    margin-bottom: 15px;
+}
+
+.options > div:last-child {
+    margin: 25px 0 0 0;
+}
+
+.abs-right {
+    position: absolute;
+    right: 0;
+}
+
+.title {
+    width: 75px;
+    float: left;
+    display: block;
+}
+
+.options > div > div {
+    display: flex;
+}
+
+.color_select div {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-right: 10px;
+    border: 2px solid #18191A;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.color_select div.selected {
+    width: 26px;
+    height: 26px;
+    margin-right: 0px;
+    position: relative;
+    right: 5px;
+    bottom: 5px;
+    border: 2px solid #000;
+}
+
+.color_select .OFF {
+    background: #EEE;
+}
+
+.color_select .OFF img {
+    height: 15px;
+    position: relative;
+    top: 1px;
+}
+
+.color_select .OFF img.selected {
+    height: 24px;
+}
+
+.color_select .LOW_RED {
+    background: #F26C6A;
+}
+
+.color_select .RED {
+    background: #ED2324;
+}
+
+.color_select .LOW_AMBER {
+    background: #E8CE5D;
+}
+
+.color_select .AMBER {
+    background: #FEBF0F;
+}
+
+.color_select .LOW_GREEN {
+    background: #AED691;
+}
+
+.color_select .GREEN {
+    background: #69BD45;
+}
+
+.color_select span {
+    position: relative;
+    top: -4px;
+}
+
+.clear {
+    clear: both;
+    display: block;
+}
+
+.subtext {
+    font-size: 75%;
+    font-style: italic;
+    position: relative;
+    top: 2px;
+}
+
+.align-right {
+    width: 95%;
+    text-align: right;
+}
+
+.flex {
+    display: flex;
+}
+
+.audio > div {
+    margin-bottom: 15px;
+}
+
+.small {
+    font-size: 75%;
+}
+
+input[type="text"] {
+    background: #18191A;
+    border: 1px solid #555;
+    border-radius: 2px;
+    margin-right: 5px;
+    height: 20px;
+    width: 200px;
+}
+
+.inline-block {
+    display: inline-block;
+}
+
+#volume_slider_container {
+    width: 150px;
+    position: relative;
+    top: 1px;
+    margin: 15px 13px 0 10px;
+}
+
+#volume_slider {
+    margin: 0 auto 0 auto;
+    height: 10px;
+    width: 150px;
+    background: url('../images/volume-empty.png') no-repeat left top;
+    background-size: 150px 10px;
+    border: none;
+    outline: none;
+}
+
+#volume_slider .ui-slider-range-min {
+    height: 10px;
+    width: 150px;
+    position: absolute;
+    background: url('../images/volume-full.png') no-repeat left top;
+    background-size: 150px 10px;
+    border: none;
+    outline: none;
+}
+
+#volume_slider .ui-slider-handle {
+    width: 25px;
+    height: 25px;
+    background: url('../images/volume-knob.png') no-repeat left top;
+    background-size: 25px 25px;
+    position: absolute;
+    top: -4px;
+    margin-left: -10px;
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+.options button {
+    font-size: 80%;
+    background: #2B2D30;
+    border: none;
+    color: #5b5f62;
+    width: 95px;
+    height: 23px;
+    border-radius: 2px;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#save_settings {
+    background: #24B24B;
+    color: #DDD;
+}
+
+.options button:active {
+    position: relative;
+    top: 1px;
+}
+
+#reset_key:active {
+    position: absolute;
+    top: 1px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+label {
+    display: inline-block;
+    text-align: center;
+    background: #18191A;
+    color: #555;
+    font-weight: bold;
+    border: 1px solid #555;
+    border-radius: 2px;
+    width: 45px;
+    height: 20px;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+label.wide {
+    width: 90px;
+    margin-right: 4px;
+}
+
+input:checked + label {
+    background: #EC5d0F;
+    color: #DDD;
+}

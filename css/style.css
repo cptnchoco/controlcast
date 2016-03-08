@@ -1,0 +1,52 @@
+@import url("open_sans.css");
+@import url('launchpad.css');
+@import url('options.css');
+@import url('animate.css');
+
+body {
+    font: 14px/140% "Open Sans", sans-serif;
+    color: #DDD;
+    background: #0B0B0C;
+    padding: 20px;
+    margin: 0;
+}
+
+input {
+    color: #DDD;
+}
+
+body > div {
+    margin: 0 auto;
+    position: relative;
+}
+
+body > div > div {
+    background: #161718;
+}
+
+header {
+    margin: 0;
+    padding: 0;
+    height: 60px;
+}
+
+header img {
+    position: relative;
+    bottom: 50px;
+    width: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+.blanket {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #000;
+    opacity: 0.6;
+    display: none;
+    z-index: 100;
+}

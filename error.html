@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ControlCast</title>
+    <link rel="stylesheet" type="text/css" href="css/open_sans.css">
+    <style>
+        body {
+            font: 14px/140% "Open Sans", sans-serif;
+            margin: 10px;
+            background: #CCC;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        p {
+            margin: 5px 0 12px 0;
+        }
+
+        button {
+            margin: 5px;
+            width: 120px;
+            height: 30px;
+            font-size: 20px;
+        }
+    </style>
+    <script>
+        const ipc = require('electron').ipcRenderer;
+        const $ = require('jquery'); //Save jQuery to $
+        $(document).ready(function () {
+
+            $('.ok').click(function () {
+                ipc.send('reset_config');
+            });
+
+            $('.cancel').click(function () {
+                ipc.send('app_quit');
+            });
+
+        });
+    </script>
+</head>
+<body>
+<h2>ControlCast Startup Error</h2>
+<p>There was an error loading the config.json settings file.</p>
+<p>Press OK to backup the current file and generate a new one, or press Cancel to exit.</p>
+<button class="ok">OK</button>
+<button class="cancel">Cancel</button>
+</body>
+</html>

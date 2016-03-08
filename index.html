@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script src="js/init.js"></script>
+    <script src="js/app_menu.js"></script>
+    <script src="js/app_tray.js"></script>
+    <script src="js/launchpad.js"></script>
+    <script src="js/options.js"></script>
+</head>
+<body>
+<div class="blanket"></div>
+<header>
+    <img src="images/logo-light.png">
+</header>
+<div>
+    <div class="launchpad">
+        <div class="keys_top"></div>
+        <div class="keys_main">
+            <div class="center_void"></div>
+            <div class="center c4-3"></div>
+            <div class="center c4-4"></div>
+            <div class="center c3-3"></div>
+            <div class="center c3-4"></div>
+        </div>
+        <div class="keys_side"></div>
+        <div class="midi_connected"></div>
+    </div>
+    <div class="options">
+        <div class="edit_key_header">
+            Edit Key
+            <span class="key_pos_label">(0,0)</span>
+            <button id="reset_key" class="abs-right">RESET KEY</button>
+        </div>
+        <div>
+            <span class="title">Name</span>
+            <input id="key_description" class="opt" type="text">
+        </div>
+        <div>
+            <span class="title">Inactive</span>
+            <div>
+                <div id="inactive_key_color" class="color_select inactive" data-color="OFF">
+                    <div class="OFF selected" data-color="OFF"><img class="selected" src="./images/x.png"></div>
+                    <div class="LOW_RED" data-color="LOW_RED"></div>
+                    <div class="RED" data-color="RED"></div>
+                    <div class="LOW_AMBER" data-color="LOW_AMBER"></div>
+                    <div class="AMBER" data-color="AMBER"></div>
+                    <div class="LOW_GREEN" data-color="LOW_GREEN"></div>
+                    <div class="GREEN" data-color="GREEN"></div>
+                    <span class="clear subtext selected">Off</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="title">Active</span>
+            <div>
+                <div id='active_key_color' class="color_select active" data-color="OFF">
+                    <div class="OFF selected" data-color="OFF"><img class="selected" src="./images/x.png"></div>
+                    <div class="LOW_RED" data-color="LOW_RED"></div>
+                    <div class="RED" data-color="RED"></div>
+                    <div class="LOW_AMBER" data-color="LOW_AMBER"></div>
+                    <div class="AMBER" data-color="AMBER"></div>
+                    <div class="LOW_GREEN" data-color="LOW_GREEN"></div>
+                    <div class="GREEN" data-color="GREEN"></div>
+                    <span class="clear subtext">Off</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="title">Hotkeys</span>
+            <div>
+                <div>
+                    <input id="hotkey_string" type="text">
+                    <span id="clear_hotkey" class="clear subtext align-right pointer">Clear Input</span>
+                </div>
+                <div class="small">
+                    <input id="radio1" class="opt" type="radio" name="hotkey_type" value="send" checked><label for="radio1">SEND</label>
+                    <input id="radio2" class="opt" type="radio" name="hotkey_type" value="hold"><label for="radio2">HOLD</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <span class="title">Audio</span>
+            <div>
+                <div class="clear audio">
+                    <div class="flex">
+                        <div>
+                            <input id="audio_path" class="opt" type="text">
+                            <span class="clear subtext">(URL, UNC, or local file path)</span>
+                        </div>
+                        <div>
+                            <button id="browse">CHOOSE FILE</button>
+                            <span id="clear_audio" class="clear subtext pointer">Clear Input</span>
+                        </div>
+                    </div>
+                    <div class="clear small">
+                        Volume
+                        <div class="inline-block">
+                            <div id="volume_slider_container">
+                                <div id="volume_slider"></div>
+                            </div>
+                        </div>
+                        <span id="vol_val">100%</span>
+                    </div>
+                    <div class="small">
+                        On Release<br>
+                        <input id="radio3" class="opt" type="radio" name="on_release" value="continue" checked><label class="wide" for="radio3">KEEP PLAYING</label>
+                        <input id="radio4" class="opt" type="radio" name="on_release" value="stop"><label class="wide" for="radio4">STOP PLAYING</label>
+                    </div>
+                    <div class="small">
+                        On Press While Still Playing<br>
+                        <input id="radio5" class="opt" type="radio" name="on_repress" value="none" checked><label class="wide" for="radio5">DO NOTHING</label>
+                        <input id="radio6" class="opt" type="radio" name="on_repress" value="restart"><label class="wide" for="radio6">RESTART TRACK</label>
+                        <input id="radio7" class="opt" type="radio" name="on_repress" value="stop"><label class="wide" for="radio7">STOP PLAYING</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button id="kill_audio">KILL AUDIO</button>
+            <span class="abs-right">
+                <button id="discard_settings">DISCARD</button>
+                <button id="save_settings">SAVE</button>
+            </span>
+        </div>
+    </div>
+</div>
+<svg height="0" width="0">
+    <defs>
+        <clipPath clipPathUnits="objectBoundingBox" id="c4-3">
+            <path d="M.62,.38 L1,.38 A.5,.5 0 0,0 .62,0 z"></path>
+        </clipPath>
+    </defs>
+</svg>
+<svg height="0" width="0">
+    <defs>
+        <clipPath clipPathUnits="objectBoundingBox" id="c4-4">
+            <path d="M.62,.62 L.62,1 A.5,.5 0 0,0 1,.62 z"></path>
+        </clipPath>
+    </defs>
+</svg>
+<svg height="0" width="0">
+    <defs>
+        <clipPath clipPathUnits="objectBoundingBox" id="c3-3">
+            <path d="M.38,.38 L.38,0 A.5,.5 0 0,0 0,.38 z"></path>
+        </clipPath>
+    </defs>
+</svg>
+<svg height="0" width="0">
+    <defs>
+        <clipPath clipPathUnits="objectBoundingBox" id="c3-4">
+            <path d="M.38,.62 L0,.62 A.5,.5 0 0,0 .38,1 z"></path>
+        </clipPath>
+    </defs>
+</svg>
+</body>
+</html>
