@@ -1,5 +1,5 @@
 'use strict';
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
         'create-windows-installer': {
@@ -16,6 +16,5 @@ module.exports = function(grunt) {
         }
     });
     grunt.loadNpmTasks('grunt-electron-installer');
-
     grunt.registerTask('default', 'create-windows-installer');
 };
