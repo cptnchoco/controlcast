@@ -137,8 +137,6 @@ input[type="text"] {
     margin-right: 5px;
     height: 20px;
     width: 200px;
-    position: relative;
-    top: 1px;
 }
 
 .inline-block {
@@ -221,15 +219,17 @@ input[type="radio"] {
 }
 
 label {
+    display: inline-block;
+    text-align: center;
     background: #18191A;
     color: #555;
     font-weight: bold;
-    height: 24px;
     border: 1px solid #555;
     border-radius: 2px;
-    padding: 0;
-    margin: 0;
-    width: 75px;
+    width: 45px;
+    height: 20px;
+    padding-top: 2px;
+    cursor: pointer;
 }
 
 input:checked + label {

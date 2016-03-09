@@ -126,7 +126,7 @@
     top: 20px;
     right: 22px;
     background: url('../images/icon-grey.png') no-repeat top left;
-    background-size: 45px 45px;
+    background-size: 32px 32px;
 }
 
 .midi_connected.connected {
