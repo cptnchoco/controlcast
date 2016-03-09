@@ -78,7 +78,7 @@ var mainWindow, //Main application window
     forceQuit; //Bool to force quit app from tray
 
 jsonfile.spaces = 2; //Set the indentation for saving json files
-const configFile = path.normalize("./config.json"); //Set config file path
+const configFile = path.normalize("../config.json"); //Set config file path
 
 global.app_version = require('./package.json').version; //Store app version for in app displays
 
