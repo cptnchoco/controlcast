@@ -1,7 +1,5 @@
 'use strict';
-const packager = require('electron-packager'),
-    fs = require('fs'),
-    rmdir = require('rmdir');
+const packager = require('electron-packager');
 
 var version = require('../package.json').version;
 
@@ -27,22 +25,10 @@ var pack_options = {
     'build-version': version
 };
 
-function pack() {
-    packager(pack_options, (err, appPath) => {
-        if (err) {
-            console.log("error: " + JSON.stringify(err));
-            return;
-        }
-        console.log("Packaging complete");
-    });
-}
-
-fs.exists('../dist/win', (exists) => {
-    if (exists) {
-        rmdir('../dist/win', () => {
-            pack();
-        });
-    } else {
-        pack();
+packager(pack_options, (err, appPath) => {
+    if (err) {
+        console.log("error: " + JSON.stringify(err));
+        return;
     }
+    console.log("Packaging complete");
 });
