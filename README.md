@@ -3,6 +3,8 @@
 
 A Launchpad Mini desktop application for streamers
 
+<img src="http://dbkynd.com/l/3KIwh" width="350">
+
 ##What does it do?
 ControlCast allows you to take control of your broadcast with the Launchpad Mini with hotkeys and also functions as a soundboard. 
 
