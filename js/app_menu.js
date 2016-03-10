@@ -75,7 +75,7 @@ var titleMenu = Menu.buildFromTemplate([
                         ],
                         title: 'About ControlCast',
                         message: "'ControlCast' by DBKynd\nVersion: " + app_version +
-                        "\ndb@dbkynd.com\n©2016\n\nArtwork by: Annemunition"
+                        "\ndb@dbkynd.com\n©2016\n\nArtwork and beta testing by Annemunition"
                     })
                 }
             }
