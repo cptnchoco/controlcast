@@ -1,9 +1,7 @@
-#ControlCast 
-<img src="https://raw.githubusercontent.com/dbkynd/controlcast/master/images/icon.png" height="50">
-
+#ControlCast
 A Launchpad Mini desktop application for streamers
 
-<img src="http://dbkynd.com/l/3KIwh" width="350">
+<img src="http://dbkynd.com/l/3KIwh" width="400">
 
 ##What does it do?
 ControlCast allows you to take control of your broadcast with the Launchpad Mini with hotkeys and also functions as a soundboard. 
