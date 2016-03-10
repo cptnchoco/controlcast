@@ -16,4 +16,4 @@ With ControlCast you Edit the Midi Key to ``Send`` or ``Hold`` a configured hotk
 * Toggle (``Keep Playing`` & ``Stop Playing``) Toggles the track on and off.
 * Hold to Play (``Stop Playing`` & ``*``) Pressing the midi key will start the track and releaseing the midi key will stop the track.
 
-Artwork by Annemunition
+Artwork and Beta testing by Annemunition
