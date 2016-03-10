@@ -14,8 +14,8 @@ module.exports = function (grunt) {
                 loadingGif: './build/loading.gif',
                 iconUrl: 'https://raw.githubusercontent.com/dbkynd/controlcast/master/images/icon.ico',
                 setupIcon: './images/icon.ico',
-                noMsi: true/*,
-                 remoteReleases: 'https://s3-us-west-2.amazonaws.com/controlcast',
+                noMsi: true,
+                remoteReleases: 'https://s3-us-west-2.amazonaws.com/controlcast'/*,
                  certificateFile: '../CodeSigningCert.pfx',
                  certificatePassword: require('../CodeSigningPassword.json').password*/
             }
