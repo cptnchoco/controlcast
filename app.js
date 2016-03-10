@@ -8,7 +8,8 @@ const electron = require('electron'),
     fs = require('fs'),
     path = require('path'),
     jsonfile = require('jsonfile'),
-    moment = require('moment');
+    moment = require('moment'),
+    spawn = require('child_process').spawn;
 
 
 //Force Single Instance
@@ -26,39 +27,37 @@ if (shouldQuit) { //Application is already running
     return;
 }
 
+
 //Squirrel Auto Update Handlers
 
+
+var target = path.basename(process.execPath);
+function run(args, done) {
+    var updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
+    console.log('Spawning `%s` with args `%s`', updateExe, args);
+    spawn(updateExe, args, {
+        detached: true
+    }).on('close', done);
+}
 
 function handleStartupEvent() {
     if (process.platform !== 'win32') {
         return false;
     }
-
     var squirrelCommand = process.argv[1];
     switch (squirrelCommand) {
         case '--squirrel-install':
         case '--squirrel-updated':
-            // Optionally do things such as:
-            //
-            // - Install desktop and start menu shortcuts
-            // - Add your .exe to the PATH
-            // - Write to the registry for things like file associations and
-            //   explorer context menus
-            // Always quit when done
-            app.quit();
-
+            run(['--createShortcut=' + target, '--shortcut-locations=Desktop,StartMenu'], () => {
+                app.quit();
+            });
             return true;
         case '--squirrel-uninstall':
-            // Undo anything you did in the --squirrel-install and
-            // --squirrel-updated handlers
-            // Always quit when done
-            app.quit();
-
+            run(['--removeShortcut=' + target, '--shortcut-locations=Desktop,StartMenu'], () => {
+                app.quit();
+            });
             return true;
         case '--squirrel-obsolete':
-            // This is called on the outgoing version of your app before
-            // we update to the new version - it's the opposite of
-            // --squirrel-updated
             app.quit();
             return true;
     }
@@ -77,10 +76,11 @@ var mainWindow, //Main application window
     config, //Main settings object
     forceQuit; //Bool to force quit app from tray
 
+app.setAppUserModelId('com.squirrel.ControlCast.ControlCast');
 jsonfile.spaces = 2; //Set the indentation for saving json files
 const configFile = path.normalize("../config.json"); //Set config file path
 
-global.app_version = require('./package.json').version; //Store app version for in app displays
+global.app_version = app.getVersion(); //Store app version for in app displays
 
 app.on('window-all-closed', () => { // Quit when all windows are closed.
     if (process.platform != 'darwin') app.quit();
@@ -112,7 +112,8 @@ function getDefaultConfig() { //Returns the default config object
                 x: null,
                 y: null
             },
-            close_to_tray: false
+            close_to_tray: false,
+            auto_start: false
         },
         keys: {}
     }
@@ -251,5 +252,15 @@ ipc.on('toggle_minimize', () => { //From tray icon
         } else {
             mainWindow.minimize(); //Minimize main window
         }
+    }
+});
+
+ipc.on('windows_auto_start', (e, data) => {
+    config.app.auto_start = data; //Set close to tray option only
+    saveConfig();
+    if (data) {
+        run(['--createShortcut=' + target, '--shortcut-locations=Startup'], () => {});
+    } else {
+        run(['--removeShortcut=' + target, '--shortcut-locations=Startup'], () => {});
     }
 });

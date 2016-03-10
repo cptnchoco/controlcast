@@ -38,6 +38,13 @@ var titleMenu = Menu.buildFromTemplate([
                     config.app.close_to_tray = e.checked; //Store and save close to tray to config here and main app config
                     ipc.send('close_to_tray', e.checked, true);
                 }
+            },
+            {
+                label: 'Start with Windows',
+                type: 'checkbox',
+                click: (e)=> {
+                    ipc.send('windows_auto_start', e.checked);
+                }
             }
         ]
     },
@@ -45,15 +52,17 @@ var titleMenu = Menu.buildFromTemplate([
         label: 'Help',
         submenu: [
             {
-                label: 'View on GitHub',
-                click: () => { //Open client browser to Github
-                    require('electron').shell.openExternal('https://github.com/dbkynd/controlcast')
+                label: 'Check for Updates',
+                click: () => {
+                    //noinspection JSUnresolvedVariable
+                    notyUpdates = true;
+                    checkForUpdates();
                 }
             },
             {
-                label: 'Change Log',
-                click: () => {
-                    require('electron').shell.openExternal('https://github.com/dbkynd/controlcast/blob/master/changelog.md')
+                label: 'View on GitHub',
+                click: () => { //Open client browser to Github
+                    require('electron').shell.openExternal('https://github.com/dbkynd/controlcast')
                 }
             },
             {
@@ -66,7 +75,7 @@ var titleMenu = Menu.buildFromTemplate([
                         ],
                         title: 'About ControlCast',
                         message: "'ControlCast' by DBKynd\nVersion: " + app_version +
-                        "\ndb@dbkynd.com\n©2016\n\nContributed to by: Annemunition"
+                        "\ndb@dbkynd.com\n©2016\n\nArtwork by: Annemunition"
                     })
                 }
             }

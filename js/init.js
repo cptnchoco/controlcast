@@ -5,6 +5,7 @@ const remote = require('electron').remote,
     MenuItem = remote.MenuItem,
     dialog = remote.dialog,
     Tray = remote.Tray,
+    autoUpdater = remote.autoUpdater,
     path = require('path'),
     ipc = require('electron').ipcRenderer,
     $ = require('jquery'),
@@ -26,7 +27,8 @@ var config, //Holds all the app and key settings
     usbConnected, //Bool for Launchpad USB state
     reconnectTimer, //Reconnection timer
     lastKey = [0, 0], //Stores the last key pressed
-    tracks = {}; //Holds all the audio tracks in memory to be played
+    tracks = {}, //Holds all the audio tracks in memory to be played
+    notyUpdates;
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
@@ -36,7 +38,10 @@ ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the cur
     setAllLights(); //Set all gui and midi lights to released state
     setKeyOptions(); //Set all key configs
     loadTracks(); //Load audio tracks into memory to be played immediately on demand
-    if (titleMenu) titleMenu.items[1].submenu.items[0].checked = config.app.close_to_tray; //Set title menu close to tray checkbox
+    if (titleMenu) {
+        titleMenu.items[1].submenu.items[0].checked = config.app.close_to_tray;
+        titleMenu.items[1].submenu.items[1].checked = config.app.auto_start;
+    } //Set title menu checkbox
 });
 
 $(document).ready(function () { //On DOM ready
@@ -65,6 +70,10 @@ $(document).ready(function () { //On DOM ready
         newDiv.setAttribute('data-color', "OFF");
         $('.launchpad .keys_side').append(newDiv);
     }
+
+    $('#update_available').click(function () {
+        autoUpdater.quitAndInstall();
+    });
 });
 
 function get(obj, key) { //Search and return a nested element in an object or null
@@ -155,3 +164,46 @@ function loadTracks() { //Load track data to array
         }
     }
 }
+
+autoUpdater.setFeedURL('https://s3-us-west-2.amazonaws.com/controlcast');
+checkForUpdates();
+setInterval(() => {
+    checkForUpdates();
+}, 1000 * 60 * 15);
+
+function checkForUpdates() {
+    try {
+        autoUpdater.checkForUpdates();
+    } catch (e) {
+        console.log('Unable to run auto updater.\n', e.message, "\nLikely in build environment");
+    }
+}
+
+autoUpdater.on('error', (err) => {
+    console.log('Squirrel error: ' + JSON.stringify(err));
+});
+
+autoUpdater.on('checking-for-update', () => {
+    console.log('Squirrel: checking-for-update');
+});
+
+autoUpdater.on('update-available', () => {
+    console.log('Squirrel: update-available');
+    if (notyUpdates) {
+        notyUpdates = false;
+        centerNOTY('notification', "Updates available, Downloading...", 3000);
+    }
+});
+
+autoUpdater.on('update-not-available', () => {
+    console.log('Squirrel: update-not-available');
+    if (notyUpdates) {
+        notyUpdates = false;
+        centerNOTY('notification', "There are no updates available.");
+    }
+});
+
+autoUpdater.on('update-downloaded', () => {
+    console.log('Squirrel: update-downloaded');
+    $('#update_available').show();
+});

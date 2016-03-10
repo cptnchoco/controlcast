@@ -1,6 +1,6 @@
 {
   "name": "ControlCast",
-  "version": "0.1.1",
+  "version": "0.1.0",
   "description": "ControlCast",
   "main": "app.js",
   "scripts": {
@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/dbkynd/controlcast#readme",
   "devDependencies": {
-    "electron-packager": "^5.2.1",
     "electron-prebuilt": "0.36.10",
     "grunt": "0.4.5",
     "grunt-electron-installer": "1.2.2"
