@@ -66,7 +66,6 @@ $(document).ready(function () {
             if (combo.alt) display.push("ALT");
             if (combo.key) display.push(combo.key);
             $(this).val(display.join(" + ")); //Stringify the combo key options array and display it in the text field
-            console.log('update key: hotkey field');
             updateKeyEntry(); //Update the key entry to save the hotkey
         });
         $(this).keyup(function (e) { //Key released while focused
@@ -129,13 +128,11 @@ $(document).ready(function () {
         slide: function (event, ui) {
             if (tracks[lastKey.join(",")]) tracks[lastKey.join(",")].volume = ui.value / 100;
             $('#vol_val').text(ui.value + "%");
-            console.log('update key: vol change');
             updateKeyEntry();
         }
     });
 
     $('.opt').on('change input', function () { //A savable option was changed, update the key config
-        console.log('update key: change | input');
         updateKeyEntry();
     });
 

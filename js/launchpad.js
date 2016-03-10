@@ -112,7 +112,6 @@ function centerNOTY(type, text, timeout) { //Display notification on center of w
 function playAudio(key, action) { //Handle Audio playback
     let audio = get(config, "keys." + key.join(",") + ".audio"); //Get key audio settings if they exist
     if (!audio || !audio.path) return; //Return if no settings or disabled
-    console.log('Play Audio');
     let track = tracks[key.join(",")]; //Get loaded track from memory
     switch (action) {
         case 'press':
@@ -158,7 +157,6 @@ function stopAudio(track) { //Stops the track
 function sendHotkey(key, action) {
     let hotkey = get(config, "keys." + key.join(",") + ".hotkey"); //Get key audio settings if they exist
     if (!hotkey || !hotkey.string) return; //Return if no settings or disabled
-    console.log('Send Hotkey');
     let keys = hotkey.string.split(" + "); //Split hotkey string into an array
     let popKey = keys[keys.length - 1]; //Get the last array index without popping it off
     //If last index is not a modifier, convert it to the kbm names if need be
