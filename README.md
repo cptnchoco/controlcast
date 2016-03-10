@@ -1,4 +1,6 @@
-# ControlCast
+#ControlCast 
+<img src="https://raw.githubusercontent.com/dbkynd/controlcast/master/images/icon.png" height="50">
+
 A Launchpad Mini desktop application for streamers
 
 ##What does it do?
