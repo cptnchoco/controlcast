@@ -9,7 +9,7 @@ ControlCast allows you to take control of your broadcast with the Launchpad Mini
 Future plans for an internal CLR browser for displaying images on screen via an overlay.
 
 ##How does it work?
-Most streaming software (and other applications) let you bind hotkeys to perform certain tasks. Things like Start/Stop the stream, switching scenes, and muting your microphone in voice applications. 
+Most streaming softwares (OBS, XSplit) let you bind hotkeys to perform certain tasks when streaming to services like Twitch. Tasks like Start/Stop the stream, switching scenes, and muting your microphone. And 3rd party voice services often offer toggle to mute or hold to mute keybinds. (Discord, Skype, Teamspeak) 
 
 With ControlCast you Edit the Midi Key to ``Send`` or ``Hold`` a configured hotkey. Or select an audio file to be played. Audio can be played in 4 different methods by selecting the desired functions. (``On Release`` & ``On Press While Still Playing``)
 
