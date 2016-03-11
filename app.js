@@ -4,6 +4,7 @@ const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
     ipc = electron.ipcMain,
+    autoUpdater = electron.autoUpdater,
     dialog = electron.dialog,
     fs = require('fs'),
     path = require('path'),
@@ -263,4 +264,9 @@ ipc.on('windows_auto_start', (e, data) => {
     } else {
         run(['--removeShortcut=' + target, '--shortcut-locations=Startup'], () => {});
     }
+});
+
+ipc.on('quit_and_install', () => {
+    forceQuit = true;
+    autoUpdater.quitAndInstall();
 });

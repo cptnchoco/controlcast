@@ -72,7 +72,7 @@ $(document).ready(function () { //On DOM ready
     }
 
     $('#update_available').click(function () {
-        autoUpdater.quitAndInstall();
+        ipc.send('quit_and_install');
     });
 });
 
@@ -166,7 +166,6 @@ function loadTracks() { //Load track data to array
 }
 
 autoUpdater.setFeedURL('https://s3-us-west-2.amazonaws.com/controlcast');
-checkForUpdates();
 setInterval(() => {
     checkForUpdates();
 }, 1000 * 60 * 15);
