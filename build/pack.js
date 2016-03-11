@@ -9,6 +9,7 @@ var pack_options = {
     dir: '../',
     out: '../dist',
     asar: false,
+    prune: true,
     overwrite: true,
     icon: '../images/icon.ico',
     ignore: '^/.idea|^/build|^/dist|^/node_modules/(electron-*|grunt|grunt-*|rmdir)|^/Gruntfile.js',
