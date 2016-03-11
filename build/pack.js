@@ -11,7 +11,7 @@ var pack_options = {
     asar: false,
     overwrite: true,
     icon: '../images/icon.ico',
-    ignore: '^/.idea|^/build|^/dist|^/node_modules/(electron-*|grunt|grunt-*|rmdir)',
+    ignore: '^/.idea|^/build|^/dist|^/node_modules/(electron-*|grunt|grunt-*|rmdir)|^/Gruntfile.js',
     'version-string': {
         CompanyName: 'DBKynd',
         LegalCopyright: 'Copyright (C) 2016 DBKynd',
