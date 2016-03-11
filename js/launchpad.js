@@ -164,34 +164,18 @@ function sendHotkey(key, action) {
     switch (hotkey.type) {
         case 'send': //Send and release hotkeys
             if (action != 'press') return;
-            for (let i in keys) {
-                if (keys.hasOwnProperty(i)) {
-                    kbm.press(keys[i]).go();
-                }
-            }
+            kbDown(keys);
             setTimeout(()=> {
-                for (let i in keys) {
-                    if (keys.hasOwnProperty(i)) {
-                        kbm.release(keys[i]).go();
-                    }
-                }
+                kbUp(keys);
             }, 100);
             break;
         case 'hold':
             switch (action) {
                 case 'press': //Hold hotkeys
-                    for (let i in keys) {
-                        if (keys.hasOwnProperty(i)) {
-                            kbm.press(keys[i]).go();
-                        }
-                    }
+                    kbDown(keys);
                     break;
                 case 'release': //Release Hotkeys
-                    for (let i in keys) {
-                        if (keys.hasOwnProperty(i)) {
-                            kbm.release(keys[i]).go();
-                        }
-                    }
+                    kbUp(keys);
                     break;
             }
             break;
@@ -230,5 +214,27 @@ function resolveKbmKey(key) { //Match up the different key names from the 2 diff
             break;
         default:
             return key;
+    }
+}
+
+function kbDown(keys) {
+    for (let i in keys) {
+        if (keys.hasOwnProperty(i)) {
+            let c = keyboard[keys[i]] || 0;
+            if (c == 0) kbm.press(keys[i]).go();
+            c++;
+            keyboard[keys[i]] = c;
+        }
+    }
+}
+
+function kbUp(keys) {
+    for (let i in keys) {
+        if (keys.hasOwnProperty(i)) {
+            let c = keyboard[keys[i]] || 0;
+            if (c == 1) kbm.release(keys[i]).go();
+            c--;
+            keyboard[keys[i]] = c;
+        }
     }
 }
