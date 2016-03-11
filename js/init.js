@@ -204,5 +204,5 @@ autoUpdater.on('update-not-available', () => {
 
 autoUpdater.on('update-downloaded', () => {
     console.log('Squirrel: update-downloaded');
-    $('#update_available').css({display: 'block'});
+    $('#update_available').show();
 });
