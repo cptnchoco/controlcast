@@ -8,7 +8,7 @@ var pack_options = {
     arch: 'ia32',
     dir: '../',
     out: '../dist',
-    asar: true,
+    asar: false,
     overwrite: true,
     icon: '../images/icon.ico',
     ignore: '^/.idea|^/build|^/dist|^/node_modules/(electron-*|grunt|grunt-*|rmdir)',
