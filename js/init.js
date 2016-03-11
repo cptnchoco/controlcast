@@ -172,11 +172,7 @@ setInterval(() => {
 }, 1000 * 60 * 15);
 
 function checkForUpdates() {
-    try {
         autoUpdater.checkForUpdates();
-    } catch (e) {
-        console.log('Unable to run auto updater.\n', e.message, "\nLikely in build environment");
-    }
 }
 
 autoUpdater.on('error', (err) => {
