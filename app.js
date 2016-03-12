@@ -13,22 +13,6 @@ const electron = require('electron'),
     spawn = require('child_process').spawn;
 
 
-//Force Single Instance
-
-
-var shouldQuit = app.makeSingleInstance(() => {
-    if (mainWindow) { //Restore and focus window if instance exists on load
-        if (mainWindow.isMinimized()) mainWindow.restore();
-        mainWindow.focus();
-    }
-});
-
-if (shouldQuit) { //Application is already running
-    app.quit();
-    return;
-}
-
-
 //Squirrel Auto Update Handlers
 
 
@@ -69,6 +53,22 @@ if (handleStartupEvent()) {
 }
 
 
+//Force Single Instance
+
+
+var shouldQuit = app.makeSingleInstance(() => {
+    if (mainWindow) { //Restore and focus window if instance exists on load
+        if (mainWindow.isMinimized()) mainWindow.restore();
+        mainWindow.focus();
+    }
+});
+
+if (shouldQuit) { //Application is already running
+    app.quit();
+    return;
+}
+
+
 //Application Init
 
 
@@ -82,6 +82,7 @@ jsonfile.spaces = 2; //Set the indentation for saving json files
 const configFile = path.normalize("../config.json"); //Set config file path
 
 global.app_version = app.getVersion(); //Store app version for in app displays
+global.release_url = require('./package.json').releaseUrl; //Store releaseUrl for update queries
 
 app.on('window-all-closed', () => { // Quit when all windows are closed.
     if (process.platform != 'darwin') app.quit();

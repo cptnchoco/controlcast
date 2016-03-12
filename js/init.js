@@ -33,6 +33,7 @@ var config, //Holds all the app and key settings
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
+var releaseUrl = remote.getGlobal('release_url');
 
 ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the current config
     config = data; //Save config object
@@ -166,7 +167,7 @@ function loadTracks() { //Load track data to array
     }
 }
 
-autoUpdater.setFeedURL('https://s3-us-west-2.amazonaws.com/controlcast');
+autoUpdater.setFeedURL(releaseUrl);
 setInterval(() => {
     checkForUpdates();
 }, 1000 * 60 * 15);

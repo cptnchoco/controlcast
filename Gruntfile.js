@@ -1,6 +1,7 @@
 'use strict';
 const fs = require('fs');
 var version = require('./package.json').version;
+var releaseUrl = require('./package.json').releaseUrl;
 
 module.exports = function (grunt) {
     grunt.initConfig({
@@ -15,7 +16,7 @@ module.exports = function (grunt) {
                 iconUrl: 'https://raw.githubusercontent.com/dbkynd/controlcast/master/images/icon.ico',
                 setupIcon: './images/icon.ico',
                 noMsi: true,
-                remoteReleases: 'https://s3-us-west-2.amazonaws.com/controlcast' /*,
+                remoteReleases: releaseUrl /*,
                  certificateFile: '../CodeSigningCert.pfx',
                  certificatePassword: require('../CodeSigningPassword.json').password*/
             }
