@@ -46,7 +46,7 @@ ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the cur
     if (titleMenu) {
         titleMenu.items[1].submenu.items[0].checked = config.app.close_to_tray;
         titleMenu.items[1].submenu.items[1].checked = config.app.auto_start;
-        titleMenu.items[1].submenu.items[2].checked = config.app.clr.enabled;
+        titleMenu.items[1].submenu.items[2].submenu.items[0].checked = config.app.clr.enabled;
     } //Set title menu checkbox
     if (config.app.clr.enabled) startCLR();
 });

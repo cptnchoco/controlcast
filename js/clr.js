@@ -1,5 +1,6 @@
 'use strict';
-const app = require('express')();
+const express = require('express'),
+    app = express();
 
 var server;
 
@@ -11,28 +12,13 @@ function startCLR() {
     });
 
     server.on('connection', function(socket) {
-        console.log("A new connection was made by a client");
         socket.setTimeout(5 * 1000);
     });
 
+    app.use(express.static(path.join(__dirname, "/clr/assets")));
+
     app.get("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "clr.html"));
-    });
-
-    app.get("/css/clr.css", (req, res) => {
-        res.sendFile(path.join(__dirname, "css/clr.css"));
-    });
-
-    app.get("/css/open_sans.css", (req, res) => {
-        res.sendFile(path.join(__dirname, "css/open_sans.css"));
-    });
-
-    app.get("/js/jquery/jquery.min.js", (req, res) => {
-        res.sendFile(path.join(__dirname, "js/jquery/jquery.min.js"));
-    });
-
-    app.get("/js/clr_client.js", (req, res) => {
-        res.sendFile(path.join(__dirname, "js/clr_client.js"));
+        res.sendFile(path.join(__dirname, "/clr/index.html"));
     });
 }
 
