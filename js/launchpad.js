@@ -220,13 +220,11 @@ function resolveKbmKey(key) { //Match up the different key names from the 2 diff
 function kbDown(keys) {
     for (let i in keys) {
         if (keys.hasOwnProperty(i)) {
-            let c = keyboard[keys[i]] || 0;
             setTimeout(() => {
-                if (c == 0) {
-                    c++;
-                    keyboard[keys[i]] = c;
-                    kbm.press(keys[i]).go();
-                }
+                let c = keyboard[keys[i]] || 0;
+                if (c == 0) kbm.press(keys[i]).go();
+                c++;
+                keyboard[keys[i]] = c;
             }, i * hotkeyDelay);
         }
     }

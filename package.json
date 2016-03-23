@@ -1,6 +1,6 @@
 {
   "name": "ControlCast",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "ControlCast",
   "main": "app.js",
   "scripts": {
