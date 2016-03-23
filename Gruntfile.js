@@ -16,9 +16,9 @@ module.exports = function (grunt) {
                 iconUrl: 'https://raw.githubusercontent.com/dbkynd/controlcast/master/images/icon.ico',
                 setupIcon: './images/icon.ico',
                 noMsi: true,
-                remoteReleases: releaseUrl /*,
-                 certificateFile: '../CodeSigningCert.pfx',
-                 certificatePassword: require('../CodeSigningPassword.json').password*/
+                remoteReleases: releaseUrl,
+                certificateFile: '../DBKynd.pfx',
+                certificatePassword: require('../CodeSigningPassword.json').password
             }
         }
     });
