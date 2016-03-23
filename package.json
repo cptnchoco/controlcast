@@ -1,22 +1,12 @@
 {
   "name": "ControlCast",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "ControlCast",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron ."
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dbkynd/controlcast.git"
-  },
   "author": "DBKynd",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/dbkynd/controlcast/issues"
-  },
-  "homepage": "https://github.com/dbkynd/controlcast#readme",
   "devDependencies": {
     "electron-packager": "5.2.1",
     "electron-prebuilt": "0.36.10",
@@ -24,8 +14,7 @@
     "grunt-electron-installer": "1.2.2"
   },
   "dependencies": {
-    "jquery": "2.2.1",
-    "jquery-ui": "1.10.5",
+    "jquery": "^2.2.2",
     "jsonfile": "2.2.3",
     "kbm-robot": "0.0.4",
     "keycode": "2.1.0",

@@ -8,7 +8,6 @@ const remote = require('electron').remote,
     autoUpdater = remote.autoUpdater,
     path = require('path'),
     ipc = require('electron').ipcRenderer,
-    $ = require('jquery'),
     midi = require('midi'),
     usbDetect = require('usb-detection'),
     launchpadder = require('launchpadder').Launchpad,
@@ -20,7 +19,9 @@ const remote = require('electron').remote,
     fs = require('fs'),
     request = require('request');
 
-require('jquery-ui');
+window.$ = window.jQuery =  require('jquery');
+require('./js/jquery/jquery-ui.min.js');
+require('./js/jquery/alphanum.min.js');
 
 var config, //Holds all the app and key settings
     launchpad, //Our launchpadder instance

@@ -67,6 +67,9 @@ $(document).ready(function () {
             if (combo.key) display.push(combo.key);
             $(this).val(display.join(" + ")); //Stringify the combo key options array and display it in the text field
             updateKeyEntry(); //Update the key entry to save the hotkey
+        }).alphanum({
+            allow: '+',
+            allowOtherCharSets: false
         });
         $(this).keyup(function (e) { //Key released while focused
             let keyName = keycode(e).toUpperCase(); //Get text keyName
