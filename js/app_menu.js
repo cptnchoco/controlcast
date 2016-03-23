@@ -56,7 +56,6 @@ var titleMenu = Menu.buildFromTemplate([
                             ipc.send('clr_enabled', e.checked);
                             if (e.checked) {
                                 startCLR();
-                                $('.blanket').fadeIn(200); //Darken the body
                                 clrNoty();
                             } else {
                                 stopCLR();
@@ -121,6 +120,7 @@ ipc.on('update_port', (e, data) => {
 });
 
 function clrNoty() {
+    $('.blanket').fadeIn(200); //Darken the body
     let address = "http://localhost:" + (config.app.clr.port || 3000);
     let n = noty({
         text: "<b>" + address + "</b>",
