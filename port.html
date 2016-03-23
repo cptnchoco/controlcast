@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ControlCast</title>
+    <link rel="stylesheet" type="text/css" href="css/open_sans.css">
+    <style>
+        body {
+            font: 12px/140% "Open Sans", sans-serif;
+            margin: 10px;
+            background: #CCC;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        p {
+            margin: 5px 0 10px 0;
+        }
+
+        button {
+            margin: 5px;
+            width: 80px;
+            height: 28px;
+            font-size: 16px;
+        }
+        input {
+            font-size: 18px;
+            width: 80px;
+        }
+    </style>
+    <script>
+        'use strict';
+        const ipc = require('electron').ipcRenderer,
+                $ = require('jquery'); //Save jQuery to $
+
+        var port;
+
+        $('document').ready(function () {
+            ipc.send('get_port');
+
+            $('.ok').click(function () {
+                ipc.send('set_port', parseInt($('.port').val()));
+            });
+
+            $('.cancel').click(function () {
+                ipc.send('port_quit');
+            });
+
+            $('.port').on('input', function(e) {
+                if (!this.value.match(/^[0-9]{0,5}$/) || parseInt(this.value) > 65535) {
+                    this.value = port;
+                    return;
+                }
+                port = this.value;
+            });
+        });
+
+        ipc.on('port', function(e, data) {
+            console.log(data);
+            port = data;
+            $('.port').val(data.toString());
+        });
+    </script>
+</head>
+<body>
+<h2>CLR Port Number</h2>
+<p><input class="port" type="text"></p>
+<button class="cancel">Cancel</button>
+<button class="ok">OK</button>
+</body>
+</html>

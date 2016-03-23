@@ -47,51 +47,30 @@ var titleMenu = Menu.buildFromTemplate([
                 }
             },
             {
-                label: 'Use Internal CLR Browser',
-                type: 'checkbox',
-                click: (e)=> {
-                    ipc.send('clr_enabled', e.checked);
-                    if (e.checked) {
-                        startCLR();
-                        $('.blanket').fadeIn(200); //Darken the body
-                        let text = "http://localhost:" + (config.app.clr.port || 3000);
-                        let n = noty({
-                            text: text,
-                            animation: {
-                                open: 'animated flipInX', // Animate.css class names
-                                close: 'animated flipOutX' // Animate.css class names
-                            },
-                            layout: 'center',
-                            type: 'alert',
-                            timeout: false,
-                            closeWith: ['click', 'button'],
-                            callback: {
-                                onClose: function () {
-                                    $('.blanket').fadeOut(1000); //Restore body
-                                }
-                            },
-                            buttons: [
-                                {
-                                    addClass: 'btn btn-primary',
-                                    text: 'Copy to Clipboard',
-                                    onClick: function ($noty) {
-                                        $noty.close();
-                                        clipboard.writeText(text);
-                                    }
-                                },
-                                {
-                                    addClass: 'btn',
-                                    text: 'Close',
-                                    onClick: function ($noty) {
-                                        $noty.close();
-                                    }
-                                }
-                            ]
-                        });
-                    } else {
-                        stopCLR();
+                label: 'CLR Browser',
+                submenu: [
+                    {
+                        label: 'Enabled',
+                        type: 'checkbox',
+                        click: (e)=> {
+                            ipc.send('clr_enabled', e.checked);
+                            if (e.checked) {
+                                startCLR();
+                                $('.blanket').fadeIn(200); //Darken the body
+                                clrNoty();
+                            } else {
+                                stopCLR();
+                            }
+                        }
+                    },
+                    {
+                        label: 'Change Port',
+                        click: () => {
+                            ipc.send('change_port');
+                        }
                     }
-                }
+                ]
+
             }
         ]
     },
@@ -131,3 +110,49 @@ var titleMenu = Menu.buildFromTemplate([
 ]);
 
 Menu.setApplicationMenu(titleMenu); //Set title menu
+
+ipc.on('update_port', (e, data) => {
+    console.log(data);
+    config.app.clr.port = data;
+    stopCLR(() => {
+        startCLR();
+        clrNoty();
+    });
+});
+
+function clrNoty() {
+    let address = "http://localhost:" + (config.app.clr.port || 3000);
+    let n = noty({
+        text: "<b>" + address + "</b>",
+        animation: {
+            open: 'animated flipInX', // Animate.css class names
+            close: 'animated flipOutX' // Animate.css class names
+        },
+        layout: 'center',
+        type: 'alert',
+        timeout: false,
+        closeWith: ['click', 'button'],
+        callback: {
+            onClose: function () {
+                $('.blanket').fadeOut(1000); //Restore body
+            }
+        },
+        buttons: [
+            {
+                addClass: 'btn btn-primary',
+                text: 'Copy to Clipboard',
+                onClick: function ($noty) {
+                    $noty.close();
+                    clipboard.writeText(address);
+                }
+            },
+            {
+                addClass: 'btn',
+                text: 'Close',
+                onClick: function ($noty) {
+                    $noty.close();
+                }
+            }
+        ]
+    });
+}

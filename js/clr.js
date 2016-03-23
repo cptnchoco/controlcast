@@ -36,9 +36,10 @@ function startCLR() {
     });
 }
 
-function stopCLR() {
+function stopCLR(callback) {
     console.log('Stopping CLR Browser');
     server.close(() => {
         console.log('CLR Browser stopped');
+        if (callback) callback();
     });
 }

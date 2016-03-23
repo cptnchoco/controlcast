@@ -74,6 +74,7 @@ if (shouldQuit) { //Application is already running
 
 var mainWindow, //Main application window
     errorWindow, //Config load error window
+    portWindow, //Config load error window
     config, //Main settings object
     forceQuit; //Bool to force quit app from tray
 
@@ -181,7 +182,6 @@ function createErrorWindow() { //Error window to tell us if there was an error l
 
     errorWindow.setMenu(null); //Disable the default menu
     errorWindow.loadURL('file://' + path.join(__dirname, '/error.html')); //Display the error window html
-    errorWindow.webContents.openDevTools(); //TODO: remove
 
     errorWindow.on('closed', () => { //Destroy window object on close
         errorWindow = null;
@@ -205,6 +205,22 @@ function createErrorWindow() { //Error window to tell us if there was an error l
                 app.quit(); // Exit the app gracefully
             }
         });
+    });
+}
+
+function createPortWindow() { //Error window to tell us if there was an error loading the config.json file on load
+    portWindow = new BrowserWindow({
+        width: 320,
+        height: 180,
+        resizable: false,
+        icon: path.join(__dirname, 'images/icon.ico')
+    });
+
+    portWindow.setMenu(null); //Disable the default menu
+    portWindow.loadURL('file://' + path.join(__dirname, '/port.html')); //Display the error window html
+
+    portWindow.on('closed', () => { //Destroy window object on close
+        portWindow = null;
     });
 }
 
@@ -279,5 +295,24 @@ ipc.on('quit_and_install', () => {
 
 ipc.on('clr_enabled', (e, data) => {
     config.app.clr.enabled = data; //Set single option
+    saveConfig();
+});
+
+ipc.on('change_port', () => {
+    createPortWindow();
+});
+
+ipc.on('get_port', (e) => {
+    e.sender.send('port', config.app.clr.port || 3000);
+});
+
+ipc.on('port_quit', () => {
+    portWindow.close();
+});
+
+ipc.on('set_port', (e, data) => {
+    portWindow.close();
+    sendMessageToMain('update_port', data);
+    config.app.clr.port = data; //Set single option
     saveConfig();
 });
