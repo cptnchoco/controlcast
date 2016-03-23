@@ -45,6 +45,53 @@ var titleMenu = Menu.buildFromTemplate([
                 click: (e)=> {
                     ipc.send('windows_auto_start', e.checked);
                 }
+            },
+            {
+                label: 'Use Internal CLR Browser',
+                type: 'checkbox',
+                click: (e)=> {
+                    ipc.send('clr_enabled', e.checked);
+                    if (e.checked) {
+                        startCLR();
+                        $('.blanket').fadeIn(200); //Darken the body
+                        let text = "http://localhost:" + (config.app.clr.port || 3000);
+                        let n = noty({
+                            text: text,
+                            animation: {
+                                open: 'animated flipInX', // Animate.css class names
+                                close: 'animated flipOutX' // Animate.css class names
+                            },
+                            layout: 'center',
+                            type: 'alert',
+                            timeout: false,
+                            closeWith: ['click', 'button'],
+                            callback: {
+                                onClose: function () {
+                                    $('.blanket').fadeOut(1000); //Restore body
+                                }
+                            },
+                            buttons: [
+                                {
+                                    addClass: 'btn btn-primary',
+                                    text: 'Copy to Clipboard',
+                                    onClick: function ($noty) {
+                                        $noty.close();
+                                        clipboard.writeText(text);
+                                    }
+                                },
+                                {
+                                    addClass: 'btn',
+                                    text: 'Close',
+                                    onClick: function ($noty) {
+                                        $noty.close();
+                                    }
+                                }
+                            ]
+                        });
+                    } else {
+                        stopCLR();
+                    }
+                }
             }
         ]
     },

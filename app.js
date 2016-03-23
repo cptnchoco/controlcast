@@ -263,7 +263,7 @@ ipc.on('toggle_minimize', () => { //From tray icon
 });
 
 ipc.on('windows_auto_start', (e, data) => {
-    config.app.auto_start = data; //Set close to tray option only
+    config.app.auto_start = data; //Set single option
     saveConfig();
     if (data) {
         run(['--createShortcut=' + target, '--shortcut-locations=Startup'], () => {});
@@ -275,4 +275,9 @@ ipc.on('windows_auto_start', (e, data) => {
 ipc.on('quit_and_install', () => {
     forceQuit = true;
     autoUpdater.quitAndInstall();
+});
+
+ipc.on('clr_enabled', (e, data) => {
+    config.app.clr.enabled = data; //Set single option
+    saveConfig();
 });
