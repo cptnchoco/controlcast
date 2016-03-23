@@ -209,7 +209,14 @@ function createErrorWindow() { //Error window to tell us if there was an error l
 }
 
 function createPortWindow() { //Error window to tell us if there was an error loading the config.json file on load
+    let pos = mainWindow.getPosition();
+    let size = mainWindow.getSize();
+    let x = Math.floor(((size[0] - 320) / 2) + pos[0]);
+    let y = Math.floor((size[1] - 180) / 2 + pos[1]);
+
     portWindow = new BrowserWindow({
+        x: x,
+        y: y,
         width: 320,
         height: 180,
         resizable: false,
@@ -282,9 +289,11 @@ ipc.on('windows_auto_start', (e, data) => {
     config.app.auto_start = data; //Set single option
     saveConfig();
     if (data) {
-        run(['--createShortcut=' + target, '--shortcut-locations=Startup'], () => {});
+        run(['--createShortcut=' + target, '--shortcut-locations=Startup'], () => {
+        });
     } else {
-        run(['--removeShortcut=' + target, '--shortcut-locations=Startup'], () => {});
+        run(['--removeShortcut=' + target, '--shortcut-locations=Startup'], () => {
+        });
     }
 });
 
