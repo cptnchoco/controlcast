@@ -30,7 +30,8 @@ var config, //Holds all the app and key settings
     lastKey = [0, 0], //Stores the last key pressed
     tracks = {}, //Holds all the audio tracks in memory to be played
     notyUpdates,
-    keyboard = [];
+    keyboard = [],
+    hotkeyDelay = 100;
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');

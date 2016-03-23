@@ -167,7 +167,7 @@ function sendHotkey(key, action) {
             kbDown(keys);
             setTimeout(()=> {
                 kbUp(keys);
-            }, 100);
+            }, keys.length * hotkeyDelay + hotkeyDelay);
             break;
         case 'hold':
             switch (action) {
@@ -221,9 +221,13 @@ function kbDown(keys) {
     for (let i in keys) {
         if (keys.hasOwnProperty(i)) {
             let c = keyboard[keys[i]] || 0;
-            if (c == 0) kbm.press(keys[i]).go();
-            c++;
-            keyboard[keys[i]] = c;
+            setTimeout(() => {
+                if (c == 0) {
+                    c++;
+                    keyboard[keys[i]] = c;
+                    kbm.press(keys[i]).go();
+                }
+            }, i * hotkeyDelay);
         }
     }
 }
