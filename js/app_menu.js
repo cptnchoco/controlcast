@@ -55,9 +55,11 @@ var titleMenu = Menu.buildFromTemplate([
                         click: (e)=> {
                             ipc.send('clr_enabled', e.checked);
                             if (e.checked) {
+                                $('.clr_options').show();
                                 startCLR();
                                 clrNoty();
                             } else {
+                                $('.clr_options').hide();
                                 stopCLR();
                             }
                         }

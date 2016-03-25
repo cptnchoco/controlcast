@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
 
-    $('.options').mouseenter(function () { //Adds a border around the key for editing
+    $('.options, .clr_options').mouseenter(function () { //Adds a border around the key for editing
         let key = getGuiKey(lastKey);
         $(key).addClass('editing'); //Show the last key
         $('.center.c' + lastKey.join("-")).addClass('editing');

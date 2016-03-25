@@ -20,7 +20,7 @@ const remote = require('electron').remote,
     fs = require('fs'),
     request = require('request');
 
-window.$ = window.jQuery =  require('jquery');
+window.$ = window.jQuery = require('jquery');
 require('./js/jquery/jquery-ui.min.js');
 require('./js/jquery/alphanum.min.js');
 
@@ -49,9 +49,11 @@ ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the cur
         titleMenu.items[1].submenu.items[2].submenu.items[0].checked = config.app.clr.enabled;
     } //Set title menu checkbox
     if (config.app.clr.enabled) startCLR();
+    if (config.app.clr.enabled) $('.clr_options').show();
 });
 
 $(document).ready(function () { //On DOM ready
+    $('body').fadeIn(200);
     isMidiConnected(); //Set midi_connected on load
 
     for (let c = 0; c < 8; c++) { //Creates the top row key divs
@@ -178,7 +180,7 @@ setInterval(() => {
 }, 1000 * 60 * 15);
 
 function checkForUpdates() {
-        autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdates();
 }
 
 autoUpdater.on('error', (err) => {

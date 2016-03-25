@@ -23,6 +23,7 @@
             height: 28px;
             font-size: 16px;
         }
+
         input {
             font-size: 18px;
             width: 80px;
@@ -31,11 +32,11 @@
     <script>
         'use strict';
         const ipc = require('electron').ipcRenderer,
-                $ = require('jquery'); //Save jQuery to $
+                $ = require('jquery');
 
         var port;
 
-        $('document').ready(function () {
+        $(document).ready(function () {
             ipc.send('get_port');
 
             $('.ok').click(function () {
@@ -46,7 +47,7 @@
                 ipc.send('port_quit');
             });
 
-            $('.port').on('input', function(e) {
+            $('.port').on('input', function (e) {
                 if (!this.value.match(/^[0-9]{0,5}$/) || parseInt(this.value) > 65535) {
                     this.value = port;
                     return;
@@ -55,7 +56,7 @@
             });
         });
 
-        ipc.on('port', function(e, data) {
+        ipc.on('port', function (e, data) {
             console.log(data);
             port = data;
             $('.port').val(data.toString());
@@ -64,7 +65,7 @@
 </head>
 <body>
 <h2>CLR Port Number</h2>
-<p><input class="port" type="text"></p>
+<p><input class="port" title="port" type="text"></p>
 <button class="cancel">Cancel</button>
 <button class="ok">OK</button>
 </body>

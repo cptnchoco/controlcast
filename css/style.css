@@ -9,6 +9,7 @@ body {
     background: #0B0B0C;
     padding: 20px;
     margin: 0;
+    display: none;
 }
 
 input {
