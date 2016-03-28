@@ -1,5 +1,4 @@
 'use strict';
-
 const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
@@ -101,6 +100,7 @@ app.on('ready', () => { // Application has finished loading
                     createErrorWindow(); //Load Error Window
                 } else { //Config loaded OK
                     config = data; //Store loaded data
+                    checkConfigVer(); //Update config version if needed
                     createMainWindow(); //Show Main Window
                 }
             });
@@ -111,6 +111,7 @@ app.on('ready', () => { // Application has finished loading
 function getDefaultConfig() { //Returns the default config object
     return {
         app: {
+            version: 2,
             pos: {
                 x: null,
                 y: null
@@ -135,7 +136,7 @@ function createMainWindow() { //Loads main application window
         x: config.app.pos.x,
         y: config.app.pos.y,
         width: 900,
-        height: 765,
+        height: 750,
         resizable: false,
         icon: path.join(__dirname, 'images/icon.ico'),
         title: "ControlCast - " + global.app_version
@@ -150,7 +151,7 @@ function createMainWindow() { //Loads main application window
             mainWindow.setSkipTaskbar(true); //Hide Taskbar Icon
             mainWindow.minimize(); //Minimize main window
             e.preventDefault(); //Cancel close process
-            return; //TODO: Check if settings have been altered and confirm close if so
+            return;
         }
         sendMessageToMain('all_dark'); //Tell the launchpad to turn off all lights before we close
         let pos = mainWindow.getPosition(); //Save last position of the window for next time the app is run
@@ -209,10 +210,10 @@ function createErrorWindow() { //Error window to tell us if there was an error l
 }
 
 function createPortWindow() { //Error window to tell us if there was an error loading the config.json file on load
-    let pos = mainWindow.getPosition();
-    let size = mainWindow.getSize();
-    let x = Math.floor(((size[0] - 320) / 2) + pos[0]);
-    let y = Math.floor((size[1] - 180) / 2 + pos[1]);
+    let pos = mainWindow.getPosition(); //Get main window position
+    let size = mainWindow.getSize(); //Get main window size
+    let x = Math.floor(((size[0] - 320) / 2) + pos[0]); //Determine x pos to center port window
+    let y = Math.floor((size[1] - 180) / 2 + pos[1]); //Determine y pos to center port window
 
     portWindow = new BrowserWindow({
         x: x,
@@ -224,7 +225,7 @@ function createPortWindow() { //Error window to tell us if there was an error lo
     });
 
     portWindow.setMenu(null); //Disable the default menu
-    portWindow.loadURL('file://' + path.join(__dirname, '/port.html')); //Display the error window html
+    portWindow.loadURL('file://' + path.join(__dirname, '/port.html')); //Display the port window html
 
     portWindow.on('closed', () => { //Destroy window object on close
         portWindow = null;
@@ -325,3 +326,35 @@ ipc.on('set_port', (e, data) => {
     config.app.clr.port = data; //Set single option
     saveConfig();
 });
+
+function checkConfigVer() {
+    let latest_ver = getDefaultConfig().app.version;
+    while (latest_ver != config.app.version) {
+        switch (config.app.version) {
+            case undefined:
+            case null:
+            case 1:
+                config.app.clr = {
+                    enabled: false,
+                    port: 3000
+                };
+                for (let key in config.keys) {
+                    if (config.keys.hasOwnProperty(key)) {
+                        if (config.keys[key].clr) continue;
+                        config.keys[key].clr = {
+                            path: "",
+                            animate: {
+                                open: "",
+                                delay: 5000,
+                                close: ""
+                            },
+                            css: ""
+                        };
+                    }
+                }
+                config.app.version = 2;
+                break;
+        }
+    }
+    saveConfig();
+}

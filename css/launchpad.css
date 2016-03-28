@@ -2,7 +2,6 @@
     position: relative;
     width: 400px;
     height: 400px;
-    float: left;
     background: url('../images/launchpad.png') no-repeat top left;
 }
 
@@ -173,4 +172,8 @@
 
 .center.pressed {
     background: #54f5ff;
+}
+
+.below_launchpad {
+    margin-top: 10px;
 }

@@ -13,6 +13,7 @@ function startCLR() {
     app.set('port', config.app.clr.port || 3000);
     server = app.listen(app.get('port'), () => {
         console.log("Listening on *:" + app.get('port'));
+        clrRunning = true;
     });
 
     server.on('connection', (socket) => {
@@ -40,8 +41,10 @@ function startCLR() {
 function stopCLR(callback) {
     console.log('Stopping CLR Browser');
     clrIO.close();
+    clrIO = null;
     server.close(() => {
         console.log('CLR Browser stopped');
+        clrRunning = false;
         if (callback) callback();
     });
 }

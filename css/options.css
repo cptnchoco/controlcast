@@ -3,35 +3,39 @@
     width: 400px;
     top: 0;
     right: 0;
-    padding: 15px;
-    height: 568px;
+    padding: 10px 10px 5px 10px;
+    background: #18191A;
 }
 
-h2 {
-    font-size: 120%;
-    font-weight: bold;
+.options h2 {
+    font-size: 18px;
 }
 
 .key_pos_label {
-    margin-left: 10px;
+    margin-left: 6px;
+}
+
+.options button, .below_launchpad button {
+    font-size: 80%;
+    background: #2B2D30;
+    border: none;
+    color: #5b5f62;
+    width: 95px;
+    height: 24px;
+    border-radius: 2px;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.options button:active {
+    position: relative;
+    top: 1px;
 }
 
 .options > div {
     position: relative;
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.options > div:first-child {
-    margin-bottom: 25px;
-}
-
-#key_description {
-    margin-bottom: 15px;
-}
-
-.options > div:last-child {
-    margin: 25px 0 0 0;
+    margin-bottom: 12px;
 }
 
 .abs-right {
@@ -40,13 +44,87 @@ h2 {
 }
 
 .title {
-    width: 75px;
+    width: 70px;
     float: left;
     display: block;
 }
 
-.options > div > div {
-    display: flex;
+.title.name {
+    font-size: 16px;
+}
+
+.options input[type="text"] {
+    background: #18191A;
+    border: 1px solid #555;
+    border-radius: 2px;
+    margin-right: 5px;
+    height: 20px;
+    width: 200px;
+}
+
+.save_buttons {
+    height: 34px;
+}
+
+#save_settings {
+    background: #24B24B;
+    color: #DDD;
+}
+
+.expandable {
+    background: #25272a;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.expandable .header {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.check_mark {
+    margin-left: 1px;
+    display: none;
+}
+
+.check_mark img {
+    position: absolute;
+    height: 20px;
+    top: 4px;
+}
+
+.clear_opt {
+    color: #5b5f62;
+    display: inline;
+    position: absolute;
+    right: 7px;
+    top: 5px;
+    font-size: 12px;
+    padding: 0 7px;
+    font-style: italic;
+    border: 1px solid #484848;
+    border-radius: 2px;
+}
+
+.clear_opt:active {
+    position: absolute;
+    top: 6px;
+}
+
+.options > div:first-child {
+    margin-bottom: 20px;
+}
+
+#key_description {
+    margin-bottom: 5px;
+    font-size: 16px;
+    height: 25px;
+    width: 250px;
+}
+
+.content {
+    border: 1px solid transparent;
+    display: none;
 }
 
 .color_select div {
@@ -102,6 +180,36 @@ h2 {
     top: -4px;
 }
 
+.color_select .OFF img {
+    height: 15px;
+    position: relative;
+    top: 1px;
+}
+
+.color_select .OFF img.selected {
+    height: 23px;
+    position: relative;
+    top: 2px;
+    left: 1px;
+}
+
+.content > div {
+    display: flex;
+    margin: 10px;
+}
+
+.content > div > div {
+    display: flex;
+}
+
+.content > div:first-child {
+    margin-top: 25px;
+}
+
+.content > div:last-child {
+    margin-bottom: 10px;
+}
+
 .clear {
     clear: both;
     display: block;
@@ -114,35 +222,53 @@ h2 {
     top: 2px;
 }
 
+input[type="radio"] {
+    display: none;
+}
+
+label {
+    display: inline-block;
+    text-align: center;
+    background: #18191A;
+    color: #555;
+    font-weight: bold;
+    border: 1px solid #555;
+    border-radius: 2px;
+    width: 44px;
+    height: 20px;
+    padding-top: 2px;
+    cursor: pointer;
+}
+
+label.wide {
+    width: 90px;
+    margin-right: 4px;
+}
+
+input:checked + label {
+    background: #EC5d0F;
+    color: #DDD;
+}
+
 .align-right {
     width: 95%;
     text-align: right;
-}
-
-.flex {
-    display: flex;
-}
-
-.audio > div {
-    margin-bottom: 15px;
-    height: 40px;
 }
 
 .small {
     font-size: 75%;
 }
 
-input[type="text"] {
-    background: #18191A;
-    border: 1px solid #555;
-    border-radius: 2px;
-    margin-right: 5px;
-    height: 20px;
-    width: 200px;
-}
-
 .inline-block {
     display: inline-block;
+}
+
+.flex {
+    display: flex;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 #volume_slider_container {
@@ -184,92 +310,10 @@ input[type="text"] {
     border: none;
 }
 
-.options button, .clr_options button {
-    font-size: 80%;
-    background: #2B2D30;
-    border: none;
-    color: #5b5f62;
-    width: 95px;
-    height: 24px;
-    border-radius: 2px;
-    outline: none;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#save_settings {
-    background: #24B24B;
-    color: #DDD;
-}
-
-button:active {
-    position: relative;
-    top: 1px;
-}
-
-#reset_key:active {
-    position: absolute;
-    top: 1px;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-input[type="radio"] {
-    display: none;
-}
-
-label {
-    display: inline-block;
-    text-align: center;
-    background: #18191A;
-    color: #555;
-    font-weight: bold;
-    border: 1px solid #555;
-    border-radius: 2px;
-    width: 45px;
-    height: 20px;
-    padding-top: 2px;
-    cursor: pointer;
-}
-
-input:checked + label {
-    background: #EC5d0F;
-    color: #DDD;
-}
-
-.color_select .OFF img {
-    height: 15px;
-    position: relative;
-    top: 1px;
-}
-
-.color_select .OFF img.selected {
-    height: 23px;
-    position: relative;
-    top: 2px;
-    left: 1px;
-}
-
-label.wide {
-    width: 90px;
-    margin-right: 4px;
-}
-
 .clr_options {
-    position: absolute;
-    height: inherit;
-    width: 400px;
-    top: 414px;
-    left: 0;
     display: none;
 }
 
-.clr_options > div {
-    padding: 10px;
-}
-
-.clr_options > div > div {
-    margin: 5px;
+.content > div > div > div > div {
+    margin-bottom: 10px;
 }

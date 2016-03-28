@@ -1,5 +1,4 @@
 'use strict';
-
 const remote = require('electron').remote,
     Menu = remote.Menu,
     MenuItem = remote.MenuItem,
@@ -32,7 +31,8 @@ var config, //Holds all the app and key settings
     tracks = {}, //Holds all the audio tracks in memory to be played
     notyUpdates,
     keyboard = [],
-    hotkeyDelay = 100;
+    hotkeyDelay = 100,
+    clrRunning = false;
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
@@ -48,8 +48,10 @@ ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the cur
         titleMenu.items[1].submenu.items[1].checked = config.app.auto_start;
         titleMenu.items[1].submenu.items[2].submenu.items[0].checked = config.app.clr.enabled;
     } //Set title menu checkbox
-    if (config.app.clr.enabled) startCLR();
-    if (config.app.clr.enabled) $('.clr_options').show();
+    if (config.app.clr.enabled && !clrRunning) {
+        $('.clr_options').show();
+        startCLR();
+    }
 });
 
 $(document).ready(function () { //On DOM ready

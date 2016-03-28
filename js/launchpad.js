@@ -1,11 +1,11 @@
 'use strict';
-
 function keyEvent(source, key, action, edit) { //All midi and gui key events land here
     //console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
     if (!edit) { //Only perform these actions if not right-click on key
         colorKey(key, action); //Color the key based on the action
         sendHotkey(key, action); //Send Hotkey if used
         playAudio(key, action); //Play Audio if used
+        sendCLR(key, action); //Send CLR event if used
     }
     if (action == 'press') {
         lastKey = key; //Update what the last key pressed was
@@ -239,4 +239,12 @@ function kbUp(keys) {
             keyboard[keys[i]] = c;
         }
     }
+}
+
+function sendCLR(key, action) {
+    if (!config.app.clr.enabled) return;
+    if (action == "release") return;
+    let clr = get(config, "keys." + key.join(",") + ".clr");
+    if (!clr || !clr.path) return;
+    clrIO.emit('key_press', clr);
 }

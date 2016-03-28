@@ -21,10 +21,6 @@ body > div {
     position: relative;
 }
 
-body > div > div {
-    background: #161718;
-}
-
 header {
     margin: 0;
     padding: 0;

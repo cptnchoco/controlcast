@@ -1,8 +1,7 @@
 'use strict';
-
 $(document).ready(function () {
 
-    $('.options, .clr_options').mouseenter(function () { //Adds a border around the key for editing
+    $('.options').mouseenter(function () { //Adds a border around the key to show which is being edited
         let key = getGuiKey(lastKey);
         $(key).addClass('editing'); //Show the last key
         $('.center.c' + lastKey.join("-")).addClass('editing');
@@ -10,6 +9,49 @@ $(document).ready(function () {
             $(key).removeClass('editing'); //Show the last key
             $('.center').removeClass('editing');
         });
+    });
+
+    $('.expandable').click(function (e) {
+        if (e.target.className == 'clear_opt') return;
+        let content =  $(this).next();
+        if (content.hasClass('expanded')) {
+            content.removeClass('expanded').slideUp(500);
+        } else {
+            $('.expanded').removeClass('expanded').slideUp(500);
+            content.addClass('expanded').slideDown(500);
+        }
+    });
+
+    $('.color_select div').click(function () {
+        let parent = $(this).parent();
+        let color = $(this).data('color');
+        let parentClass = parent.hasClass('active') ? 'active' : 'inactive';
+        parent.children().removeClass('selected');
+        parent.data('color', color);
+        $(this).addClass('selected');
+        if (color == 'OFF') {
+            $('.color_select.' + parentClass + ' div img').addClass('selected');
+        } else {
+            $('.color_select.' + parentClass + ' div img').removeClass('selected');
+        }
+        color = color.split("_");
+        for (let i = 0; i < color.length; i++) {
+            color[i] = toTitleCase(color[i]);
+        }
+        $('.color_select.' + parentClass + ' span').text(color.join(" "));
+        updateKeyEntry();
+    });
+
+    $('#volume_slider').slider({
+        min: 0,
+        max: 100,
+        range: "min",
+        animate: true,
+        slide: function (event, ui) {
+            if (tracks[lastKey.join(",")]) tracks[lastKey.join(",")].volume = ui.value / 100;
+            $('#vol_val').text(ui.value + "%");
+            updateKeyEntry();
+        }
     });
 
     $('#save_settings').click(function () { //Save button clicked
@@ -21,7 +63,7 @@ $(document).ready(function () {
         ipc.send('get_config'); //Get unchanged config from main app
     });
 
-    $('#reset_key').click(function () { //Reset key button was pressed
+    $('#clear_all').click(function () { //Reset key button was pressed
         config.keys[lastKey.join(",")] = getDefaultKeyConfig(); //Save default key config to this key
         colorKey(lastKey, 'release'); //Reset key color
         setKeyOptions(); //Update all key settings to show default
@@ -33,6 +75,32 @@ $(document).ready(function () {
                 stopAudio(tracks[track]); //Stop the track
             }
         }
+    });
+
+    $('.color .clear_opt').click(function () { //Clear hotkey button was pressed
+        $('#inactive_key_color div[data-color=OFF]').trigger('click');
+        $('#active_key_color div[data-color=OFF]').trigger('click');
+        updateKeyEntry(); //Update key settings
+    });
+
+    $('.hotkey .clear_opt').click(function () { //Clear hotkey button was pressed
+        $('#hotkey_string').val(""); //Clear the hotkey
+        $('input[name="hotkey_type"][value=send]').prop('checked', true);
+        updateKeyEntry(); //Update key settings
+    });
+
+    $('.audio .clear_opt').click(function () { //Clear hotkey button was pressed
+        $('#audio_path').val(""); //Clear the hotkey
+        $('#volume_slider').slider('value', 50);
+        $('#vol_val').text(50 + "%");
+        $('input[name="on_release"][value=continue]').prop('checked', true);
+        $('input[name="on_repress"][value=none]').prop('checked', true);
+        updateKeyEntry(); //Update key settings
+    });
+
+    $('.clr_options .clear_opt').click(function () { //Clear hotkey button was pressed
+        $('#clr_path').val(""); //Clear the hotkey
+        updateKeyEntry(); //Update key settings
     });
 
     $('#hotkey_string').focus(function () { //Text box field to create hotkey was focused
@@ -111,6 +179,28 @@ $(document).ready(function () {
         }
     });
 
+    $('#clr_path').blur(function () { //CLR path was changed
+        if ($(this).val() == "") return; //Return if blank
+        let clrPath = path.parse($(this).val()); //Parse path
+        let ext = clrPath.ext; //Get file extension
+        if (ext != '.png' && ext != '.jpg') { //Must be these formats
+            centerNOTY('notify', "Only able to show [ .png | .jpg ] files.", 4000);
+            return;
+        }
+        let isUrl = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test($(this).val()); //Determine if path is a valid url
+        if (isUrl) {
+            request.get({url: $(this).val()}, (err, res) => { //Try to access the web file and warn if unable
+                if (err || res.statusCode != 200) {
+                    centerNOTY('warning', "Unable to access that image file.", 3000);
+                }
+            });
+        } else {
+            fs.access($(this).val(), fs.R_OK, (err) => { //Try to access the web file and warn if unable
+                if (err) centerNOTY('warning', "Unable to access that image file.", 3000);
+            });
+        }
+    });
+
     $('#browse').click(function () { //Browse for file button was pressed
         dialog.showOpenDialog({ //Open dialog to choose a file
             title: "Choose Audio File",
@@ -123,50 +213,20 @@ $(document).ready(function () {
         })
     });
 
-    $('#volume_slider').slider({
-        min: 0,
-        max: 100,
-        range: "min",
-        animate: true,
-        slide: function (event, ui) {
-            if (tracks[lastKey.join(",")]) tracks[lastKey.join(",")].volume = ui.value / 100;
-            $('#vol_val').text(ui.value + "%");
-            updateKeyEntry();
-        }
+    $('#clr_browse').click(function () { //Browse for file button was pressed
+        dialog.showOpenDialog({ //Open dialog to choose a file
+            title: "Choose Image File",
+            filters: [
+                {name: 'Image', extensions: ['png', 'jpg']} //Restrict allowed files to these formats
+            ],
+            properties: ["openFile"] //Only allow 1 file to be chosen
+        }, (file) => {
+            $('#clr_path').val(file).trigger('input'); //When we get the file name that was chosen, input it into the form
+        })
     });
 
     $('.opt').on('change input', function () { //A savable option was changed, update the key config
         updateKeyEntry();
-    });
-
-    $('#clear_hotkey').click(function () { //Clear hotkey button was pressed
-        $('#hotkey_string').val(""); //Clear the hotkey
-        updateKeyEntry(); //Update key settings
-    });
-
-    $('#clear_audio').click(function () { //Clear hotkey button was pressed
-        $('#audio_path').val(""); //Clear the hotkey
-        updateKeyEntry(); //Update key settings
-    });
-
-    $('.color_select div').click(function () {
-        let parent = $(this).parent();
-        let color = $(this).data('color');
-        let parentClass = parent.hasClass('active') ? 'active' : 'inactive';
-        parent.children().removeClass('selected');
-        parent.data('color', color);
-        $(this).addClass('selected');
-        if (color == 'OFF') {
-            $('.color_select.' + parentClass + ' div img').addClass('selected');
-        } else {
-            $('.color_select.' + parentClass + ' div img').removeClass('selected');
-        }
-        color = color.split("_");
-        for (let i = 0; i < color.length; i++) {
-            color[i] = toTitleCase(color[i]);
-        }
-        $('.color_select.' + parentClass + ' span').text(color.join(" "));
-        updateKeyEntry(); //Update key settings
     });
 });
 
@@ -190,6 +250,8 @@ function setKeyOptions() { //Update all the key gui elements
     $('#vol_val').text(keyConfig.audio.volume + "%");
     $('input[name="on_release"][value=' + keyConfig.audio.on_release + ']').prop('checked', true);
     $('input[name="on_repress"][value=' + keyConfig.audio.on_repress + ']').prop('checked', true);
+    $('#clr_path').val(keyConfig.clr.path);
+    checkmarks();
 }
 
 function getDefaultKeyConfig() { //Sets the default key config
@@ -208,6 +270,15 @@ function getDefaultKeyConfig() { //Sets the default key config
             on_release: "continue",
             on_repress: "none",
             volume: 50
+        },
+        clr: {
+            path: "",
+            animate: {
+                open: "",
+                delay: 5000,
+                close: ""
+            },
+            css: ""
         }
     }
 }
@@ -229,8 +300,18 @@ function updateKeyEntry() { //Take all the key config values from the gui and sa
             on_release: $('input[name="on_release"]:checked').val(),
             on_repress: $('input[name="on_repress"]:checked').val(),
             volume: parseInt($('#vol_val').text().replace("%", ""))
+        },
+        clr: {
+            path: $('#clr_path').val(),
+            animate: {
+                open: "",//"Test",
+                delay: "",//3000,
+                close: ""//"Test"
+            },
+            css: ""//"Test"
         }
     };
+    checkmarks();
     colorKey(lastKey, 'release'); //Color the new key accordingly
 }
 
@@ -249,4 +330,24 @@ function toTitleCase(color) {
     color = color.toLowerCase();
     let letter = color.slice(0, 1);
     return color.replace(letter, letter.toUpperCase());
+}
+
+function checkmarks() {
+    let thisKey = config.keys[lastKey.join(",")];
+    if (!thisKey) {
+        $('.color .check_mark').hide();
+        $('.hotkey .check_mark').hide();
+        $('.audio .check_mark').hide();
+        return;
+    }
+    if (thisKey.color.press != "OFF" || thisKey.color.release != "OFF") {
+        $('.color .check_mark').show();
+    } else {
+        $('.color .check_mark').hide();
+    }
+    if (thisKey.audio.path != "") {
+        $('.audio .check_mark').show();
+    } else {
+        $('.audio .check_mark').hide();
+    }
 }

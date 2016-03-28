@@ -1,5 +1,4 @@
 'use strict';
-
 var titleMenu = Menu.buildFromTemplate([
     {
         label: 'View',
@@ -54,6 +53,7 @@ var titleMenu = Menu.buildFromTemplate([
                         type: 'checkbox',
                         click: (e)=> {
                             ipc.send('clr_enabled', e.checked);
+                            config.app.clr.enabled = e.checked;
                             if (e.checked) {
                                 $('.clr_options').show();
                                 startCLR();

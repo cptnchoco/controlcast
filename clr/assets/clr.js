@@ -7,3 +7,7 @@ $(document).ready(function () {
 io.on('connected', function () {
     console.log('connection ok');
 });
+
+io.on('key_press', function(data) {
+    console.log(data);
+});
