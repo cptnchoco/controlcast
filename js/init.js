@@ -32,7 +32,8 @@ var config, //Holds all the app and key settings
     notyUpdates,
     keyboard = [],
     hotkeyDelay = 100,
-    clrRunning = false;
+    clrRunning = false,
+    css_editor;
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');

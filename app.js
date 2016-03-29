@@ -340,13 +340,32 @@ function checkConfigVer() {
                 };
                 for (let key in config.keys) {
                     if (config.keys.hasOwnProperty(key)) {
-                        if (config.keys[key].clr) continue;
+                        if (config.keys[key].audio.on_release == 'stop') {
+                            config.keys[key].audio.type = 'hold';
+                        } else {
+                            if (config.keys[key].audio.on_repress == 'none') {
+                                config.keys[key].audio.type = 'normal';
+                            } else if (config.keys[key].audio.on_repress == 'restart') {
+                                config.keys[key].audio.type = 'restart';
+                            } else if (config.keys[key].audio.on_repress == 'stop') {
+                                config.keys[key].audio.type = 'toggle';
+                            }
+                        }
+                        delete config.keys[key].audio.on_release;
+                        delete config.keys[key].audio.on_repress;
                         config.keys[key].clr = {
                             path: "",
                             animate: {
-                                open: "",
-                                delay: 5000,
-                                close: ""
+                                open: {
+                                    delay: 0,
+                                    type: "fadeIn",
+                                    duration: 2000
+                                },
+                                close: {
+                                    delay: 5000,
+                                    type: "fadeOut",
+                                    duration: 2000
+                                }
                             },
                             css: ""
                         };

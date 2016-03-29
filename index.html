@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <script src="js/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
     <script src="js/init.js"></script>
     <script src="js/app_menu.js"></script>
     <script src="js/app_tray.js"></script>
@@ -38,11 +38,13 @@
     </div>
     <div class="options">
         <div>
-            <h2>
-                Edit Key
-                <span class="key_pos_label">(0,0)</span>
+            <div>
+                <span class="main header">
+                    Edit Key
+                    <span class="key_pos_label">(0,0)</span>
+                </span>
                 <span class="abs-right"><button id="clear_all">CLEAR ALL</button></span>
-            </h2>
+            </div>
         </div>
         <div>
             <span class="title name">Name</span>
@@ -63,11 +65,11 @@
                         <span class="check_mark">
                             <img src="images/check.png">
                         </span>
+                        <span class="clear_opt">
+                            Clear
+                        </span>
                     </div>
                 </div>
-                <span class="clear_opt">
-                    Clear
-                </span>
             </div>
             <div class="content">
                 <div>
@@ -106,10 +108,10 @@
             <div class="expandable">
                 <div class="header">
                     Hotkey
-                <span class="check_mark">
-                    <img src="images/check.png">
-                </span>
-                    <div id="clear_hotkey" class="clear_opt">
+                    <span class="check_mark">
+                        <img src="images/check.png">
+                    </span>
+                    <div class="clear_opt">
                         Clear
                     </div>
                 </div>
@@ -121,13 +123,20 @@
                         <div>
                             <input id="hotkey_string" type="text">
                         </div>
+
+                    </div>
+                </div>
+                <div>
+                    <span class="title">Type</span>
+                    <div>
                         <div class="small">
                             <input id="radio1" class="opt" type="radio" name="hotkey_type" value="send" checked><label
-                                for="radio1">SEND</label>
-                            <input id="radio2" class="opt" type="radio" name="hotkey_type" value="hold"><label
-                                for="radio2">HOLD</label>
+                                for="radio1" class="wide">SEND KEYS</label>
+                            <input id="radio2" class="opt wide" type="radio" name="hotkey_type" value="hold"><label
+                                for="radio2" class="wide">HOLD KEYS</label>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -135,9 +144,9 @@
             <div class="expandable">
                 <div class="header">
                     Audio
-                <span class="check_mark">
-                    <img src="images/check.png">
-                </span>
+                    <span class="check_mark">
+                        <img src="images/check.png">
+                    </span>
                     <div class="clear_opt">
                         Clear
                     </div>
@@ -154,40 +163,38 @@
                                     <span class="clear subtext">(URL, UNC, or local file path)</span>
                                 </div>
                                 <div>
-                                    <button id="browse">CHOOSE FILE</button>
+                                    <button id="browse">BROWSE</button>
                                 </div>
                             </div>
-                            <div class="clear small">
-                                Volume
-                                <div class="inline-block">
-                                    <div id="volume_slider_container">
-                                        <div id="volume_slider"></div>
-                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="title">Volume</span>
+                    <div>
+                        <div class="clear small">
+                            <div class="inline-block">
+                                <div id="volume_slider_container">
+                                    <div id="volume_slider"></div>
                                 </div>
-                                <span id="vol_val">100%</span>
                             </div>
-                            <div class="small">
-                                On Release<br>
-                                <input id="radio3" class="opt" type="radio" name="on_release" value="continue"
-                                       checked><label
-                                    class="wide" for="radio3">KEEP PLAYING</label>
-                                <input id="radio4" class="opt" type="radio" name="on_release" value="stop"><label
-                                    class="wide"
-                                    for="radio4">STOP
-                                PLAYING</label>
-                            </div>
-                            <div class="small">
-                                On Press While Still Playing<br>
-                                <input id="radio5" class="opt" type="radio" name="on_repress" value="none"
-                                       checked><label
-                                    class="wide" for="radio5">DO NOTHING</label>
-                                <input id="radio6" class="opt" type="radio" name="on_repress" value="restart"><label
-                                    class="wide" for="radio6">RESTART TRACK</label>
-                                <input id="radio7" class="opt" type="radio" name="on_repress" value="stop"><label
-                                    class="wide"
-                                    for="radio7">STOP
-                                PLAYING</label>
-                            </div>
+                            <span id="vol_val">100%</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div>
+                    <span class="title">Type</span>
+                    <div class="">
+                        <div class="small">
+                            <input id="radio3" class="opt" type="radio" name="audio_type" value="normal"
+                                   checked><label for="radio3">NORMAL</label>
+                            <input id="radio4" class="opt" type="radio" name="audio_type" value="toggle">
+                            <label for="radio4">TOGGLE</label>
+                            <input id="radio5" class="opt" type="radio" name="audio_type" value="restart">
+                            <label for="radio5">RESTART</label>
+                            <input id="radio6" class="opt" type="radio" name="audio_type" value="hold">
+                            <label for="radio6">HOLD</label>
                         </div>
                     </div>
                 </div>
@@ -197,9 +204,9 @@
             <div class="expandable">
                 <div class="header">
                     CLR Browser
-                <span class="check_mark">
-                    <img src="images/check.png">
-                </span>
+                    <span class="check_mark">
+                        <img src="images/check.png">
+                    </span>
                     <div class="clear_opt">
                         Clear
                     </div>
@@ -213,265 +220,297 @@
                             <input id="clr_path" class="opt" type="text">
                         </div>
                         <div>
-                            <button id="clr_browse">CHOOSE FILE</button>
+                            <button id="clr_browse">BROWSE</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="open">
+                    <span class="title">Show</span>
+                    <div>
+                        <div>
+                            <input class="num_input delay opt" type="text">
+                            <span class="clear subtext">Delay</span>
+                        </div>
+                    </div>
+                    <div class="middle">
+                        <div>
+                            <select class="opt" id="animate-open">
+                                <optgroup label="Attention Seekers">
+                                    <option value="bounce">bounce</option>
+                                    <option value="flash">flash</option>
+                                    <option value="pulse">pulse</option>
+                                    <option value="rubberBand">rubberBand</option>
+                                    <option value="shake">shake</option>
+                                    <option value="swing">swing</option>
+                                    <option value="tada">tada</option>
+                                    <option value="wobble">wobble</option>
+                                    <option value="jello">jello</option>
+                                </optgroup>
+
+                                <optgroup label="Bouncing Entrances">
+                                    <option value="bounceIn">bounceIn</option>
+                                    <option value="bounceInDown">bounceInDown</option>
+                                    <option value="bounceInLeft">bounceInLeft</option>
+                                    <option value="bounceInRight">bounceInRight</option>
+                                    <option value="bounceInUp">bounceInUp</option>
+                                </optgroup>
+
+                                <optgroup label="Bouncing Exits">
+                                    <option value="bounceOut">bounceOut</option>
+                                    <option value="bounceOutDown">bounceOutDown</option>
+                                    <option value="bounceOutLeft">bounceOutLeft</option>
+                                    <option value="bounceOutRight">bounceOutRight</option>
+                                    <option value="bounceOutUp">bounceOutUp</option>
+                                </optgroup>
+
+                                <optgroup label="Fading Entrances">
+                                    <option value="fadeIn">fadeIn</option>
+                                    <option value="fadeInDown">fadeInDown</option>
+                                    <option value="fadeInDownBig">fadeInDownBig</option>
+                                    <option value="fadeInLeft">fadeInLeft</option>
+                                    <option value="fadeInLeftBig">fadeInLeftBig</option>
+                                    <option value="fadeInRight">fadeInRight</option>
+                                    <option value="fadeInRightBig">fadeInRightBig</option>
+                                    <option value="fadeInUp">fadeInUp</option>
+                                    <option value="fadeInUpBig">fadeInUpBig</option>
+                                </optgroup>
+
+                                <optgroup label="Fading Exits">
+                                    <option value="fadeOut">fadeOut</option>
+                                    <option value="fadeOutDown">fadeOutDown</option>
+                                    <option value="fadeOutDownBig">fadeOutDownBig</option>
+                                    <option value="fadeOutLeft">fadeOutLeft</option>
+                                    <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+                                    <option value="fadeOutRight">fadeOutRight</option>
+                                    <option value="fadeOutRightBig">fadeOutRightBig</option>
+                                    <option value="fadeOutUp">fadeOutUp</option>
+                                    <option value="fadeOutUpBig">fadeOutUpBig</option>
+                                </optgroup>
+
+                                <optgroup label="Flippers">
+                                    <option value="flip">flip</option>
+                                    <option value="flipInX">flipInX</option>
+                                    <option value="flipInY">flipInY</option>
+                                    <option value="flipOutX">flipOutX</option>
+                                    <option value="flipOutY">flipOutY</option>
+                                </optgroup>
+
+                                <optgroup label="Lightspeed">
+                                    <option value="lightSpeedIn">lightSpeedIn</option>
+                                    <option value="lightSpeedOut">lightSpeedOut</option>
+                                </optgroup>
+
+                                <optgroup label="Rotating Entrances">
+                                    <option value="rotateIn">rotateIn</option>
+                                    <option value="rotateInDownLeft">rotateInDownLeft</option>
+                                    <option value="rotateInDownRight">rotateInDownRight</option>
+                                    <option value="rotateInUpLeft">rotateInUpLeft</option>
+                                    <option value="rotateInUpRight">rotateInUpRight</option>
+                                </optgroup>
+
+                                <optgroup label="Rotating Exits">
+                                    <option value="rotateOut">rotateOut</option>
+                                    <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+                                    <option value="rotateOutDownRight">rotateOutDownRight</option>
+                                    <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+                                    <option value="rotateOutUpRight">rotateOutUpRight</option>
+                                </optgroup>
+
+                                <optgroup label="Sliding Entrances">
+                                    <option value="slideInUp">slideInUp</option>
+                                    <option value="slideInDown">slideInDown</option>
+                                    <option value="slideInLeft">slideInLeft</option>
+                                    <option value="slideInRight">slideInRight</option>
+
+                                </optgroup>
+                                <optgroup label="Sliding Exits">
+                                    <option value="slideOutUp">slideOutUp</option>
+                                    <option value="slideOutDown">slideOutDown</option>
+                                    <option value="slideOutLeft">slideOutLeft</option>
+                                    <option value="slideOutRight">slideOutRight</option>
+
+                                </optgroup>
+
+                                <optgroup label="Zoom Entrances">
+                                    <option value="zoomIn">zoomIn</option>
+                                    <option value="zoomInDown">zoomInDown</option>
+                                    <option value="zoomInLeft">zoomInLeft</option>
+                                    <option value="zoomInRight">zoomInRight</option>
+                                    <option value="zoomInUp">zoomInUp</option>
+                                </optgroup>
+
+                                <optgroup label="Zoom Exits">
+                                    <option value="zoomOut">zoomOut</option>
+                                    <option value="zoomOutDown">zoomOutDown</option>
+                                    <option value="zoomOutLeft">zoomOutLeft</option>
+                                    <option value="zoomOutRight">zoomOutRight</option>
+                                    <option value="zoomOutUp">zoomOutUp</option>
+                                </optgroup>
+
+                                <optgroup label="Specials">
+                                    <option value="hinge">hinge</option>
+                                    <option value="rollIn">rollIn</option>
+                                    <option value="rollOut">rollOut</option>
+                                </optgroup>
+                            </select>
+                            <span class="clear subtext">Animation</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input class="num_input duration opt" type="text">
+                            <span class="clear subtext">Duration</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="close">
+                    <span class="title">Hide</span>
+                    <div>
+                        <div>
+                            <input class="num_input delay opt" type="text">
+                            <span class="clear subtext">Delay</span>
+                        </div>
+                    </div>
+                    <div class="middle">
+                        <div>
+                            <select class="opt" id="animate-close">
+                                <optgroup label="Attention Seekers">
+                                    <option value="bounce">bounce</option>
+                                    <option value="flash">flash</option>
+                                    <option value="pulse">pulse</option>
+                                    <option value="rubberBand">rubberBand</option>
+                                    <option value="shake">shake</option>
+                                    <option value="swing">swing</option>
+                                    <option value="tada">tada</option>
+                                    <option value="wobble">wobble</option>
+                                    <option value="jello">jello</option>
+                                </optgroup>
+
+                                <optgroup label="Bouncing Entrances">
+                                    <option value="bounceIn">bounceIn</option>
+                                    <option value="bounceInDown">bounceInDown</option>
+                                    <option value="bounceInLeft">bounceInLeft</option>
+                                    <option value="bounceInRight">bounceInRight</option>
+                                    <option value="bounceInUp">bounceInUp</option>
+                                </optgroup>
+
+                                <optgroup label="Bouncing Exits">
+                                    <option value="bounceOut">bounceOut</option>
+                                    <option value="bounceOutDown">bounceOutDown</option>
+                                    <option value="bounceOutLeft">bounceOutLeft</option>
+                                    <option value="bounceOutRight">bounceOutRight</option>
+                                    <option value="bounceOutUp">bounceOutUp</option>
+                                </optgroup>
+
+                                <optgroup label="Fading Entrances">
+                                    <option value="fadeIn">fadeIn</option>
+                                    <option value="fadeInDown">fadeInDown</option>
+                                    <option value="fadeInDownBig">fadeInDownBig</option>
+                                    <option value="fadeInLeft">fadeInLeft</option>
+                                    <option value="fadeInLeftBig">fadeInLeftBig</option>
+                                    <option value="fadeInRight">fadeInRight</option>
+                                    <option value="fadeInRightBig">fadeInRightBig</option>
+                                    <option value="fadeInUp">fadeInUp</option>
+                                    <option value="fadeInUpBig">fadeInUpBig</option>
+                                </optgroup>
+
+                                <optgroup label="Fading Exits">
+                                    <option value="fadeOut">fadeOut</option>
+                                    <option value="fadeOutDown">fadeOutDown</option>
+                                    <option value="fadeOutDownBig">fadeOutDownBig</option>
+                                    <option value="fadeOutLeft">fadeOutLeft</option>
+                                    <option value="fadeOutLeftBig">fadeOutLeftBig</option>
+                                    <option value="fadeOutRight">fadeOutRight</option>
+                                    <option value="fadeOutRightBig">fadeOutRightBig</option>
+                                    <option value="fadeOutUp">fadeOutUp</option>
+                                    <option value="fadeOutUpBig">fadeOutUpBig</option>
+                                </optgroup>
+
+                                <optgroup label="Flippers">
+                                    <option value="flip">flip</option>
+                                    <option value="flipInX">flipInX</option>
+                                    <option value="flipInY">flipInY</option>
+                                    <option value="flipOutX">flipOutX</option>
+                                    <option value="flipOutY">flipOutY</option>
+                                </optgroup>
+
+                                <optgroup label="Lightspeed">
+                                    <option value="lightSpeedIn">lightSpeedIn</option>
+                                    <option value="lightSpeedOut">lightSpeedOut</option>
+                                </optgroup>
+
+                                <optgroup label="Rotating Entrances">
+                                    <option value="rotateIn">rotateIn</option>
+                                    <option value="rotateInDownLeft">rotateInDownLeft</option>
+                                    <option value="rotateInDownRight">rotateInDownRight</option>
+                                    <option value="rotateInUpLeft">rotateInUpLeft</option>
+                                    <option value="rotateInUpRight">rotateInUpRight</option>
+                                </optgroup>
+
+                                <optgroup label="Rotating Exits">
+                                    <option value="rotateOut">rotateOut</option>
+                                    <option value="rotateOutDownLeft">rotateOutDownLeft</option>
+                                    <option value="rotateOutDownRight">rotateOutDownRight</option>
+                                    <option value="rotateOutUpLeft">rotateOutUpLeft</option>
+                                    <option value="rotateOutUpRight">rotateOutUpRight</option>
+                                </optgroup>
+
+                                <optgroup label="Sliding Entrances">
+                                    <option value="slideInUp">slideInUp</option>
+                                    <option value="slideInDown">slideInDown</option>
+                                    <option value="slideInLeft">slideInLeft</option>
+                                    <option value="slideInRight">slideInRight</option>
+
+                                </optgroup>
+                                <optgroup label="Sliding Exits">
+                                    <option value="slideOutUp">slideOutUp</option>
+                                    <option value="slideOutDown">slideOutDown</option>
+                                    <option value="slideOutLeft">slideOutLeft</option>
+                                    <option value="slideOutRight">slideOutRight</option>
+
+                                </optgroup>
+
+                                <optgroup label="Zoom Entrances">
+                                    <option value="zoomIn">zoomIn</option>
+                                    <option value="zoomInDown">zoomInDown</option>
+                                    <option value="zoomInLeft">zoomInLeft</option>
+                                    <option value="zoomInRight">zoomInRight</option>
+                                    <option value="zoomInUp">zoomInUp</option>
+                                </optgroup>
+
+                                <optgroup label="Zoom Exits">
+                                    <option value="zoomOut">zoomOut</option>
+                                    <option value="zoomOutDown">zoomOutDown</option>
+                                    <option value="zoomOutLeft">zoomOutLeft</option>
+                                    <option value="zoomOutRight">zoomOutRight</option>
+                                    <option value="zoomOutUp">zoomOutUp</option>
+                                </optgroup>
+
+                                <optgroup label="Specials">
+                                    <option value="hinge">hinge</option>
+                                    <option value="rollIn">rollIn</option>
+                                    <option value="rollOut">rollOut</option>
+                                </optgroup>
+                            </select>
+                            <span class="clear subtext">Animation</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <input class="num_input duration opt" type="text">
+                            <span class="clear subtext">Duration</span>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <span class="title">Open</span>
-                    <select class="" id="animate-open">
-                        <optgroup label="Attention Seekers">
-                            <option value="bounce">bounce</option>
-                            <option value="flash">flash</option>
-                            <option value="pulse">pulse</option>
-                            <option value="rubberBand">rubberBand</option>
-                            <option value="shake">shake</option>
-                            <option value="swing">swing</option>
-                            <option value="tada">tada</option>
-                            <option value="wobble">wobble</option>
-                            <option value="jello">jello</option>
-                        </optgroup>
-
-                        <optgroup label="Bouncing Entrances">
-                            <option value="bounceIn">bounceIn</option>
-                            <option value="bounceInDown">bounceInDown</option>
-                            <option value="bounceInLeft">bounceInLeft</option>
-                            <option value="bounceInRight">bounceInRight</option>
-                            <option value="bounceInUp">bounceInUp</option>
-                        </optgroup>
-
-                        <optgroup label="Bouncing Exits">
-                            <option value="bounceOut">bounceOut</option>
-                            <option value="bounceOutDown">bounceOutDown</option>
-                            <option value="bounceOutLeft">bounceOutLeft</option>
-                            <option value="bounceOutRight">bounceOutRight</option>
-                            <option value="bounceOutUp">bounceOutUp</option>
-                        </optgroup>
-
-                        <optgroup label="Fading Entrances">
-                            <option value="fadeIn">fadeIn</option>
-                            <option value="fadeInDown">fadeInDown</option>
-                            <option value="fadeInDownBig">fadeInDownBig</option>
-                            <option value="fadeInLeft">fadeInLeft</option>
-                            <option value="fadeInLeftBig">fadeInLeftBig</option>
-                            <option value="fadeInRight">fadeInRight</option>
-                            <option value="fadeInRightBig">fadeInRightBig</option>
-                            <option value="fadeInUp">fadeInUp</option>
-                            <option value="fadeInUpBig">fadeInUpBig</option>
-                        </optgroup>
-
-                        <optgroup label="Fading Exits">
-                            <option value="fadeOut">fadeOut</option>
-                            <option value="fadeOutDown">fadeOutDown</option>
-                            <option value="fadeOutDownBig">fadeOutDownBig</option>
-                            <option value="fadeOutLeft">fadeOutLeft</option>
-                            <option value="fadeOutLeftBig">fadeOutLeftBig</option>
-                            <option value="fadeOutRight">fadeOutRight</option>
-                            <option value="fadeOutRightBig">fadeOutRightBig</option>
-                            <option value="fadeOutUp">fadeOutUp</option>
-                            <option value="fadeOutUpBig">fadeOutUpBig</option>
-                        </optgroup>
-
-                        <optgroup label="Flippers">
-                            <option value="flip">flip</option>
-                            <option value="flipInX">flipInX</option>
-                            <option value="flipInY">flipInY</option>
-                            <option value="flipOutX">flipOutX</option>
-                            <option value="flipOutY">flipOutY</option>
-                        </optgroup>
-
-                        <optgroup label="Lightspeed">
-                            <option value="lightSpeedIn">lightSpeedIn</option>
-                            <option value="lightSpeedOut">lightSpeedOut</option>
-                        </optgroup>
-
-                        <optgroup label="Rotating Entrances">
-                            <option value="rotateIn">rotateIn</option>
-                            <option value="rotateInDownLeft">rotateInDownLeft</option>
-                            <option value="rotateInDownRight">rotateInDownRight</option>
-                            <option value="rotateInUpLeft">rotateInUpLeft</option>
-                            <option value="rotateInUpRight">rotateInUpRight</option>
-                        </optgroup>
-
-                        <optgroup label="Rotating Exits">
-                            <option value="rotateOut">rotateOut</option>
-                            <option value="rotateOutDownLeft">rotateOutDownLeft</option>
-                            <option value="rotateOutDownRight">rotateOutDownRight</option>
-                            <option value="rotateOutUpLeft">rotateOutUpLeft</option>
-                            <option value="rotateOutUpRight">rotateOutUpRight</option>
-                        </optgroup>
-
-                        <optgroup label="Sliding Entrances">
-                            <option value="slideInUp">slideInUp</option>
-                            <option value="slideInDown">slideInDown</option>
-                            <option value="slideInLeft">slideInLeft</option>
-                            <option value="slideInRight">slideInRight</option>
-
-                        </optgroup>
-                        <optgroup label="Sliding Exits">
-                            <option value="slideOutUp">slideOutUp</option>
-                            <option value="slideOutDown">slideOutDown</option>
-                            <option value="slideOutLeft">slideOutLeft</option>
-                            <option value="slideOutRight">slideOutRight</option>
-
-                        </optgroup>
-
-                        <optgroup label="Zoom Entrances">
-                            <option value="zoomIn">zoomIn</option>
-                            <option value="zoomInDown">zoomInDown</option>
-                            <option value="zoomInLeft">zoomInLeft</option>
-                            <option value="zoomInRight">zoomInRight</option>
-                            <option value="zoomInUp">zoomInUp</option>
-                        </optgroup>
-
-                        <optgroup label="Zoom Exits">
-                            <option value="zoomOut">zoomOut</option>
-                            <option value="zoomOutDown">zoomOutDown</option>
-                            <option value="zoomOutLeft">zoomOutLeft</option>
-                            <option value="zoomOutRight">zoomOutRight</option>
-                            <option value="zoomOutUp">zoomOutUp</option>
-                        </optgroup>
-
-                        <optgroup label="Specials">
-                            <option value="hinge">hinge</option>
-                            <option value="rollIn">rollIn</option>
-                            <option value="rollOut">rollOut</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div>
-                    <span class="title">Delay</span>
-                    <input type="text">
-                </div>
-                <div>
-                    <span class="title">Close</span>
-                    <select class="" id="animate-close">
-                        <optgroup label="Attention Seekers">
-                            <option value="bounce">bounce</option>
-                            <option value="flash">flash</option>
-                            <option value="pulse">pulse</option>
-                            <option value="rubberBand">rubberBand</option>
-                            <option value="shake">shake</option>
-                            <option value="swing">swing</option>
-                            <option value="tada">tada</option>
-                            <option value="wobble">wobble</option>
-                            <option value="jello">jello</option>
-                        </optgroup>
-
-                        <optgroup label="Bouncing Entrances">
-                            <option value="bounceIn">bounceIn</option>
-                            <option value="bounceInDown">bounceInDown</option>
-                            <option value="bounceInLeft">bounceInLeft</option>
-                            <option value="bounceInRight">bounceInRight</option>
-                            <option value="bounceInUp">bounceInUp</option>
-                        </optgroup>
-
-                        <optgroup label="Bouncing Exits">
-                            <option value="bounceOut">bounceOut</option>
-                            <option value="bounceOutDown">bounceOutDown</option>
-                            <option value="bounceOutLeft">bounceOutLeft</option>
-                            <option value="bounceOutRight">bounceOutRight</option>
-                            <option value="bounceOutUp">bounceOutUp</option>
-                        </optgroup>
-
-                        <optgroup label="Fading Entrances">
-                            <option value="fadeIn">fadeIn</option>
-                            <option value="fadeInDown">fadeInDown</option>
-                            <option value="fadeInDownBig">fadeInDownBig</option>
-                            <option value="fadeInLeft">fadeInLeft</option>
-                            <option value="fadeInLeftBig">fadeInLeftBig</option>
-                            <option value="fadeInRight">fadeInRight</option>
-                            <option value="fadeInRightBig">fadeInRightBig</option>
-                            <option value="fadeInUp">fadeInUp</option>
-                            <option value="fadeInUpBig">fadeInUpBig</option>
-                        </optgroup>
-
-                        <optgroup label="Fading Exits">
-                            <option value="fadeOut">fadeOut</option>
-                            <option value="fadeOutDown">fadeOutDown</option>
-                            <option value="fadeOutDownBig">fadeOutDownBig</option>
-                            <option value="fadeOutLeft">fadeOutLeft</option>
-                            <option value="fadeOutLeftBig">fadeOutLeftBig</option>
-                            <option value="fadeOutRight">fadeOutRight</option>
-                            <option value="fadeOutRightBig">fadeOutRightBig</option>
-                            <option value="fadeOutUp">fadeOutUp</option>
-                            <option value="fadeOutUpBig">fadeOutUpBig</option>
-                        </optgroup>
-
-                        <optgroup label="Flippers">
-                            <option value="flip">flip</option>
-                            <option value="flipInX">flipInX</option>
-                            <option value="flipInY">flipInY</option>
-                            <option value="flipOutX">flipOutX</option>
-                            <option value="flipOutY">flipOutY</option>
-                        </optgroup>
-
-                        <optgroup label="Lightspeed">
-                            <option value="lightSpeedIn">lightSpeedIn</option>
-                            <option value="lightSpeedOut">lightSpeedOut</option>
-                        </optgroup>
-
-                        <optgroup label="Rotating Entrances">
-                            <option value="rotateIn">rotateIn</option>
-                            <option value="rotateInDownLeft">rotateInDownLeft</option>
-                            <option value="rotateInDownRight">rotateInDownRight</option>
-                            <option value="rotateInUpLeft">rotateInUpLeft</option>
-                            <option value="rotateInUpRight">rotateInUpRight</option>
-                        </optgroup>
-
-                        <optgroup label="Rotating Exits">
-                            <option value="rotateOut">rotateOut</option>
-                            <option value="rotateOutDownLeft">rotateOutDownLeft</option>
-                            <option value="rotateOutDownRight">rotateOutDownRight</option>
-                            <option value="rotateOutUpLeft">rotateOutUpLeft</option>
-                            <option value="rotateOutUpRight">rotateOutUpRight</option>
-                        </optgroup>
-
-                        <optgroup label="Sliding Entrances">
-                            <option value="slideInUp">slideInUp</option>
-                            <option value="slideInDown">slideInDown</option>
-                            <option value="slideInLeft">slideInLeft</option>
-                            <option value="slideInRight">slideInRight</option>
-
-                        </optgroup>
-                        <optgroup label="Sliding Exits">
-                            <option value="slideOutUp">slideOutUp</option>
-                            <option value="slideOutDown">slideOutDown</option>
-                            <option value="slideOutLeft">slideOutLeft</option>
-                            <option value="slideOutRight">slideOutRight</option>
-
-                        </optgroup>
-
-                        <optgroup label="Zoom Entrances">
-                            <option value="zoomIn">zoomIn</option>
-                            <option value="zoomInDown">zoomInDown</option>
-                            <option value="zoomInLeft">zoomInLeft</option>
-                            <option value="zoomInRight">zoomInRight</option>
-                            <option value="zoomInUp">zoomInUp</option>
-                        </optgroup>
-
-                        <optgroup label="Zoom Exits">
-                            <option value="zoomOut">zoomOut</option>
-                            <option value="zoomOutDown">zoomOutDown</option>
-                            <option value="zoomOutLeft">zoomOutLeft</option>
-                            <option value="zoomOutRight">zoomOutRight</option>
-                            <option value="zoomOutUp">zoomOutUp</option>
-                        </optgroup>
-
-                        <optgroup label="Specials">
-                            <option value="hinge">hinge</option>
-                            <option value="rollIn">rollIn</option>
-                            <option value="rollOut">rollOut</option>
-                        </optgroup>
-                    </select>
-                </div>
-                <div>
-                    <span class="title">CSS</span>
-                    <div>
-                        <div>
-                            <input id="clr_css" class="" type="text">
-                    <span id="reset_clr_css" class="clear subtext align-right"><span
-                            class="pointer">Reset CSS</span></span>
+                    <span class="title">
+                        CSS
+                        <span class="clear subtext">
+                            <span id="reset_clr_css" class="pointer">Default</span>
+                        </span>
+                    </span>
+                    <div id="clr_css_wrapper">
+                        <div id="clr_css">
                         </div>
                     </div>
                 </div>

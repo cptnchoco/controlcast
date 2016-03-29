@@ -228,6 +228,23 @@ $(document).ready(function () {
     $('.opt').on('change input', function () { //A savable option was changed, update the key config
         updateKeyEntry();
     });
+
+    css_editor = ace.edit("clr_css");
+    css_editor.setTheme("ace/theme/tomorrow_night_eighties");
+    css_editor.getSession().setMode("ace/mode/css");
+    css_editor.getSession().setTabSize(2);
+    css_editor.$blockScrolling = Infinity;
+
+    $('.ace_content').blur(function () { //A savable option was changed, update the key config
+        console.log('blur');
+        updateKeyEntry();
+    });
+
+    $('#reset_clr_css').click(function() {
+        css_editor.setValue(getDefaultKeyConfig().clr.css);
+        css_editor.clearSelection();
+    });
+
 });
 
 function setKeyOptions() { //Update all the key gui elements
@@ -248,9 +265,16 @@ function setKeyOptions() { //Update all the key gui elements
     $('#audio_path').val(keyConfig.audio.path);
     $('#volume_slider').slider('value', keyConfig.audio.volume);
     $('#vol_val').text(keyConfig.audio.volume + "%");
-    $('input[name="on_release"][value=' + keyConfig.audio.on_release + ']').prop('checked', true);
-    $('input[name="on_repress"][value=' + keyConfig.audio.on_repress + ']').prop('checked', true);
+    $('input[name="audio_type"][value=' + keyConfig.audio.type + ']').prop('checked', true);
     $('#clr_path').val(keyConfig.clr.path);
+    $('#animate-open').val(keyConfig.clr.animate.open.type);
+    $('#animate-close').val(keyConfig.clr.animate.close.type);
+    $('.open .delay').val(keyConfig.clr.animate.open.delay);
+    $('.open .duration').val(keyConfig.clr.animate.open.duration);
+    $('.close .delay').val(keyConfig.clr.animate.close.delay);
+    $('.close .duration').val(keyConfig.clr.animate.close.duration);
+    css_editor.setValue(keyConfig.clr.css);
+    css_editor.clearSelection();
     checkmarks();
 }
 
@@ -267,24 +291,31 @@ function getDefaultKeyConfig() { //Sets the default key config
         },
         audio: {
             path: "",
-            on_release: "continue",
-            on_repress: "none",
+            type: "normal",
             volume: 50
         },
         clr: {
             path: "",
             animate: {
-                open: "",
-                delay: 5000,
-                close: ""
+                open: {
+                    delay: 0,
+                    type: "fadeIn",
+                    duration: 2000
+                },
+                close: {
+                    delay: 5000,
+                    type: "fadeOut",
+                    duration: 2000
+                }
             },
-            css: ""
+            css: "this {\n  width: 75%;\n}"
         }
     }
 }
 
 function updateKeyEntry() { //Take all the key config values from the gui and save them to the settings config
     if (!config) return;
+    console.log('update');
     config.keys[lastKey.join(",")] = {
         description: $('#key_description').val(),
         color: {
@@ -297,18 +328,24 @@ function updateKeyEntry() { //Take all the key config values from the gui and sa
         },
         audio: {
             path: $('#audio_path').val(),
-            on_release: $('input[name="on_release"]:checked').val(),
-            on_repress: $('input[name="on_repress"]:checked').val(),
+            type: $('input[name="audio_type"]:checked').val(),
             volume: parseInt($('#vol_val').text().replace("%", ""))
         },
         clr: {
             path: $('#clr_path').val(),
             animate: {
-                open: "",//"Test",
-                delay: "",//3000,
-                close: ""//"Test"
+                open: {
+                    delay: parseInt($('.open .delay').val()),
+                    type: $('#animate-open').val(),
+                    duration: parseInt($('.open .duration').val())
+                },
+                close: {
+                    delay: parseInt($('.close .delay').val()),
+                    type: $('#animate-close').val(),
+                    duration: parseInt($('.close .duration').val())
+                }
             },
-            css: ""//"Test"
+            css: css_editor.getSession().getValue()
         }
     };
     checkmarks();
@@ -338,6 +375,7 @@ function checkmarks() {
         $('.color .check_mark').hide();
         $('.hotkey .check_mark').hide();
         $('.audio .check_mark').hide();
+        $('.clr_options .check_mark').hide();
         return;
     }
     if (thisKey.color.press != "OFF" || thisKey.color.release != "OFF") {
@@ -345,9 +383,19 @@ function checkmarks() {
     } else {
         $('.color .check_mark').hide();
     }
+    if (thisKey.hotkey.string != "") {
+        $('.hotkey .check_mark').show();
+    } else {
+        $('.hotkey .check_mark').hide();
+    }
     if (thisKey.audio.path != "") {
         $('.audio .check_mark').show();
     } else {
         $('.audio .check_mark').hide();
+    }
+    if (thisKey.clr.path != "") {
+        $('.clr_options .check_mark').show();
+    } else {
+        $('.clr_options .check_mark').hide();
     }
 }

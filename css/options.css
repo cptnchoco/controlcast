@@ -3,12 +3,17 @@
     width: 400px;
     top: 0;
     right: 0;
-    padding: 10px 10px 5px 10px;
+    padding: 10px 10px 0 10px;
     background: #18191A;
 }
 
-.options h2 {
-    font-size: 18px;
+.header {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.header.main {
+    font-size: 16px;
 }
 
 .key_pos_label {
@@ -35,7 +40,6 @@
 
 .options > div {
     position: relative;
-    margin-bottom: 12px;
 }
 
 .abs-right {
@@ -44,26 +48,22 @@
 }
 
 .title {
-    width: 70px;
+    width: 80px;
     float: left;
     display: block;
-}
-
-.title.name {
-    font-size: 16px;
 }
 
 .options input[type="text"] {
     background: #18191A;
     border: 1px solid #555;
     border-radius: 2px;
-    margin-right: 5px;
     height: 20px;
     width: 200px;
 }
 
 .save_buttons {
-    height: 34px;
+    height: 30px;
+    margin: 10px;
 }
 
 #save_settings {
@@ -73,13 +73,9 @@
 
 .expandable {
     background: #25272a;
-    padding: 6px;
+    padding: 4px 4px 4px 10px;
     cursor: pointer;
-}
-
-.expandable .header {
-    font-weight: bold;
-    font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .check_mark {
@@ -95,11 +91,10 @@
 
 .clear_opt {
     color: #5b5f62;
-    display: inline;
     position: absolute;
-    right: 7px;
-    top: 5px;
-    font-size: 12px;
+    right: 4px;
+    top: 3px;
+    font-size: 10px;
     padding: 0 7px;
     font-style: italic;
     border: 1px solid #484848;
@@ -107,12 +102,11 @@
 }
 
 .clear_opt:active {
-    position: absolute;
-    top: 6px;
+    top: 4px;
 }
 
 .options > div:first-child {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 #key_description {
@@ -202,12 +196,8 @@
     display: flex;
 }
 
-.content > div:first-child {
-    margin-top: 25px;
-}
-
 .content > div:last-child {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .clear {
@@ -234,15 +224,15 @@ label {
     font-weight: bold;
     border: 1px solid #555;
     border-radius: 2px;
-    width: 44px;
+    width: 65px;
     height: 20px;
     padding-top: 2px;
     cursor: pointer;
+    margin-right: 3px;
 }
 
 label.wide {
-    width: 90px;
-    margin-right: 4px;
+    width: 80px;
 }
 
 input:checked + label {
@@ -274,7 +264,7 @@ input:checked + label {
 #volume_slider_container {
     width: 150px;
     position: relative;
-    margin: 15px 13px 0 10px;
+    margin: 5px 15px 0 0;
 }
 
 #volume_slider {
@@ -314,6 +304,53 @@ input:checked + label {
     display: none;
 }
 
-.content > div > div > div > div {
-    margin-bottom: 10px;
+.content > div {
+    margin-bottom: 15px;
+}
+
+#clr_css_wrapper {
+    width: 284px;
+    height: 110px;
+    border: 1px solid #555;
+    border-radius: 2px;
+    position: relative;
+}
+
+#clr_css {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.color .content > div:last-child {
+    margin-bottom: 5px;
+}
+
+input[type="text"].num_input {
+    width: 50px;
+}
+
+#browse, #clr_browse {
+    margin-left: 5px;
+    width: 80px;
+}
+
+.clr_options select {
+    background: #18191A;
+    border: 1px solid #555;
+    border-radius: 2px;
+    height: 24px;
+    width: 160px;
+    color: #DDD;
+    -webkit-appearance: none;
+}
+
+.middle {
+    margin: 0 5px 0 5px;
+}
+
+input, select {
+    text-indent: 3px;
 }
