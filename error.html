@@ -26,8 +26,9 @@
     </style>
     <script>
         'use strict';
-        const ipc = require('electron').ipcRenderer,
-                $ = require('jquery');
+        const ipc = require('electron').ipcRenderer;
+
+        window.$ = window.jQuery = require('jquery');
 
         $(document).ready(function () {
 
