@@ -31,10 +31,10 @@
     </style>
     <script>
         'use strict';
-        const ipc = require('electron').ipcRenderer,
-                $ = require('jquery');
+        const ipc = require('electron').ipcRenderer;
 
-        var port;
+        window.$ = window.jQuery = require('jquery');
+        require('./js/jquery/alphanum.min.js');
 
         $(document).ready(function () {
             ipc.send('get_port');
@@ -47,19 +47,18 @@
                 ipc.send('port_quit');
             });
 
-            $('.port').on('input', function (e) {
-                if (!this.value.match(/^[0-9]{0,5}$/) || parseInt(this.value) > 65535) {
-                    this.value = port;
-                    return;
-                }
-                port = this.value;
+            $('.port').numeric({
+                allowMinus: false,
+                allowThouSep: false,
+                allowDecSep: false,
+                min: 1,
+                max: 65535
             });
+
         });
 
         ipc.on('port', function (e, data) {
-            console.log(data);
-            port = data;
-            $('.port').val(data.toString());
+            $('.port').val(data);
         });
     </script>
 </head>
