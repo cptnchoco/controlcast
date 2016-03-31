@@ -33,7 +33,7 @@
     cursor: pointer;
 }
 
-.options button:active {
+.options button:active, .below_launchpad button:active {
     position: relative;
     top: 1px;
 }
@@ -235,7 +235,7 @@ label.wide {
     width: 80px;
 }
 
-input:checked + label {
+input:checked + label, .below_launchpad button {
     background: #EC5d0F;
     color: #DDD;
 }

@@ -179,9 +179,10 @@ $(document).ready(function () {
 
 
     $('#audio_path').change(function () { //Audio path was changed
+        console.log('start');
         if ($(this).val() == "") return; //Return if blank
         let audioPath = path.parse($(this).val()); //Parse path
-        let ext = audioPath.ext; //Get file extension
+        let ext = audioPath.ext.toLowerCase(); //Get file extension
         if (ext != '.mp3' && ext != '.wav' && ext != '.oog') { //Must be these formats to be playable
             centerNOTY('notify', "Only able to play [ .mp3 | .wav | .ogg ] files.", 4000);
             return;
@@ -191,11 +192,15 @@ $(document).ready(function () {
             request.get({url: $(this).val()}, (err, res) => { //Try to access the web file and warn if unable
                 if (err || res.statusCode != 200) {
                     centerNOTY('warning', "Unable to access that audio file.", 3000);
+                    console.log(JSON.stringify(err));
                 }
             });
         } else {
             fs.access($(this).val(), fs.R_OK, (err) => { //Try to access the web file and warn if unable
-                if (err) centerNOTY('warning', "Unable to access that audio file.", 3000);
+                if (err) {
+                    centerNOTY('warning', "Unable to access that audio file.", 3000);
+                    console.log(JSON.stringify(err));
+                }
             });
         }
     });
@@ -203,21 +208,46 @@ $(document).ready(function () {
     $('#clr_path').change(function () { //CLR path was changed
         if ($(this).val() == "") return; //Return if blank
         let clrPath = path.parse($(this).val()); //Parse path
-        let ext = clrPath.ext; //Get file extension
+        let ext = clrPath.ext.toLowerCase(); //Get file extension
         if (ext != '.png' && ext != '.jpg') { //Must be these formats
             centerNOTY('notify', "Only able to show [ .png | .jpg ] files.", 4000);
             return;
         }
+        let filePath = path.join(__dirname, "clr/assets/images/" + lastKey.join("-")) + ext;
         let isUrl = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test($(this).val()); //Determine if path is a valid url
         if (isUrl) {
-            request.get({url: $(this).val()}, (err, res) => { //Try to access the web file and warn if unable
+            request.get({url: $(this).val(), encoding: null}, (err, res, buffer) => { //Try to access the web file and warn if unable
                 if (err || res.statusCode != 200) {
                     centerNOTY('warning', "Unable to access that image file.", 3000);
+                    console.log(JSON.stringify(err));
+                } else {
+                    fs.writeFile(filePath, buffer, (err) => {
+                        if (err) {
+                            centerNOTY('warning', "Error saving file for CLR.", 3000);
+                            console.log(JSON.stringify(err));
+                        }
+                    });
                 }
             });
         } else {
             fs.access($(this).val(), fs.R_OK, (err) => { //Try to access the web file and warn if unable
-                if (err) centerNOTY('warning', "Unable to access that image file.", 3000);
+                if (err) {
+                    centerNOTY('warning', "Unable to access that image file.", 3000);
+                    console.log(JSON.stringify(err));
+                } else {
+                    fs.readFile($(this).val(), (err, data) => {
+                        if (!err) {
+                            fs.writeFile(filePath, data, (err) => {
+                                if (err) {
+                                    centerNOTY('warning', "Error saving file for CLR.", 3000);
+                                    console.log(JSON.stringify(err));
+                                }
+                            });
+                        } else {
+                            console.log(JSON.stringify(err));
+                        }
+                    });
+                }
             });
         }
     });
@@ -230,7 +260,7 @@ $(document).ready(function () {
             ],
             properties: ["openFile"] //Only allow 1 file to be chosen
         }, (file) => {
-            $('#audio_path').val(file).trigger('input'); //When we get the file name that was chosen, input it into the form
+            $('#audio_path').val(file).trigger('change'); //When we get the file name that was chosen, input it into the form
         })
     });
 
@@ -242,7 +272,7 @@ $(document).ready(function () {
             ],
             properties: ["openFile"] //Only allow 1 file to be chosen
         }, (file) => {
-            $('#clr_path').val(file).trigger('input'); //When we get the file name that was chosen, input it into the form
+            $('#clr_path').val(file).trigger('change'); //When we get the file name that was chosen, input it into the form
         })
     });
 

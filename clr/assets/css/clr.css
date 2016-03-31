@@ -14,5 +14,11 @@ div {
 
 div > div {
     position: relative;
+    background: red;
+    width: 500px;
+    height: 500px;
+}
+
+div > div img {
     width: 100%;
 }

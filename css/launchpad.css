@@ -187,5 +187,6 @@
 }
 
 .below_launchpad {
-    margin-top: 10px;
+    position: absolute;
+    bottom: 20px;
 }

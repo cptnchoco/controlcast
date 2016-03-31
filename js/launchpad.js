@@ -70,7 +70,8 @@ function colorKey(key, action) {
     }
     let usingHotkey = get(config.keys, key.join(",") + '.hotkey.string'); //Gets bool if we are using hotkey
     let usingAudio = get(config.keys, key.join(",") + '.audio.path'); //Gets bool if we are using audio
-    let usingCLR = get(config.keys, key.join(",") + '.clr.path'); //Gets bool if we are using clr
+    let usingCLR = null;
+    if (config.app.clr.enabled) usingCLR = get(config.keys, key.join(",") + '.clr.path'); //Gets bool if we are using clr
     let j = 0;
     if (usingHotkey) j++;
     if (usingAudio) j++;
@@ -256,5 +257,7 @@ function sendCLR(key, action) {
     if (action == "release") return;
     let clr = get(config, "keys." + key.join(",") + ".clr");
     if (!clr || !clr.path) return;
-    clrIO.emit('key_press', clr);
+    let ext = path.parse(clr.path).ext.toLowerCase();
+    let image = "images/" + lastKey.join("-") + ext;
+    clrIO.emit('key_press', {image: image, options: clr});
 }
