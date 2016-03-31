@@ -70,8 +70,18 @@ function colorKey(key, action) {
     }
     let usingHotkey = get(config.keys, key.join(",") + '.hotkey.string'); //Gets bool if we are using hotkey
     let usingAudio = get(config.keys, key.join(",") + '.audio.path'); //Gets bool if we are using audio
+    let usingCLR = get(config.keys, key.join(",") + '.clr.path'); //Gets bool if we are using clr
+    let j = 0;
+    if (usingHotkey) j++;
+    if (usingAudio) j++;
+    if (usingCLR) j++;
     guiKey.html("<div><span>" + (usingHotkey ? "<img src='images/hotkey.png'>" : "") +
-        (usingAudio ? "<img src='images/audio.png'>" : "") + "</span></div>"); //Sets the inner key div to show associated icons to events
+        (usingAudio ? "<img src='images/audio.png'>" : "") + (usingCLR ? "<img src='images/clr.png'>" : "") + "</span></div>"); //Sets the inner key div to show associated icons to events
+    if (j > 2) {
+        $(guiKey).find('div').addClass('shift_up');
+    } else {
+        $(guiKey).find('div').removeClass('shift_up');
+    }
 }
 
 function getGuiKey(key) { //Find the respective gui element with the key position

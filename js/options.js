@@ -56,7 +56,7 @@ $(document).ready(function () {
             if (tracks[lastKey.join(",")]) tracks[lastKey.join(",")].volume = ui.value / 100; //Reset track volume if track exists
             $('#vol_val').text(ui.value + "%"); //Set volume label
             let keyConfig = getKeyConfig(); //Get the key config or defaults
-            keyConfig.audio.volume =  $('#vol_val').text().replace("%", ""); //Save to volume to the key config
+            keyConfig.audio.volume = $('#vol_val').text().replace("%", ""); //Save to volume to the key config
             config.keys[lastKey.join(",")] = keyConfig; //Save to config
         }
     });
@@ -178,7 +178,7 @@ $(document).ready(function () {
     //Path Input Fields
 
 
-    $('#audio_path').blur(function () { //Audio path was changed
+    $('#audio_path').change(function () { //Audio path was changed
         if ($(this).val() == "") return; //Return if blank
         let audioPath = path.parse($(this).val()); //Parse path
         let ext = audioPath.ext; //Get file extension
@@ -200,7 +200,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#clr_path').blur(function () { //CLR path was changed
+    $('#clr_path').change(function () { //CLR path was changed
         if ($(this).val() == "") return; //Return if blank
         let clrPath = path.parse($(this).val()); //Parse path
         let ext = clrPath.ext; //Get file extension
@@ -268,7 +268,7 @@ $(document).ready(function () {
     css_editor.getSession().setTabSize(2);
     css_editor.$blockScrolling = Infinity;
 
-    css_editor.getSession().on('change', function(e) {
+    css_editor.getSession().on('change', function (e) {
         let keyConfig = getKeyConfig();
         keyConfig.clr.css = css_editor.getSession().getValue();
         config.keys[lastKey.join(",")] = keyConfig;
@@ -279,10 +279,12 @@ $(document).ready(function () {
         css_editor.clearSelection();
     });
 
+    $('.ace_text-input').on('blur', function () {
+        let e = $('.ace_error').length;
+        let w = $('.ace_warning').length;
+        if (e || w) centerNOTY('warning', "There is an error in the custom CSS", 3000);
+    });
 
-    //
-
-    
     $('.num_input').numeric({
         allowMinus: false,
         allowThouSep: false,
