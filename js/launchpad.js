@@ -128,8 +128,8 @@ function playAudio(key, action) { //Handle Audio playback
                 return;
             }
             if (!track.ended) { //What do we do if the key is repressed while the track is playing
-                switch (audio.on_repress) {
-                    case 'stop': //Stops the track
+                switch (audio.type) {
+                    case 'toggle': //Stops the track
                         stopAudio(track);
                         break;
                     case 'restart': //Restarts the track
@@ -141,7 +141,7 @@ function playAudio(key, action) { //Handle Audio playback
             }
             break;
         case 'release':
-            if (track && !track.ended && audio.on_release == 'stop') {
+            if (track && !track.ended && audio.type == 'hold') {
                 stopAudio(track); //Stop audio on release if that is what's set
             }
             break;

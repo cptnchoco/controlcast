@@ -84,26 +84,31 @@ $(document).ready(function () {
 
     $('#clear_all').click(function () { //Reset key button was pressed
         config.keys[lastKey.join(",")] = getDefaultKeyConfig(); //Save default key config to this key
+        colorKey(lastKey, 'release');  //Reset key color
         setKeyOptions(); //Update all key settings to show default
     });
 
     $('.color .clear_opt').click(function () {
         config.keys[lastKey.join(",")].color = getDefaultKeyConfig().color;
+        colorKey(lastKey, 'release');  //Reset key color
         setKeyOptions(); //Update key settings
     });
 
     $('.hotkey .clear_opt').click(function () {
         config.keys[lastKey.join(",")].hotkey = getDefaultKeyConfig().hotkey;
+        colorKey(lastKey, 'release');  //Reset key color
         setKeyOptions(); //Update key settings
     });
 
     $('.audio .clear_opt').click(function () { //Clear hotkey button was pressed
         config.keys[lastKey.join(",")].audio = getDefaultKeyConfig().audio;
+        colorKey(lastKey, 'release');  //Reset key color
         setKeyOptions(); //Update key settings
     });
 
     $('.clr_options .clear_opt').click(function () {
         config.keys[lastKey.join(",")].clr = getDefaultKeyConfig().clr;
+        colorKey(lastKey, 'release');  //Reset key color
         setKeyOptions(); //Update key settings
     });
 
@@ -217,7 +222,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#browse').click(function () { //Browse for file button was pressed
+    $('#browse').click(function () { //Browse for audio file button was pressed
         dialog.showOpenDialog({ //Open dialog to choose a file
             title: "Choose Audio File",
             filters: [
@@ -229,7 +234,7 @@ $(document).ready(function () {
         })
     });
 
-    $('#clr_browse').click(function () { //Browse for file button was pressed
+    $('#clr_browse').click(function () { //Browse for clr image file button was pressed
         dialog.showOpenDialog({ //Open dialog to choose a file
             title: "Choose Image File",
             filters: [
@@ -241,8 +246,11 @@ $(document).ready(function () {
         })
     });
 
+
+    //Options Changed
+
+
     $('.opt').on('input change', function () { //A savable option was changed, update the key config
-        console.log("DBKynd");
         let keyConfig = getKeyConfig();
         set(keyConfig, $(this).data('config'), $(this).val());
         config.keys[lastKey.join(",")] = keyConfig;
@@ -250,16 +258,20 @@ $(document).ready(function () {
         checkmarks();
     });
 
+
+    //CSS syntax highlighter
+
+
     css_editor = ace.edit("clr_css");
     css_editor.setTheme("ace/theme/tomorrow_night_eighties");
     css_editor.getSession().setMode("ace/mode/css");
     css_editor.getSession().setTabSize(2);
     css_editor.$blockScrolling = Infinity;
 
-    $('.ace_content').blur(function () { //A savable option was changed, update the key config
-        console.log('blur');
-        //updateKeyEntry();
-        //css: css_editor.getSession().getValue();
+    css_editor.getSession().on('change', function(e) {
+        let keyConfig = getKeyConfig();
+        keyConfig.clr.css = css_editor.getSession().getValue();
+        config.keys[lastKey.join(",")] = keyConfig;
     });
 
     $('#reset_clr_css').click(function () {
@@ -267,6 +279,10 @@ $(document).ready(function () {
         css_editor.clearSelection();
     });
 
+
+    //
+
+    
     $('.num_input').numeric({
         allowMinus: false,
         allowThouSep: false,
@@ -305,7 +321,6 @@ function setKeyOptions() { //Update all the key gui elements
     css_editor.setValue(keyConfig.clr.css);
     css_editor.clearSelection();
     checkmarks();
-    colorKey(lastKey, 'release');  //Reset key color
 }
 
 function getDefaultKeyConfig() { //Sets the default key config
