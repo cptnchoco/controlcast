@@ -4,53 +4,60 @@ $(document).ready(function () {
     $('.options').mouseenter(function () { //Adds a border around the key to show which is being edited
         let key = getGuiKey(lastKey);
         $(key).addClass('editing'); //Show the last key
-        $('.center.c' + lastKey.join("-")).addClass('editing');
+        $('.center.c' + lastKey.join("-")).addClass('editing'); //Show center key border if center key
         $(this).mouseleave(function () {
-            $(key).removeClass('editing'); //Show the last key
-            $('.center').removeClass('editing');
+            $(key).removeClass('editing'); //Don't show the last key
+            $('.center').removeClass('editing'); //Remove border from all center keys
         });
     });
 
-    $('.expandable').click(function (e) {
-        if (e.target.className == 'clear_opt') return;
-        let content =  $(this).next();
+    $('.expandable').click(function (e) { //Click to expand/hide option groups
+        if (e.target.className == 'clear_opt') return; //Don't expand if the 'Clear' button is what was clicked
+        let content = $(this).next(); //Target the content div
         if (content.hasClass('expanded')) {
-            content.removeClass('expanded').slideUp(500);
+            content.removeClass('expanded').slideUp(500); //Hide if this was already expanded
         } else {
-            $('.expanded').removeClass('expanded').slideUp(500);
-            content.addClass('expanded').slideDown(500);
+            $('.expanded').removeClass('expanded').slideUp(500); //Hide all expanded divs
+            content.addClass('expanded').slideDown(500); //Expand the div we want
         }
     });
 
     $('.color_select div').click(function () {
-        let parent = $(this).parent();
-        let color = $(this).data('color');
-        let parentClass = parent.hasClass('active') ? 'active' : 'inactive';
-        parent.children().removeClass('selected');
-        parent.data('color', color);
-        $(this).addClass('selected');
-        if (color == 'OFF') {
+        let parent = $(this).parent(); //Target the wrapper div for all the colors
+        let color = $(this).data('color'); //Get the color we clicked on
+        let parentClass = parent.hasClass('active') ? 'active' : 'inactive'; //Determine which action group we are dealing with
+        parent.children().removeClass('selected'); //Remove the selected class from everything
+        parent.data('color', color); //Set out parent class' data-color to the color we clicked on
+        $(this).addClass('selected'); //Add the selected class to the color we clicked on
+        if (color == 'OFF') { //Handle the 'X' image in the OFF color div
             $('.color_select.' + parentClass + ' div img').addClass('selected');
         } else {
             $('.color_select.' + parentClass + ' div img').removeClass('selected');
         }
-        color = color.split("_");
+        color = color.split("_"); //Format the color name to be gui friendly
         for (let i = 0; i < color.length; i++) {
             color[i] = toTitleCase(color[i]);
         }
-        $('.color_select.' + parentClass + ' span').text(color.join(" "));
-        updateKeyEntry();
+        $('.color_select.' + parentClass + ' span').text(color.join(" ")); //Set the color name to our new gui friendly name
+        let keyConfig = getKeyConfig(); //Get the key config or defaults
+        let action = (parentClass == 'active') ? 'press' : 'release'; //Set action
+        keyConfig.color[action] = $('#' + parentClass + '_key_color').data('color'); //Update the changed color
+        config.keys[lastKey.join(",")] = keyConfig; //Save to config
+        colorKey(lastKey, 'release');
+        checkmarks();
     });
 
-    $('#volume_slider').slider({
+    $('#volume_slider').slider({ //Volume slider options
         min: 0,
         max: 100,
         range: "min",
         animate: true,
         slide: function (event, ui) {
-            if (tracks[lastKey.join(",")]) tracks[lastKey.join(",")].volume = ui.value / 100;
-            $('#vol_val').text(ui.value + "%");
-            updateKeyEntry();
+            if (tracks[lastKey.join(",")]) tracks[lastKey.join(",")].volume = ui.value / 100; //Reset track volume if track exists
+            $('#vol_val').text(ui.value + "%"); //Set volume label
+            let keyConfig = getKeyConfig(); //Get the key config or defaults
+            keyConfig.audio.volume =  $('#vol_val').text().replace("%", ""); //Save to volume to the key config
+            config.keys[lastKey.join(",")] = keyConfig; //Save to config
         }
     });
 
@@ -63,12 +70,6 @@ $(document).ready(function () {
         ipc.send('get_config'); //Get unchanged config from main app
     });
 
-    $('#clear_all').click(function () { //Reset key button was pressed
-        config.keys[lastKey.join(",")] = getDefaultKeyConfig(); //Save default key config to this key
-        colorKey(lastKey, 'release'); //Reset key color
-        setKeyOptions(); //Update all key settings to show default
-    });
-
     $('#kill_audio').click(function () { //Stop All Audio button was pressed
         for (let track in tracks) { //Loop through all tracks in the tracks object
             if (tracks.hasOwnProperty(track)) {
@@ -77,31 +78,38 @@ $(document).ready(function () {
         }
     });
 
-    $('.color .clear_opt').click(function () { //Clear hotkey button was pressed
-        $('#inactive_key_color div[data-color=OFF]').trigger('click');
-        $('#active_key_color div[data-color=OFF]').trigger('click');
-        updateKeyEntry(); //Update key settings
+
+    //Clear Buttons
+
+
+    $('#clear_all').click(function () { //Reset key button was pressed
+        config.keys[lastKey.join(",")] = getDefaultKeyConfig(); //Save default key config to this key
+        setKeyOptions(); //Update all key settings to show default
     });
 
-    $('.hotkey .clear_opt').click(function () { //Clear hotkey button was pressed
-        $('#hotkey_string').val(""); //Clear the hotkey
-        $('input[name="hotkey_type"][value=send]').prop('checked', true);
-        updateKeyEntry(); //Update key settings
+    $('.color .clear_opt').click(function () {
+        config.keys[lastKey.join(",")].color = getDefaultKeyConfig().color;
+        setKeyOptions(); //Update key settings
+    });
+
+    $('.hotkey .clear_opt').click(function () {
+        config.keys[lastKey.join(",")].hotkey = getDefaultKeyConfig().hotkey;
+        setKeyOptions(); //Update key settings
     });
 
     $('.audio .clear_opt').click(function () { //Clear hotkey button was pressed
-        $('#audio_path').val(""); //Clear the hotkey
-        $('#volume_slider').slider('value', 50);
-        $('#vol_val').text(50 + "%");
-        $('input[name="on_release"][value=continue]').prop('checked', true);
-        $('input[name="on_repress"][value=none]').prop('checked', true);
-        updateKeyEntry(); //Update key settings
+        config.keys[lastKey.join(",")].audio = getDefaultKeyConfig().audio;
+        setKeyOptions(); //Update key settings
     });
 
-    $('.clr_options .clear_opt').click(function () { //Clear hotkey button was pressed
-        $('#clr_path').val(""); //Clear the hotkey
-        updateKeyEntry(); //Update key settings
+    $('.clr_options .clear_opt').click(function () {
+        config.keys[lastKey.join(",")].clr = getDefaultKeyConfig().clr;
+        setKeyOptions(); //Update key settings
     });
+
+
+    //Hotkey Logic
+
 
     $('#hotkey_string').focus(function () { //Text box field to create hotkey was focused
         let combo = { //Create combo object to store what keys we want
@@ -134,7 +142,11 @@ $(document).ready(function () {
             if (combo.alt) display.push("ALT");
             if (combo.key) display.push(combo.key);
             $(this).val(display.join(" + ")); //Stringify the combo key options array and display it in the text field
-            updateKeyEntry(); //Update the key entry to save the hotkey
+            let keyConfig = getKeyConfig();
+            keyConfig.hotkey.string = $(this).val();
+            config.keys[lastKey.join(",")] = keyConfig; //Save to config
+            colorKey(lastKey, 'release');
+            checkmarks();
         }).alphanum({
             allow: '+',
             allowOtherCharSets: false
@@ -156,6 +168,10 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    //Path Input Fields
+
 
     $('#audio_path').blur(function () { //Audio path was changed
         if ($(this).val() == "") return; //Return if blank
@@ -225,8 +241,13 @@ $(document).ready(function () {
         })
     });
 
-    $('.opt').on('change input', function () { //A savable option was changed, update the key config
-        updateKeyEntry();
+    $('.opt').on('input change', function () { //A savable option was changed, update the key config
+        console.log("DBKynd");
+        let keyConfig = getKeyConfig();
+        set(keyConfig, $(this).data('config'), $(this).val());
+        config.keys[lastKey.join(",")] = keyConfig;
+        colorKey(lastKey, 'release');
+        checkmarks();
     });
 
     css_editor = ace.edit("clr_css");
@@ -237,14 +258,22 @@ $(document).ready(function () {
 
     $('.ace_content').blur(function () { //A savable option was changed, update the key config
         console.log('blur');
-        updateKeyEntry();
+        //updateKeyEntry();
+        //css: css_editor.getSession().getValue();
     });
 
-    $('#reset_clr_css').click(function() {
+    $('#reset_clr_css').click(function () {
         css_editor.setValue(getDefaultKeyConfig().clr.css);
         css_editor.clearSelection();
     });
 
+    $('.num_input').numeric({
+        allowMinus: false,
+        allowThouSep: false,
+        allowDecSep: true,
+        maxDecimalPlaces: 3,
+        maxPreDecimalPlaces: 3
+    });
 });
 
 function setKeyOptions() { //Update all the key gui elements
@@ -263,7 +292,7 @@ function setKeyOptions() { //Update all the key gui elements
     $('#hotkey_string').val(keyConfig.hotkey.string); //Set hotkey string
     $('input[name="hotkey_type"][value=' + keyConfig.hotkey.type + ']').prop('checked', true);
     $('#audio_path').val(keyConfig.audio.path);
-    $('#volume_slider').slider('value', keyConfig.audio.volume);
+    $('#volume_slider').slider('value', parseInt(keyConfig.audio.volume));
     $('#vol_val').text(keyConfig.audio.volume + "%");
     $('input[name="audio_type"][value=' + keyConfig.audio.type + ']').prop('checked', true);
     $('#clr_path').val(keyConfig.clr.path);
@@ -276,6 +305,7 @@ function setKeyOptions() { //Update all the key gui elements
     css_editor.setValue(keyConfig.clr.css);
     css_editor.clearSelection();
     checkmarks();
+    colorKey(lastKey, 'release');  //Reset key color
 }
 
 function getDefaultKeyConfig() { //Sets the default key config
@@ -292,20 +322,20 @@ function getDefaultKeyConfig() { //Sets the default key config
         audio: {
             path: "",
             type: "normal",
-            volume: 50
+            volume: "50"
         },
         clr: {
             path: "",
             animate: {
                 open: {
-                    delay: 0,
+                    delay: "0.0",
                     type: "fadeIn",
-                    duration: 2000
+                    duration: "2.0"
                 },
                 close: {
-                    delay: 5000,
+                    delay: "5.0",
                     type: "fadeOut",
-                    duration: 2000
+                    duration: "2.0"
                 }
             },
             css: "this {\n  width: 75%;\n}"
@@ -313,43 +343,8 @@ function getDefaultKeyConfig() { //Sets the default key config
     }
 }
 
-function updateKeyEntry() { //Take all the key config values from the gui and save them to the settings config
-    if (!config) return;
-    console.log('update');
-    config.keys[lastKey.join(",")] = {
-        description: $('#key_description').val(),
-        color: {
-            press: $('#active_key_color').data('color'),
-            release: $('#inactive_key_color').data('color')
-        },
-        hotkey: {
-            type: $('input[name="hotkey_type"]:checked').val(),
-            string: $('#hotkey_string').val()
-        },
-        audio: {
-            path: $('#audio_path').val(),
-            type: $('input[name="audio_type"]:checked').val(),
-            volume: parseInt($('#vol_val').text().replace("%", ""))
-        },
-        clr: {
-            path: $('#clr_path').val(),
-            animate: {
-                open: {
-                    delay: parseInt($('.open .delay').val()),
-                    type: $('#animate-open').val(),
-                    duration: parseInt($('.open .duration').val())
-                },
-                close: {
-                    delay: parseInt($('.close .delay').val()),
-                    type: $('#animate-close').val(),
-                    duration: parseInt($('.close .duration').val())
-                }
-            },
-            css: css_editor.getSession().getValue()
-        }
-    };
-    checkmarks();
-    colorKey(lastKey, 'release'); //Color the new key accordingly
+function getKeyConfig() { //Take all the key config values from the gui and save them to the settings config
+    return get(config, "keys." + lastKey.join(',')) || getDefaultKeyConfig(); //Get the key config or defaults
 }
 
 function removeUnusedKeys() { //This is to try and keep the config.json file as small as possible

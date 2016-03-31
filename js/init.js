@@ -94,6 +94,13 @@ function get(obj, key) { //Search and return a nested element in an object or nu
     }, obj);
 }
 
+function set(obj, str, val) {
+    str = str.split(".");
+    while (str.length > 1)
+        obj = obj[str.shift()];
+    return obj[str.shift()] = val;
+}
+
 function connectToLaunchpad() { //Attempt to connect to the Launchpad Mini
     let midiIn = new midi.input(); //Create new Midi input
     let midiOut = new midi.output(); //Create new Midi output

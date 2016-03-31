@@ -69,6 +69,12 @@ var titleMenu = Menu.buildFromTemplate([
                         click: () => {
                             ipc.send('change_port');
                         }
+                    },
+                    {
+                        label: 'Open Browser',
+                        click: () => {
+                            require('electron').shell.openExternal('http://localhost:' + config.app.clr.port);
+                        }
                     }
                 ]
 

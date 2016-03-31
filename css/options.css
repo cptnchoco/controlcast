@@ -329,7 +329,7 @@ input:checked + label {
 }
 
 input[type="text"].num_input {
-    width: 50px;
+    width: 52px;
 }
 
 #browse, #clr_browse {

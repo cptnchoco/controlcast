@@ -48,7 +48,7 @@
         </div>
         <div>
             <span class="title name">Name</span>
-            <input id="key_description" class="opt" type="text">
+            <input id="key_description" class="opt" data-config="description" type="text">
         </div>
         <div>
             <div class="save_buttons">
@@ -130,9 +130,9 @@
                     <span class="title">Type</span>
                     <div>
                         <div class="small">
-                            <input id="radio1" class="opt" type="radio" name="hotkey_type" value="send" checked><label
+                            <input id="radio1" class="opt wide" data-config="hotkey.type" type="radio" name="hotkey_type" value="send" checked><label
                                 for="radio1" class="wide">SEND KEYS</label>
-                            <input id="radio2" class="opt wide" type="radio" name="hotkey_type" value="hold"><label
+                            <input id="radio2" class="opt wide" data-config="hotkey.type" type="radio" name="hotkey_type" value="hold"><label
                                 for="radio2" class="wide">HOLD KEYS</label>
                         </div>
                     </div>
@@ -159,7 +159,7 @@
                         <div class="clear">
                             <div class="flex">
                                 <div>
-                                    <input id="audio_path" class="opt" type="text">
+                                    <input id="audio_path" class="opt" data-config="audio.path" type="text">
                                     <span class="clear subtext">(URL, UNC, or local file path)</span>
                                 </div>
                                 <div>
@@ -187,13 +187,13 @@
                     <span class="title">Type</span>
                     <div class="">
                         <div class="small">
-                            <input id="radio3" class="opt" type="radio" name="audio_type" value="normal"
+                            <input id="radio3" class="opt" data-config="audio.type" type="radio" name="audio_type" value="normal"
                                    checked><label for="radio3">NORMAL</label>
-                            <input id="radio4" class="opt" type="radio" name="audio_type" value="toggle">
+                            <input id="radio4" class="opt" data-config="audio.type" type="radio" name="audio_type" value="toggle">
                             <label for="radio4">TOGGLE</label>
-                            <input id="radio5" class="opt" type="radio" name="audio_type" value="restart">
+                            <input id="radio5" class="opt" data-config="audio.type" type="radio" name="audio_type" value="restart">
                             <label for="radio5">RESTART</label>
-                            <input id="radio6" class="opt" type="radio" name="audio_type" value="hold">
+                            <input id="radio6" class="opt" data-config="audio.type" type="radio" name="audio_type" value="hold">
                             <label for="radio6">HOLD</label>
                         </div>
                     </div>
@@ -217,7 +217,7 @@
                     <span class="title">Image</span>
                     <div>
                         <div>
-                            <input id="clr_path" class="opt" type="text">
+                            <input id="clr_path" class="opt" data-config="clr.path" type="text">
                         </div>
                         <div>
                             <button id="clr_browse">BROWSE</button>
@@ -228,13 +228,13 @@
                     <span class="title">Show</span>
                     <div>
                         <div>
-                            <input class="num_input delay opt" type="text">
+                            <input class="num_input delay opt" data-config="clr.animate.open.delay" type="text">
                             <span class="clear subtext">Delay</span>
                         </div>
                     </div>
                     <div class="middle">
                         <div>
-                            <select class="opt" id="animate-open">
+                            <select class="opt" data-config="clr.animate.open.type" id="animate-open">
                                 <optgroup label="Attention Seekers">
                                     <option value="bounce">bounce</option>
                                     <option value="flash">flash</option>
@@ -358,7 +358,7 @@
                     </div>
                     <div>
                         <div>
-                            <input class="num_input duration opt" type="text">
+                            <input class="num_input duration opt" data-config="clr.animate.open.duration" type="text">
                             <span class="clear subtext">Duration</span>
                         </div>
                     </div>
@@ -367,13 +367,13 @@
                     <span class="title">Hide</span>
                     <div>
                         <div>
-                            <input class="num_input delay opt" type="text">
+                            <input class="num_input delay opt" data-config="clr.animate.close.delay" type="text">
                             <span class="clear subtext">Delay</span>
                         </div>
                     </div>
                     <div class="middle">
                         <div>
-                            <select class="opt" id="animate-close">
+                            <select class="opt" data-config="clr.animate.close.type" id="animate-close">
                                 <optgroup label="Attention Seekers">
                                     <option value="bounce">bounce</option>
                                     <option value="flash">flash</option>
@@ -497,7 +497,7 @@
                     </div>
                     <div>
                         <div>
-                            <input class="num_input duration opt" type="text">
+                            <input class="num_input duration opt" data-config="clr.animate.close.duration" type="text">
                             <span class="clear subtext">Duration</span>
                         </div>
                     </div>
