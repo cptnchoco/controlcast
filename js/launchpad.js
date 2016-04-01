@@ -257,7 +257,5 @@ function sendCLR(key, action) {
     if (action == "release") return;
     let clr = get(config, "keys." + key.join(",") + ".clr");
     if (!clr || !clr.path) return;
-    let ext = path.parse(clr.path).ext.toLowerCase();
-    let image = "images/" + lastKey.join("-") + ext;
-    clrIO.emit('key_press', {image: image, options: clr});
+    clrIO.emit('key_press', {key: key.join(","), options: clr});
 }

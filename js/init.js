@@ -33,7 +33,8 @@ var config, //Holds all the app and key settings
     keyboard = [],
     hotkeyDelay = 100,
     clrRunning = false,
-    css_editor;
+    css_editor,
+    images = {};
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
@@ -174,7 +175,7 @@ function loadTracks() { //Load track data to array
     for (let key in config.keys) { //Loop through keys
         if (config.keys.hasOwnProperty(key)) {
             let audio = config.keys[key].audio; //Get key audio settings
-            if (!audio.path) continue; //Return if no audio is set
+            if (!audio || !audio.path) continue; //Return if no audio is set
             let localPath = "file:///" + audio.path.replace(/\\/g, "/").replace(/ /g, "%20"); //Convert to local format
             if (!tracks[key] || (tracks[key].src != audio.path && tracks[key].src != localPath)) {
                 tracks[key] = new Audio(audio.path);

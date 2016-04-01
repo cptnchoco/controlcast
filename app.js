@@ -17,7 +17,7 @@ const electron = require('electron'),
 
 var target = path.basename(process.execPath);
 function run(args, done) {
-    var updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
+    let updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
     console.log('Spawning `%s` with args `%s`', updateExe, args);
     spawn(updateExe, args, {
         detached: true

@@ -213,7 +213,7 @@ $(document).ready(function () {
             centerNOTY('notify', "Only able to show [ .png | .jpg ] files.", 4000);
             return;
         }
-        let filePath = path.join(__dirname, "clr/assets/images/" + lastKey.join("-")) + ext;
+        let filePath = path.join(__dirname, "clr/assets/images/" + lastKey.join(",")) + ext;
         let isUrl = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/.test($(this).val()); //Determine if path is a valid url
         if (isUrl) {
             request.get({url: $(this).val(), encoding: null}, (err, res, buffer) => { //Try to access the web file and warn if unable
@@ -225,6 +225,8 @@ $(document).ready(function () {
                         if (err) {
                             centerNOTY('warning', "Error saving file for CLR.", 3000);
                             console.log(JSON.stringify(err));
+                        } else {
+                            sendImageChange(filePath, ext);
                         }
                     });
                 }
@@ -241,6 +243,8 @@ $(document).ready(function () {
                                 if (err) {
                                     centerNOTY('warning', "Error saving file for CLR.", 3000);
                                     console.log(JSON.stringify(err));
+                                } else {
+                                    sendImageChange(filePath, ext);
                                 }
                             });
                         } else {
@@ -377,12 +381,12 @@ function getDefaultKeyConfig() { //Sets the default key config
                 open: {
                     delay: "0.0",
                     type: "fadeIn",
-                    duration: "2.0"
+                    duration: "1.0"
                 },
                 close: {
-                    delay: "5.0",
+                    delay: "2.0",
                     type: "fadeOut",
-                    duration: "2.0"
+                    duration: "1.0"
                 }
             },
             css: "this {\n  width: 75%;\n}"
@@ -440,4 +444,16 @@ function checkmarks() {
     } else {
         $('.clr_options .check_mark').hide();
     }
+}
+
+function sendImageChange(filePath, ext) {
+    fs.stat(path.join(filePath), (err, stats) => {
+        if (!err) {
+            let m = Date.parse(stats.mtime.toString()) / 1000;
+            let k = lastKey.join(",");
+            clrIO.emit('image_change', {key: k, src: "images/" + k + ext + "?m=" + m});
+        } else {
+            console.log(JSON.stringify(err));
+        }
+    });
 }

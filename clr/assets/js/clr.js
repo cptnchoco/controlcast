@@ -1,4 +1,5 @@
 var io = io(document.location.href.replace("http", "ws"));
+var images = {};
 
 $(document).ready(function () {
     $.fn.extend({
@@ -13,11 +14,41 @@ $(document).ready(function () {
     $('body').show();
 });
 
+function get(obj, key) { //Search and return a nested element in an object or null
+    return key.split(".").reduce(function (o, x) {
+        return (typeof o == "undefined" || o === null) ? o : o[x];
+    }, obj);
+}
+
 io.on('connected', function () {
     console.log('connection ok');
 });
 
+io.on('images', function (data) {
+    console.log('images');
+    images = data;
+    for (var image in images) {
+        if (images.hasOwnProperty(image)) {
+            images[image].image = new Image();
+            images[image].image.src = images[image].src;
+        }
+    }
+    console.log(images);
+});
+
+io.on('image_change', function (data) {
+    console.log('change');
+    images[data.key] = {
+        image: new Image(),
+        src: data.src
+    };
+    images[data.key].image.src = data.src;
+
+    console.log(images);
+});
+
 io.on('key_press', function (data) {
+    if (!images[data.key] || !images[data.key].src) return;
     var animate = {
         open: {
             delay: parseFloat(data.options.animate.open.delay || 0.0) * 1000 + "ms",
@@ -32,22 +63,21 @@ io.on('key_press', function (data) {
 
         }
     };
-    var css = (data.options.css || 'this {\n  width: 75%;\n}').replace(/\n/g, "").replace(/\s/g, "");
-    var css_this_index = css.toLowerCase().indexOf('this_key');
-    console.log(css_this_index);
+    var css = (data.options.css || "").replace(/\n/g, "").replace(/\s/g, "");
 
-    console.log(data.image);
-    console.log(animate);
     console.log(css);
+
     var newDiv = document.createElement('div');
     var imageDiv = document.createElement('div');
+
     $(newDiv).append(imageDiv);
     $('body').append(newDiv);
+
     $(imageDiv).css({
         '-webkit-animation-duration': animate.open.duration,
         '-webkit-animation-delay': animate.open.delay
     });
-    $(imageDiv).html("<img src='" + data.image + "'>").animateCss(animate.open.type, function () {
+    $(imageDiv).html("<img src='" + images[data.key].src + "'>").animateCss(animate.open.type, function () {
         $(imageDiv).css({
             '-webkit-animation-duration': animate.close.duration,
             '-webkit-animation-delay': animate.close.delay
