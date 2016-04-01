@@ -14,18 +14,11 @@ $(document).ready(function () {
     $('body').show();
 });
 
-function get(obj, key) { //Search and return a nested element in an object or null
-    return key.split(".").reduce(function (o, x) {
-        return (typeof o == "undefined" || o === null) ? o : o[x];
-    }, obj);
-}
-
 io.on('connected', function () {
     console.log('connection ok');
 });
 
 io.on('images', function (data) {
-    console.log('images');
     images = data;
     for (var image in images) {
         if (images.hasOwnProperty(image)) {
@@ -33,18 +26,14 @@ io.on('images', function (data) {
             images[image].image.src = images[image].src;
         }
     }
-    console.log(images);
 });
 
 io.on('image_change', function (data) {
-    console.log('change');
     images[data.key] = {
         image: new Image(),
         src: data.src
     };
     images[data.key].image.src = data.src;
-
-    console.log(images);
 });
 
 io.on('key_press', function (data) {
