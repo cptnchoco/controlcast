@@ -353,18 +353,20 @@ function checkConfigVer() {
                         }
                         delete config.keys[key].audio.on_release;
                         delete config.keys[key].audio.on_repress;
+                        config.keys[key].audio.volume = config.keys[key].audio.volume.toString();
                         config.keys[key].clr = {
                             path: "",
+                            pos: "",
                             animate: {
                                 open: {
-                                    delay: 0,
+                                    delay: "0.0",
                                     type: "fadeIn",
-                                    duration: 2000
+                                    duration: "1.0"
                                 },
                                 close: {
-                                    delay: 5000,
+                                    delay: "2.0",
                                     type: "fadeOut",
-                                    duration: 2000
+                                    duration: "1.0"
                                 }
                             },
                             css: ""

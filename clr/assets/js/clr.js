@@ -52,27 +52,30 @@ io.on('key_press', function (data) {
 
         }
     };
-    var css = (data.options.css || "").replace(/\n/g, "").replace(/\s/g, "");
+    var css = (data.options.css || "").replace(/\n/g, "");
 
     console.log(css);
 
-    var newDiv = document.createElement('div');
+    var layerDiv = document.createElement('div');
+    var positionDiv = document.createElement('div');
     var imageDiv = document.createElement('div');
 
-    $(newDiv).append(imageDiv);
-    $('body').append(newDiv);
+    $(positionDiv).append(imageDiv);
+    $(layerDiv).append(positionDiv).addClass('layer ' + data.key);
+    $('body').append(layerDiv);
 
     $(imageDiv).css({
         '-webkit-animation-duration': animate.open.duration,
         '-webkit-animation-delay': animate.open.delay
-    });
+    }).addClass(data.options.pos);
+
     $(imageDiv).html("<img src='" + images[data.key].src + "'>").animateCss(animate.open.type, function () {
         $(imageDiv).css({
             '-webkit-animation-duration': animate.close.duration,
             '-webkit-animation-delay': animate.close.delay
         });
         $(imageDiv).animateCss(animate.close.type, function () {
-            $(newDiv).remove();
+            //$(layerDiv).remove();
         });
     });
 });

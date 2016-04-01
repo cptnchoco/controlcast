@@ -75,7 +75,7 @@
     background: #25272a;
     padding: 4px 4px 4px 10px;
     cursor: pointer;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .check_mark {
@@ -304,10 +304,6 @@ input:checked + label, .below_launchpad button {
     display: none;
 }
 
-.content > div {
-    margin-bottom: 15px;
-}
-
 #clr_css_wrapper {
     width: 284px;
     height: 110px;
@@ -353,4 +349,8 @@ input[type="text"].num_input {
 
 input, select {
     text-indent: 3px;
+}
+
+#clr_pos {
+    width: 110px;
 }

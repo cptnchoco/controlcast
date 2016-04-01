@@ -127,9 +127,11 @@
                     <span class="title">Type</span>
                     <div>
                         <div class="small">
-                            <input id="radio1" class="opt wide" data-config="hotkey.type" type="radio" name="hotkey_type" value="send" checked><label
+                            <input id="radio1" class="opt wide" data-config="hotkey.type" type="radio"
+                                   name="hotkey_type" value="send" checked><label
                                 for="radio1" class="wide">SEND KEYS</label>
-                            <input id="radio2" class="opt wide" data-config="hotkey.type" type="radio" name="hotkey_type" value="hold"><label
+                            <input id="radio2" class="opt wide" data-config="hotkey.type" type="radio"
+                                   name="hotkey_type" value="hold"><label
                                 for="radio2" class="wide">HOLD KEYS</label>
                         </div>
                     </div>
@@ -184,13 +186,17 @@
                     <span class="title">Type</span>
                     <div class="">
                         <div class="small">
-                            <input id="radio3" class="opt" data-config="audio.type" type="radio" name="audio_type" value="normal"
+                            <input id="radio3" class="opt" data-config="audio.type" type="radio" name="audio_type"
+                                   value="normal"
                                    checked><label for="radio3">NORMAL</label>
-                            <input id="radio4" class="opt" data-config="audio.type" type="radio" name="audio_type" value="toggle">
+                            <input id="radio4" class="opt" data-config="audio.type" type="radio" name="audio_type"
+                                   value="toggle">
                             <label for="radio4">TOGGLE</label>
-                            <input id="radio5" class="opt" data-config="audio.type" type="radio" name="audio_type" value="restart">
+                            <input id="radio5" class="opt" data-config="audio.type" type="radio" name="audio_type"
+                                   value="restart">
                             <label for="radio5">RESTART</label>
-                            <input id="radio6" class="opt" data-config="audio.type" type="radio" name="audio_type" value="hold">
+                            <input id="radio6" class="opt" data-config="audio.type" type="radio" name="audio_type"
+                                   value="hold">
                             <label for="radio6">HOLD</label>
                         </div>
                     </div>
@@ -218,6 +224,30 @@
                         </div>
                         <div>
                             <button id="clr_browse">BROWSE</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="title">Position</span>
+                    <div>
+                        <div>
+                            <select class="opt" data-config="clr.pos" id="clr_pos">
+                                <optgroup label="Top">
+                                    <option value="top left">topLeft</option>
+                                    <option value="top">topCenter</option>
+                                    <option value="top right">topRight</option>
+                                </optgroup>
+                                <optgroup label="Middle">
+                                    <option value="left">middleLeft</option>
+                                    <option value="">middleCenter</option>
+                                    <option value="right" selected>middleRight</option>
+                                </optgroup>
+                                <optgroup label="Bottom">
+                                    <option value="bottom left">bottomLeft</option>
+                                    <option value="bottom">bottomCenter</option>
+                                    <option value="bottom right">bottomRight</option>
+                                </optgroup>
+                            </select>
                         </div>
                     </div>
                 </div>

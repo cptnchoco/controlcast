@@ -348,6 +348,7 @@ function setKeyOptions() { //Update all the key gui elements
     $('#vol_val').text(keyConfig.audio.volume + "%");
     $('input[name="audio_type"][value=' + keyConfig.audio.type + ']').prop('checked', true);
     $('#clr_path').val(keyConfig.clr.path);
+    $('#clr_pos').val(keyConfig.clr.pos);
     $('#animate-open').val(keyConfig.clr.animate.open.type);
     $('#animate-close').val(keyConfig.clr.animate.close.type);
     $('.open .delay').val(keyConfig.clr.animate.open.delay);
@@ -377,6 +378,7 @@ function getDefaultKeyConfig() { //Sets the default key config
         },
         clr: {
             path: "",
+            pos: "",
             animate: {
                 open: {
                     delay: "0.0",
