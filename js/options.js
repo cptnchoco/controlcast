@@ -209,8 +209,8 @@ $(document).ready(function () {
         if ($(this).val() == "") return; //Return if blank
         let clrPath = path.parse($(this).val()); //Parse path
         let ext = clrPath.ext.toLowerCase(); //Get file extension
-        if (ext != '.png' && ext != '.jpg') { //Must be these formats
-            centerNOTY('notify', "Only able to show [ .png | .jpg ] files.", 4000);
+        if (ext != '.png' && ext != '.jpg' && ext != '.gif') { //Must be these formats
+            centerNOTY('notify', "Only able to show [ .png | .jpg | .gif ] files.", 4000);
             return;
         }
         let filePath = path.join(__dirname, "clr/assets/images/" + lastKey.join(",")) + ext;
@@ -272,7 +272,7 @@ $(document).ready(function () {
         dialog.showOpenDialog({ //Open dialog to choose a file
             title: "Choose Image File",
             filters: [
-                {name: 'Image', extensions: ['png', 'jpg']} //Restrict allowed files to these formats
+                {name: 'Image', extensions: ['png', 'jpg', 'gif']} //Restrict allowed files to these formats
             ],
             properties: ["openFile"] //Only allow 1 file to be chosen
         }, (file) => {
