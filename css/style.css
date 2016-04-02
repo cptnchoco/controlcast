@@ -9,6 +9,8 @@ body {
     background: #0B0B0C;
     padding: 20px;
     margin: 0;
+    display: none;
+    overflow: hidden;
 }
 
 input {
@@ -18,10 +20,6 @@ input {
 body > div {
     margin: 0 auto;
     position: relative;
-}
-
-body > div > div {
-    background: #161718;
 }
 
 header {

@@ -1,5 +1,4 @@
 'use strict';
-
 const electron = require('electron'),
     app = electron.app,
     BrowserWindow = electron.BrowserWindow,
@@ -18,7 +17,7 @@ const electron = require('electron'),
 
 var target = path.basename(process.execPath);
 function run(args, done) {
-    var updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
+    let updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe');
     console.log('Spawning `%s` with args `%s`', updateExe, args);
     spawn(updateExe, args, {
         detached: true
@@ -74,6 +73,7 @@ if (shouldQuit) { //Application is already running
 
 var mainWindow, //Main application window
     errorWindow, //Config load error window
+    portWindow, //Config load error window
     config, //Main settings object
     forceQuit; //Bool to force quit app from tray
 
@@ -100,6 +100,7 @@ app.on('ready', () => { // Application has finished loading
                     createErrorWindow(); //Load Error Window
                 } else { //Config loaded OK
                     config = data; //Store loaded data
+                    checkConfigVer(); //Update config version if needed
                     createMainWindow(); //Show Main Window
                 }
             });
@@ -110,12 +111,17 @@ app.on('ready', () => { // Application has finished loading
 function getDefaultConfig() { //Returns the default config object
     return {
         app: {
+            version: 2,
             pos: {
                 x: null,
                 y: null
             },
             close_to_tray: false,
-            auto_start: false
+            auto_start: false,
+            clr: {
+                enabled: false,
+                port: 3000
+            }
         },
         keys: {}
     }
@@ -130,7 +136,7 @@ function createMainWindow() { //Loads main application window
         x: config.app.pos.x,
         y: config.app.pos.y,
         width: 900,
-        height: 765,
+        height: 760,
         resizable: false,
         icon: path.join(__dirname, 'images/icon.ico'),
         title: "ControlCast - " + global.app_version
@@ -145,7 +151,7 @@ function createMainWindow() { //Loads main application window
             mainWindow.setSkipTaskbar(true); //Hide Taskbar Icon
             mainWindow.minimize(); //Minimize main window
             e.preventDefault(); //Cancel close process
-            return; //TODO: Check if settings have been altered and confirm close if so
+            return;
         }
         sendMessageToMain('all_dark'); //Tell the launchpad to turn off all lights before we close
         let pos = mainWindow.getPosition(); //Save last position of the window for next time the app is run
@@ -176,7 +182,6 @@ function createErrorWindow() { //Error window to tell us if there was an error l
 
     errorWindow.setMenu(null); //Disable the default menu
     errorWindow.loadURL('file://' + path.join(__dirname, '/error.html')); //Display the error window html
-    errorWindow.webContents.openDevTools(); //TODO: remove
 
     errorWindow.on('closed', () => { //Destroy window object on close
         errorWindow = null;
@@ -200,6 +205,29 @@ function createErrorWindow() { //Error window to tell us if there was an error l
                 app.quit(); // Exit the app gracefully
             }
         });
+    });
+}
+
+function createPortWindow() { //Error window to tell us if there was an error loading the config.json file on load
+    let pos = mainWindow.getPosition(); //Get main window position
+    let size = mainWindow.getSize(); //Get main window size
+    let x = Math.floor(((size[0] - 320) / 2) + pos[0]); //Determine x pos to center port window
+    let y = Math.floor((size[1] - 180) / 2 + pos[1]); //Determine y pos to center port window
+
+    portWindow = new BrowserWindow({
+        x: x,
+        y: y,
+        width: 320,
+        height: 180,
+        resizable: false,
+        icon: path.join(__dirname, 'images/icon.ico')
+    });
+
+    portWindow.setMenu(null); //Disable the default menu
+    portWindow.loadURL('file://' + path.join(__dirname, '/port.html')); //Display the port window html
+
+    portWindow.on('closed', () => { //Destroy window object on close
+        portWindow = null;
     });
 }
 
@@ -258,12 +286,14 @@ ipc.on('toggle_minimize', () => { //From tray icon
 });
 
 ipc.on('windows_auto_start', (e, data) => {
-    config.app.auto_start = data; //Set close to tray option only
+    config.app.auto_start = data; //Set single option
     saveConfig();
     if (data) {
-        run(['--createShortcut=' + target, '--shortcut-locations=Startup'], () => {});
+        run(['--createShortcut=' + target, '--shortcut-locations=Startup'], () => {
+        });
     } else {
-        run(['--removeShortcut=' + target, '--shortcut-locations=Startup'], () => {});
+        run(['--removeShortcut=' + target, '--shortcut-locations=Startup'], () => {
+        });
     }
 });
 
@@ -271,3 +301,80 @@ ipc.on('quit_and_install', () => {
     forceQuit = true;
     autoUpdater.quitAndInstall();
 });
+
+ipc.on('clr_enabled', (e, data) => {
+    config.app.clr.enabled = data; //Set single option
+    saveConfig();
+});
+
+ipc.on('change_port', () => {
+    createPortWindow();
+});
+
+ipc.on('get_port', (e) => {
+    e.sender.send('port', config.app.clr.port || 3000);
+});
+
+ipc.on('port_quit', () => {
+    portWindow.close();
+});
+
+ipc.on('set_port', (e, data) => {
+    portWindow.close();
+    sendMessageToMain('update_port', data);
+    config.app.clr.port = data; //Set single option
+    saveConfig();
+});
+
+function checkConfigVer() {
+    let latest_ver = getDefaultConfig().app.version;
+    while (latest_ver != config.app.version) {
+        switch (config.app.version) {
+            case undefined:
+            case null:
+            case 1:
+                config.app.clr = {
+                    enabled: false,
+                    port: 3000
+                };
+                for (let key in config.keys) {
+                    if (config.keys.hasOwnProperty(key)) {
+                        if (config.keys[key].audio.on_release == 'stop') {
+                            config.keys[key].audio.type = 'hold';
+                        } else {
+                            if (config.keys[key].audio.on_repress == 'none') {
+                                config.keys[key].audio.type = 'normal';
+                            } else if (config.keys[key].audio.on_repress == 'restart') {
+                                config.keys[key].audio.type = 'restart';
+                            } else if (config.keys[key].audio.on_repress == 'stop') {
+                                config.keys[key].audio.type = 'toggle';
+                            }
+                        }
+                        delete config.keys[key].audio.on_release;
+                        delete config.keys[key].audio.on_repress;
+                        config.keys[key].audio.volume = config.keys[key].audio.volume.toString();
+                        config.keys[key].clr = {
+                            path: "",
+                            pos: "",
+                            animate: {
+                                open: {
+                                    delay: "0.0",
+                                    type: "fadeIn",
+                                    duration: "1.0"
+                                },
+                                close: {
+                                    delay: "2.0",
+                                    type: "fadeOut",
+                                    duration: "1.0"
+                                }
+                            },
+                            css: ".img {\n  width: 50%;\n}"
+                        };
+                    }
+                }
+                config.app.version = 2;
+                break;
+        }
+    }
+    saveConfig();
+}

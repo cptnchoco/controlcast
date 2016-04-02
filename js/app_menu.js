@@ -1,5 +1,4 @@
 'use strict';
-
 var titleMenu = Menu.buildFromTemplate([
     {
         label: 'View',
@@ -45,6 +44,43 @@ var titleMenu = Menu.buildFromTemplate([
                 click: (e)=> {
                     ipc.send('windows_auto_start', e.checked);
                 }
+            },
+            {
+                label: 'CLR Browser',
+                submenu: [
+                    {
+                        label: 'Enabled',
+                        type: 'checkbox',
+                        click: (e)=> {
+                            ipc.send('clr_enabled', e.checked);
+                            config.app.clr.enabled = e.checked;
+                            if (e.checked) {
+                                $('.clr_options').show();
+                                $('#flush_clr').show();
+                                startCLR();
+                                clrNoty();
+                            } else {
+                                $('.clr_options').hide();
+                                $('#flush_clr').hide();
+                                stopCLR();
+                            }
+                            setAllLights();
+                        }
+                    },
+                    {
+                        label: 'Change Port',
+                        click: () => {
+                            ipc.send('change_port');
+                        }
+                    },
+                    {
+                        label: 'Open Browser',
+                        click: () => {
+                            require('electron').shell.openExternal('http://localhost:' + config.app.clr.port);
+                        }
+                    }
+                ]
+
             }
         ]
     },
@@ -84,3 +120,50 @@ var titleMenu = Menu.buildFromTemplate([
 ]);
 
 Menu.setApplicationMenu(titleMenu); //Set title menu
+
+ipc.on('update_port', (e, data) => {
+    console.log(data);
+    config.app.clr.port = data;
+    stopCLR(() => {
+        startCLR();
+        clrNoty();
+    });
+});
+
+function clrNoty() {
+    $('.blanket').fadeIn(200); //Darken the body
+    let address = "http://localhost:" + (config.app.clr.port || 3000);
+    let n = noty({
+        text: "<b>" + address + "</b>",
+        animation: {
+            open: 'animated flipInX', // Animate.css class names
+            close: 'animated flipOutX' // Animate.css class names
+        },
+        layout: 'center',
+        type: 'alert',
+        timeout: false,
+        closeWith: ['click', 'button'],
+        callback: {
+            onClose: function () {
+                $('.blanket').fadeOut(1000); //Restore body
+            }
+        },
+        buttons: [
+            {
+                addClass: 'btn btn-primary',
+                text: 'Copy to Clipboard',
+                onClick: function ($noty) {
+                    $noty.close();
+                    clipboard.writeText(address);
+                }
+            },
+            {
+                addClass: 'btn',
+                text: 'Close',
+                onClick: function ($noty) {
+                    $noty.close();
+                }
+            }
+        ]
+    });
+}

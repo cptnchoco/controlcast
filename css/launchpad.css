@@ -2,7 +2,6 @@
     position: relative;
     width: 400px;
     height: 400px;
-    float: left;
     background: url('../images/launchpad.png') no-repeat top left;
 }
 
@@ -66,11 +65,23 @@
 }
 
 .key.round div {
-    top: 1px;
+    top: 3px;
 }
 
 .key.round div img {
     height: 10px;
+}
+
+.key div.shift_up {
+    top: 0;
+}
+
+.key.round div.shift_up {
+    padding: 2px
+}
+
+.key.round div.shift_up img {
+    height: 8px;
 }
 
 .key.OFF {
@@ -173,4 +184,9 @@
 
 .center.pressed {
     background: #54f5ff;
+}
+
+.below_launchpad {
+    position: absolute;
+    bottom: 20px;
 }

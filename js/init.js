@@ -1,11 +1,11 @@
 'use strict';
-
 const remote = require('electron').remote,
     Menu = remote.Menu,
     MenuItem = remote.MenuItem,
     dialog = remote.dialog,
     Tray = remote.Tray,
     autoUpdater = remote.autoUpdater,
+    clipboard = require('electron').clipboard,
     path = require('path'),
     ipc = require('electron').ipcRenderer,
     midi = require('midi'),
@@ -19,7 +19,7 @@ const remote = require('electron').remote,
     fs = require('fs'),
     request = require('request');
 
-window.$ = window.jQuery =  require('jquery');
+window.$ = window.jQuery = require('jquery');
 require('./js/jquery/jquery-ui.min.js');
 require('./js/jquery/alphanum.min.js');
 
@@ -31,7 +31,10 @@ var config, //Holds all the app and key settings
     tracks = {}, //Holds all the audio tracks in memory to be played
     notyUpdates,
     keyboard = [],
-    hotkeyDelay = 100;
+    hotkeyDelay = 100,
+    clrRunning = false,
+    css_editor,
+    images = {};
 
 kbm.startJar(); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
@@ -45,10 +48,18 @@ ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the cur
     if (titleMenu) {
         titleMenu.items[1].submenu.items[0].checked = config.app.close_to_tray;
         titleMenu.items[1].submenu.items[1].checked = config.app.auto_start;
+        titleMenu.items[1].submenu.items[2].submenu.items[0].checked = config.app.clr.enabled;
     } //Set title menu checkbox
+    if (config.app.clr.enabled && !clrRunning) {
+        $('.clr_options').show();
+        startCLR();
+    } else {
+        $('#flush_clr').hide();
+    }
 });
 
 $(document).ready(function () { //On DOM ready
+    $('body').fadeIn(200);
     isMidiConnected(); //Set midi_connected on load
 
     for (let c = 0; c < 8; c++) { //Creates the top row key divs
@@ -84,6 +95,13 @@ function get(obj, key) { //Search and return a nested element in an object or nu
     return key.split(".").reduce(function (o, x) {
         return (typeof o == "undefined" || o === null) ? o : o[x];
     }, obj);
+}
+
+function set(obj, str, val) {
+    str = str.split(".");
+    while (str.length > 1)
+        obj = obj[str.shift()];
+    return obj[str.shift()] = val;
 }
 
 function connectToLaunchpad() { //Attempt to connect to the Launchpad Mini
@@ -159,7 +177,7 @@ function loadTracks() { //Load track data to array
     for (let key in config.keys) { //Loop through keys
         if (config.keys.hasOwnProperty(key)) {
             let audio = config.keys[key].audio; //Get key audio settings
-            if (!audio.path) continue; //Return if no audio is set
+            if (!audio || !audio.path) continue; //Return if no audio is set
             let localPath = "file:///" + audio.path.replace(/\\/g, "/").replace(/ /g, "%20"); //Convert to local format
             if (!tracks[key] || (tracks[key].src != audio.path && tracks[key].src != localPath)) {
                 tracks[key] = new Audio(audio.path);
@@ -175,7 +193,7 @@ setInterval(() => {
 }, 1000 * 60 * 15);
 
 function checkForUpdates() {
-        autoUpdater.checkForUpdates();
+    autoUpdater.checkForUpdates();
 }
 
 autoUpdater.on('error', (err) => {

@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="css/open_sans.css">
     <style>
         body {
-            font: 14px/140% "Open Sans", sans-serif;
+            font: 12px/140% "Open Sans", sans-serif;
             margin: 10px;
             background: #CCC;
             text-align: center;
@@ -14,14 +14,19 @@
         }
 
         p {
-            margin: 5px 0 12px 0;
+            margin: 5px 0 10px 0;
         }
 
         button {
             margin: 5px;
-            width: 120px;
-            height: 30px;
-            font-size: 20px;
+            width: 80px;
+            height: 28px;
+            font-size: 16px;
+        }
+
+        input {
+            font-size: 18px;
+            width: 80px;
         }
     </style>
     <script>
@@ -29,23 +34,37 @@
         const ipc = require('electron').ipcRenderer;
 
         window.$ = window.jQuery = require('jquery');
+        require('./js/jquery/alphanum.min.js');
 
         $(document).ready(function () {
+            ipc.send('get_port');
 
             $('.ok').click(function () {
-                ipc.send('reset_config');
+                ipc.send('set_port', parseInt($('.port').val()));
             });
 
             $('.cancel').click(function () {
-                ipc.send('app_quit');
+                ipc.send('port_quit');
             });
+
+            $('.port').numeric({
+                allowMinus: false,
+                allowThouSep: false,
+                allowDecSep: false,
+                min: 1,
+                max: 65535
+            });
+
+        });
+
+        ipc.on('port', function (e, data) {
+            $('.port').val(data);
         });
     </script>
 </head>
 <body>
-<h2>ControlCast Startup Error</h2>
-<p>There was an error loading the config.json settings file.</p>
-<p>Press OK to backup the current file and generate a new one, or press Cancel to exit.</p>
+<h2>CLR Port Number</h2>
+<p><input class="port" title="port" type="text"></p>
 <button class="cancel">Cancel</button>
 <button class="ok">OK</button>
 </body>

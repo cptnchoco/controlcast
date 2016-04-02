@@ -3,34 +3,43 @@
     width: 400px;
     top: 0;
     right: 0;
-    padding: 15px;
+    padding: 10px 10px 0 10px;
+    background: #18191A;
 }
 
-.edit_key_header {
-    font-size: 120%;
+.header {
     font-weight: bold;
+    font-size: 14px;
+}
+
+.header.main {
+    font-size: 16px;
 }
 
 .key_pos_label {
-    margin-left: 10px;
+    margin-left: 6px;
+}
+
+.options button, .below_launchpad button {
+    font-size: 80%;
+    background: #2B2D30;
+    border: none;
+    color: #5b5f62;
+    width: 95px;
+    height: 24px;
+    border-radius: 2px;
+    outline: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.options button:active, .below_launchpad button:active {
+    position: relative;
+    top: 1px;
 }
 
 .options > div {
     position: relative;
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-.options > div:first-child {
-    margin-bottom: 25px;
-}
-
-#key_description {
-    margin-bottom: 15px;
-}
-
-.options > div:last-child {
-    margin: 25px 0 0 0;
 }
 
 .abs-right {
@@ -39,13 +48,78 @@
 }
 
 .title {
-    width: 75px;
+    width: 80px;
     float: left;
     display: block;
 }
 
-.options > div > div {
-    display: flex;
+.options input[type="text"] {
+    background: #18191A;
+    border: 1px solid #555;
+    border-radius: 2px;
+    height: 20px;
+    width: 200px;
+    text-indent: 3px;
+}
+
+.save_buttons {
+    height: 30px;
+    margin: 10px;
+}
+
+#save_settings {
+    background: #24B24B;
+    color: #DDD;
+}
+
+.expandable {
+    background: #25272a;
+    padding: 4px 4px 4px 10px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.check_mark {
+    margin-left: 1px;
+    display: none;
+}
+
+.check_mark img {
+    position: absolute;
+    height: 20px;
+    top: 4px;
+}
+
+.clear_opt {
+    color: #5b5f62;
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    font-size: 10px;
+    padding: 0 7px;
+    font-style: italic;
+    border: 1px solid #484848;
+    border-radius: 2px;
+}
+
+.clear_opt:active {
+    top: 4px;
+}
+
+.options > div:first-child {
+    margin-bottom: 25px;
+}
+
+#key_description {
+    margin-bottom: 5px;
+    font-size: 16px;
+    height: 25px;
+    width: 250px;
+}
+
+.content {
+    border: 1px solid transparent;
+    display: none;
 }
 
 .color_select div {
@@ -101,6 +175,32 @@
     top: -4px;
 }
 
+.color_select .OFF img {
+    height: 15px;
+    position: relative;
+    top: 1px;
+}
+
+.color_select .OFF img.selected {
+    height: 23px;
+    position: relative;
+    top: 2px;
+    left: 1px;
+}
+
+.content > div {
+    display: flex;
+    margin: 10px;
+}
+
+.content > div > div {
+    display: flex;
+}
+
+.content > div:last-child {
+    margin-bottom: 20px;
+}
+
 .clear {
     clear: both;
     display: block;
@@ -113,40 +213,59 @@
     top: 2px;
 }
 
+input[type="radio"] {
+    display: none;
+}
+
+label {
+    display: inline-block;
+    text-align: center;
+    background: #18191A;
+    color: #555;
+    font-weight: bold;
+    border: 1px solid #555;
+    border-radius: 2px;
+    width: 65px;
+    height: 20px;
+    padding-top: 2px;
+    cursor: pointer;
+    margin-right: 3px;
+}
+
+label.wide {
+    width: 80px;
+}
+
+input:checked + label, .below_launchpad button {
+    background: #EC5d0F;
+    color: #DDD;
+}
+
 .align-right {
     width: 95%;
     text-align: right;
-}
-
-.flex {
-    display: flex;
-}
-
-.audio > div {
-    margin-bottom: 15px;
 }
 
 .small {
     font-size: 75%;
 }
 
-input[type="text"] {
-    background: #18191A;
-    border: 1px solid #555;
-    border-radius: 2px;
-    margin-right: 5px;
-    height: 20px;
-    width: 200px;
-}
-
 .inline-block {
     display: inline-block;
+}
+
+.flex {
+    display: flex;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 #volume_slider_container {
     width: 150px;
     position: relative;
-    margin: 15px 13px 0 10px;
+    margin: 5px 15px 0 0;
 }
 
 #volume_slider {
@@ -182,75 +301,53 @@ input[type="text"] {
     border: none;
 }
 
-.options button {
-    font-size: 80%;
-    background: #2B2D30;
-    border: none;
-    color: #5b5f62;
-    width: 95px;
-    height: 24px;
-    border-radius: 2px;
-    outline: none;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#save_settings {
-    background: #24B24B;
-    color: #DDD;
-}
-
-.options button:active {
-    position: relative;
-    top: 1px;
-}
-
-#reset_key:active {
-    position: absolute;
-    top: 1px;
-}
-
-.pointer {
-    cursor: pointer;
-}
-
-input[type="radio"] {
+.clr_options {
     display: none;
 }
 
-label {
-    display: inline-block;
-    text-align: center;
-    background: #18191A;
-    color: #555;
-    font-weight: bold;
+#clr_css_wrapper {
+    width: 285px;
+    height: 110px;
     border: 1px solid #555;
     border-radius: 2px;
-    width: 45px;
-    height: 20px;
-    padding-top: 2px;
-    cursor: pointer;
+    position: relative;
 }
 
-input:checked + label {
-    background: #EC5d0F;
+#clr_css {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.color .content > div:last-child {
+    margin-bottom: 5px;
+}
+
+input[type="text"].num_input {
+    width: 52px;
+}
+
+#browse, #clr_browse {
+    margin-left: 5px;
+    width: 80px;
+}
+
+.clr_options select {
+    background: #18191A;
+    border: 1px solid #555;
+    border-radius: 2px;
+    height: 24px;
+    width: 160px;
     color: #DDD;
+    -webkit-appearance: none;
 }
 
-.color_select .OFF img {
-    height: 15px;
-    position: relative;
-    top: 1px;
+.middle {
+    margin: 0 5px 0 5px;
 }
 
-.color_select .OFF img.selected {
-    height: 23px;
-    position: relative;
-    top: 2px;
-    left: 1px;
-}
-
-label.wide {
-    width: 90px;
-    margin-right: 4px;
+#clr_pos {
+    width: 110px;
 }

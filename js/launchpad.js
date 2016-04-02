@@ -1,11 +1,11 @@
 'use strict';
-
 function keyEvent(source, key, action, edit) { //All midi and gui key events land here
     //console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
     if (!edit) { //Only perform these actions if not right-click on key
         colorKey(key, action); //Color the key based on the action
         sendHotkey(key, action); //Send Hotkey if used
         playAudio(key, action); //Play Audio if used
+        sendCLR(key, action); //Send CLR event if used
     }
     if (action == 'press') {
         lastKey = key; //Update what the last key pressed was
@@ -70,8 +70,19 @@ function colorKey(key, action) {
     }
     let usingHotkey = get(config.keys, key.join(",") + '.hotkey.string'); //Gets bool if we are using hotkey
     let usingAudio = get(config.keys, key.join(",") + '.audio.path'); //Gets bool if we are using audio
+    let usingCLR = null;
+    if (config.app.clr.enabled) usingCLR = get(config.keys, key.join(",") + '.clr.path'); //Gets bool if we are using clr
+    let j = 0;
+    if (usingHotkey) j++;
+    if (usingAudio) j++;
+    if (usingCLR) j++;
     guiKey.html("<div><span>" + (usingHotkey ? "<img src='images/hotkey.png'>" : "") +
-        (usingAudio ? "<img src='images/audio.png'>" : "") + "</span></div>"); //Sets the inner key div to show associated icons to events
+        (usingAudio ? "<img src='images/audio.png'>" : "") + (usingCLR ? "<img src='images/clr.png'>" : "") + "</span></div>"); //Sets the inner key div to show associated icons to events
+    if (j > 2) {
+        $(guiKey).find('div').addClass('shift_up');
+    } else {
+        $(guiKey).find('div').removeClass('shift_up');
+    }
 }
 
 function getGuiKey(key) { //Find the respective gui element with the key position
@@ -128,8 +139,8 @@ function playAudio(key, action) { //Handle Audio playback
                 return;
             }
             if (!track.ended) { //What do we do if the key is repressed while the track is playing
-                switch (audio.on_repress) {
-                    case 'stop': //Stops the track
+                switch (audio.type) {
+                    case 'toggle': //Stops the track
                         stopAudio(track);
                         break;
                     case 'restart': //Restarts the track
@@ -141,7 +152,7 @@ function playAudio(key, action) { //Handle Audio playback
             }
             break;
         case 'release':
-            if (track && !track.ended && audio.on_release == 'stop') {
+            if (track && !track.ended && audio.type == 'hold') {
                 stopAudio(track); //Stop audio on release if that is what's set
             }
             break;
@@ -239,4 +250,12 @@ function kbUp(keys) {
             keyboard[keys[i]] = c;
         }
     }
+}
+
+function sendCLR(key, action) {
+    if (!config.app.clr.enabled) return;
+    if (action == "release") return;
+    let clr = get(config, "keys." + key.join(",") + ".clr");
+    if (!clr || !clr.path) return;
+    clrIO.emit('key_press', {key: key.join(","), options: clr});
 }

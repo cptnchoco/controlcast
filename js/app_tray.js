@@ -1,5 +1,4 @@
 'use strict';
-
 var tray = new Tray(path.join(__dirname, 'images/icon.ico'));
 
 var contextMenu = Menu.buildFromTemplate([
