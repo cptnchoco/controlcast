@@ -19,6 +19,7 @@ io.on('connected', function () {
 });
 
 io.on('images', function (data) {
+    console.log('image list');
     images = data;
     for (var image in images) {
         if (images.hasOwnProperty(image)) {
@@ -29,6 +30,7 @@ io.on('images', function (data) {
 });
 
 io.on('image_change', function (data) {
+    console.log('image change');
     images[data.key] = {
         image: new Image(),
         src: data.src
@@ -41,6 +43,7 @@ io.on('flush', function () {
 });
 
 io.on('key_press', function (data) {
+    console.log('key ' + data.key + " pressed");
     if (!images[data.key] || !images[data.key].src) return;
     var animate = {
         open: {
