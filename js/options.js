@@ -390,7 +390,7 @@ function getDefaultKeyConfig() { //Sets the default key config
                     duration: "1.0"
                 }
             },
-            css: "this {\n  width: 75%;\n}"
+            css: ".img {\n  width: 50%;\n}"
         }
     }
 }
