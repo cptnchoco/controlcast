@@ -315,8 +315,7 @@ $(document).ready(function () {
 
     $('.ace_text-input').on('blur', function () {
         let e = $('.ace_error').length;
-        let w = $('.ace_warning').length;
-        if (e || w) centerNOTY('warning', "There is an error in the custom CSS", 3000);
+        if (e) centerNOTY('warning', "There is an error in the custom CSS", 3000);
     });
 
     $('.num_input').numeric({

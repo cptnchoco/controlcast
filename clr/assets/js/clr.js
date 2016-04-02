@@ -52,30 +52,35 @@ io.on('key_press', function (data) {
 
         }
     };
-    var css = (data.options.css || "").replace(/\n/g, "");
+    var css = (data.options.css || "");
+    
+    var frame = document.createElement('iframe');
+    $('body').append(frame);
 
-    console.log(css);
+    $(frame).contents().find('head').append("<link rel='stylesheet' type='text/css' href='css/frame.css'>" +
+        "<link rel='stylesheet' type='text/css' href='css/animate.css'>")
+        .append("<style>" + css + "</style>");
 
-    var layerDiv = document.createElement('div');
-    var positionDiv = document.createElement('div');
-    var imageDiv = document.createElement('div');
+    var frame_body = $(frame).contents().find('body').addClass(data.options.pos);
 
-    $(positionDiv).append(imageDiv);
-    $(layerDiv).append(positionDiv).addClass('layer ' + data.key);
-    $('body').append(layerDiv);
+    var wrapper = document.createElement('div');
+    $(wrapper).addClass('img').css({
+        "background": "url(" + images[data.key].src + ") no-repeat",
+        "background-size": "cover"
+    }).html("<img src='" + images[data.key].src + "'>");
 
-    $(imageDiv).css({
+    frame_body.html(wrapper);
+
+    $(wrapper).css({
         '-webkit-animation-duration': animate.open.duration,
         '-webkit-animation-delay': animate.open.delay
-    }).addClass(data.options.pos);
-
-    $(imageDiv).html("<img src='" + images[data.key].src + "'>").animateCss(animate.open.type, function () {
-        $(imageDiv).css({
+    }).animateCss(animate.open.type, function () {
+        $(wrapper).css({
             '-webkit-animation-duration': animate.close.duration,
             '-webkit-animation-delay': animate.close.delay
         });
-        $(imageDiv).animateCss(animate.close.type, function () {
-            //$(layerDiv).remove();
+        $(wrapper).animateCss(animate.close.type, function () {
+            $(frame).remove();
         });
     });
 });

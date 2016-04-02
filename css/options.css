@@ -59,6 +59,7 @@
     border-radius: 2px;
     height: 20px;
     width: 200px;
+    text-indent: 3px;
 }
 
 .save_buttons {
@@ -345,10 +346,6 @@ input[type="text"].num_input {
 
 .middle {
     margin: 0 5px 0 5px;
-}
-
-input, select {
-    text-indent: 3px;
 }
 
 #clr_pos {
