@@ -166,7 +166,6 @@ function createMainWindow() { //Loads main application window
 
     mainWindow.setMenu(null); //Disable the default app menu
     mainWindow.loadURL('file://' + path.join(__dirname, '/index.html')); //Display the main window html
-    mainWindow.toggleDevTools();
 }
 
 
