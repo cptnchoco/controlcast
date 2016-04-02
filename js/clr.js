@@ -9,6 +9,14 @@ var server,
 
 function startCLR() {
     console.log("Starting CLR Browser");
+
+    fs.exists(path.join(__dirname, "clr/assets/images"), (exists) => {
+        if (!exists) {
+            fs.mkdir(path.join(__dirname, "clr/assets/images"), (err) => {
+                if (err) console.log(JSON.stringify(err));
+            })
+        }
+    });
     
     app.use(express.static(path.join(__dirname, "/clr/assets")));
     app.set('port', config.app.clr.port || 3000);
