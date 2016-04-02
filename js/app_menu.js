@@ -62,6 +62,7 @@ var titleMenu = Menu.buildFromTemplate([
                                 $('.clr_options').hide();
                                 stopCLR();
                             }
+                            setAllLights();
                         }
                     },
                     {

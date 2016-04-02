@@ -136,7 +136,7 @@ function createMainWindow() { //Loads main application window
         x: config.app.pos.x,
         y: config.app.pos.y,
         width: 900,
-        height: 750,
+        height: 760,
         resizable: false,
         icon: path.join(__dirname, 'images/icon.ico'),
         title: "ControlCast - " + global.app_version
@@ -369,7 +369,7 @@ function checkConfigVer() {
                                     duration: "1.0"
                                 }
                             },
-                            css: ""
+                            css: ".img {\n  width: 50%;\n}"
                         };
                     }
                 }
