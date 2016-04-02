@@ -36,6 +36,10 @@ io.on('image_change', function (data) {
     images[data.key].image.src = data.src;
 });
 
+io.on('flush', function () {
+    $('body').empty();
+});
+
 io.on('key_press', function (data) {
     if (!images[data.key] || !images[data.key].src) return;
     var animate = {
@@ -53,12 +57,12 @@ io.on('key_press', function (data) {
         }
     };
     var css = (data.options.css || "");
-    
+
     var frame = document.createElement('iframe');
     $('body').append(frame);
 
     $(frame).contents().find('head').append("<link rel='stylesheet' type='text/css' href='css/frame.css'>" +
-        "<link rel='stylesheet' type='text/css' href='css/animate.css'>")
+            "<link rel='stylesheet' type='text/css' href='css/animate.css'>")
         .append("<style>" + css + "</style>");
 
     var frame_body = $(frame).contents().find('body').addClass(data.options.pos);

@@ -53,6 +53,8 @@ ipc.on('config', (e, data) => { //Sent from main app on DOM ready. Sends the cur
     if (config.app.clr.enabled && !clrRunning) {
         $('.clr_options').show();
         startCLR();
+    } else {
+        $('#flush_clr').hide();
     }
 });
 

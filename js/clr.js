@@ -59,7 +59,10 @@ function sendImageData(socket) {
     for (let key in config.keys) { //Loop through keys
         if (config.keys.hasOwnProperty(key)) {
             let p = get(config.keys[key], 'clr.path');
-            if (!p) continue;
+            if (!p) {
+                num++;
+                continue;
+            }
             let ext = path.parse(p).ext.toLowerCase();
             fs.stat(path.join(__dirname, "/clr/assets/images/" + key + ext), (err, stats) => {
                 if (!err) {

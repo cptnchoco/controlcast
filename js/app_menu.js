@@ -56,10 +56,12 @@ var titleMenu = Menu.buildFromTemplate([
                             config.app.clr.enabled = e.checked;
                             if (e.checked) {
                                 $('.clr_options').show();
+                                $('#flush_clr').show();
                                 startCLR();
                                 clrNoty();
                             } else {
                                 $('.clr_options').hide();
+                                $('#flush_clr').hide();
                                 stopCLR();
                             }
                             setAllLights();

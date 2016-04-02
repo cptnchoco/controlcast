@@ -325,6 +325,10 @@ $(document).ready(function () {
         maxDecimalPlaces: 3,
         maxPreDecimalPlaces: 3
     });
+
+    $('#flush_clr').click(function() {
+        clrIO.emit('flush');
+    });
 });
 
 function setKeyOptions() { //Update all the key gui elements
