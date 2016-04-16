@@ -1,6 +1,6 @@
 'use strict';
 function keyEvent(source, key, action, edit) { //All midi and gui key events land here
-    //console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
+    console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
     if (!edit) { //Only perform these actions if not right-click on key
         colorKey(key, action); //Color the key based on the action
         sendHotkey(key, action); //Send Hotkey if used
@@ -171,7 +171,7 @@ function sendHotkey(key, action) {
     let keys = hotkey.string.split(" + "); //Split hotkey string into an array
     let popKey = keys[keys.length - 1]; //Get the last array index without popping it off
     //If last index is not a modifier, convert it to the kbm names if need be
-    if (popKey != 'CTRL' && popKey != 'CTRL' && popKey != 'CTRL') keys[keys.length - 1] = resolveKbmKey(popKey);
+    if (popKey != 'CTRL' && popKey != 'ALT' && popKey != 'SHIFT') keys[keys.length - 1] = resolveKbmKey(popKey);
     switch (hotkey.type) {
         case 'send': //Send and release hotkeys
             if (action != 'press') return;

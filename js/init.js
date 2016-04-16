@@ -36,7 +36,7 @@ var config, //Holds all the app and key settings
     css_editor,
     images = {};
 
-kbm.startJar(); //Startup the kbm robot jar
+kbm.startJar("7"); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
 var releaseUrl = remote.getGlobal('release_url');
 
