@@ -1,6 +1,6 @@
 {
   "name": "ControlCast",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "ControlCast",
   "main": "app.js",
   "scripts": {
@@ -17,13 +17,13 @@
     "express": "4.13.4",
     "jquery": "2.2.3",
     "jsonfile": "2.2.3",
-    "kbm-robot": "0.0.4",
     "keycode": "2.1.1",
     "launchpadder": "0.0.5",
     "midi": "0.9.4",
     "moment": "2.12.0",
     "noty": "2.3.8",
     "request": "2.70.0",
+    "robotjs": "^0.4.1",
     "socket.io": "1.4.5",
     "underscore": "1.8.3",
     "usb-detection": "1.4.0"

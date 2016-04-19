@@ -15,7 +15,6 @@ const remote = require('electron').remote,
     _ = require('underscore'),
     noty = require('noty'),
     keycode = require('keycode'),
-    kbm = require("kbm-robot"),
     fs = require('fs'),
     request = require('request');
 
@@ -31,12 +30,10 @@ var config, //Holds all the app and key settings
     tracks = {}, //Holds all the audio tracks in memory to be played
     notyUpdates,
     keyboard = [],
-    hotkeyDelay = 100,
     clrRunning = false,
     css_editor,
     images = {};
 
-kbm.startJar("7"); //Startup the kbm robot jar
 var app_version = remote.getGlobal('app_version');
 var releaseUrl = remote.getGlobal('release_url');
 

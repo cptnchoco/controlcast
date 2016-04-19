@@ -1,11 +1,11 @@
 'use strict';
 function keyEvent(source, key, action, edit) { //All midi and gui key events land here
-    console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
+    //console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
     if (!edit) { //Only perform these actions if not right-click on key
         colorKey(key, action); //Color the key based on the action
-        sendHotkey(key, action); //Send Hotkey if used
         playAudio(key, action); //Play Audio if used
         sendCLR(key, action); //Send CLR event if used
+        sendHotkey(key, action); //Send Hotkey if used
     }
     if (action == 'press') {
         lastKey = key; //Update what the last key pressed was
@@ -169,87 +169,65 @@ function sendHotkey(key, action) {
     let hotkey = get(config, "keys." + key.join(",") + ".hotkey"); //Get key audio settings if they exist
     if (!hotkey || !hotkey.string) return; //Return if no settings or disabled
     let keys = hotkey.string.split(" + "); //Split hotkey string into an array
-    let popKey = keys[keys.length - 1]; //Get the last array index without popping it off
-    //If last index is not a modifier, convert it to the kbm names if need be
-    if (popKey != 'CTRL' && popKey != 'ALT' && popKey != 'SHIFT') keys[keys.length - 1] = resolveKbmKey(popKey);
     switch (hotkey.type) {
         case 'send': //Send and release hotkeys
             if (action != 'press') return;
-            kbDown(keys);
-            setTimeout(()=> {
-                kbUp(keys);
-            }, keys.length * hotkeyDelay + hotkeyDelay);
+            kbAction(keys, 'down', () => {
+                kbAction(keys, 'up');
+            });
             break;
         case 'hold':
             switch (action) {
                 case 'press': //Hold hotkeys
-                    kbDown(keys);
+                    kbAction(keys, 'down');
                     break;
                 case 'release': //Release Hotkeys
-                    kbUp(keys);
+                    kbAction(keys, 'up');
                     break;
             }
             break;
     }
 }
 
-function resolveKbmKey(key) { //Match up the different key names from the 2 different libraries we are using
-    key = key.replace("NUMPAD ", "KP_");
+function resolveKey(key) { //Match up the different key names from the 2 different libraries we are using
+    key = key.toLowerCase();
     switch (key) {
-        case 'CAPS LOCK':
-            return "CAPS_LOCK";
+        case 'ctrl':
+            return 'control';
             break;
-        case 'PRINT SCREEN':
-            return "PRINT_SCREEN";
+        case 'esc':
+            return 'escape';
             break;
-        case 'SCROLL LOCK':
-            return "SCROLL_LOCK";
+        case 'page up':
+            return 'pageup';
             break;
-        case 'PAUSE/BREAK':
-            return "PAUSE_BREAK";
-            break;
-        case 'PAGE UP':
-            return "PAGE_UP";
-            break;
-        case 'PAGE DOWN':
-            return "PAGE_DOWN";
-            break;
-        case 'NUM LOCK':
-            return "NUM_LOCK";
-            break;
-        case '\\':
-            return "\\\\";
-            break;
-        case 'KP_+':
-            return "KP_ADD";
+        case 'page down':
+            return 'pagedown';
             break;
         default:
             return key;
+            break;
     }
 }
 
-function kbDown(keys) {
-    for (let i in keys) {
-        if (keys.hasOwnProperty(i)) {
-            setTimeout(() => {
-                let c = keyboard[keys[i]] || 0;
-                if (c == 0) kbm.press(keys[i]).go();
+function kbAction(keys, action, callback) {
+    for (let i = 0; i < keys.length; i++) {
+        let c = keyboard[keys[i]] || 0;
+        switch (action) {
+            case 'down':
                 c++;
                 keyboard[keys[i]] = c;
-            }, i * hotkeyDelay);
+                if (c > 1) continue;
+                break;
+            case 'up':
+                c--;
+                keyboard[keys[i]] = c;
+                if (c != 0) continue;
+                break;
         }
+        ipc.send('send_key', {key: resolveKey(keys[i]), action: action});
     }
-}
-
-function kbUp(keys) {
-    for (let i in keys) {
-        if (keys.hasOwnProperty(i)) {
-            let c = keyboard[keys[i]] || 0;
-            if (c == 1) kbm.release(keys[i]).go();
-            c--;
-            keyboard[keys[i]] = c;
-        }
-    }
+    if (callback) callback();
 }
 
 function sendCLR(key, action) {
