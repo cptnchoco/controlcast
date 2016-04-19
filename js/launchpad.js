@@ -208,11 +208,13 @@ function kbAction(keys, action, callback) {
         switch (action) {
             case 'down':
                 c++;
-                if (c > 1) break;
+                keyboard[keys[i]] = c;
+                if (c > 1) continue;
                 break;
             case 'up':
                 c--;
-                if (c != 0) break;
+                keyboard[keys[i]] = c;
+                if (c != 0) continue;
                 break;
         }
         robot.keyToggle(resolveKey(keys[i]), action);
