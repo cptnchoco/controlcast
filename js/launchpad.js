@@ -190,7 +190,7 @@ function sendHotkey(key, action) {
 }
 
 function resolveKey(key) { //Match up the different key names from the 2 different libraries we are using
-    key = key.toLowerCase().replace("numpad ", "NUM");
+    key = key.toLowerCase();
     switch (key) {
         case 'ctrl':
             return 'control';
