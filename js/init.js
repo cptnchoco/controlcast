@@ -15,9 +15,9 @@ const remote = require('electron').remote,
     _ = require('underscore'),
     noty = require('noty'),
     keycode = require('keycode'),
-    kbm = require("kbm-robot"),
     fs = require('fs'),
-    request = require('request');
+    request = require('request'),
+    robot = require("robotjs");
 
 window.$ = window.jQuery = require('jquery');
 require('./js/jquery/jquery-ui.min.js');
@@ -31,12 +31,12 @@ var config, //Holds all the app and key settings
     tracks = {}, //Holds all the audio tracks in memory to be played
     notyUpdates,
     keyboard = [],
-    hotkeyDelay = 100,
+    hotkeyDelay = 50,
     clrRunning = false,
     css_editor,
     images = {};
 
-kbm.startJar("7"); //Startup the kbm robot jar
+robot.setKeyboardDelay(hotkeyDelay);
 var app_version = remote.getGlobal('app_version');
 var releaseUrl = remote.getGlobal('release_url');
 
