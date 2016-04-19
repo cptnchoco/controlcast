@@ -9,6 +9,12 @@ var contextMenu = Menu.buildFromTemplate([
         }
     },
     {
+        label: 'Reset Position',
+        click: () => {
+            ipc.send('reset_position'); //Restore Main window
+        }
+    },
+    {
         type: 'separator'
     },
     {
