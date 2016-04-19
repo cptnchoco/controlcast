@@ -16,8 +16,7 @@ const remote = require('electron').remote,
     noty = require('noty'),
     keycode = require('keycode'),
     fs = require('fs'),
-    request = require('request'),
-    robot = require("robotjs");
+    request = require('request');
 
 window.$ = window.jQuery = require('jquery');
 require('./js/jquery/jquery-ui.min.js');
@@ -31,12 +30,10 @@ var config, //Holds all the app and key settings
     tracks = {}, //Holds all the audio tracks in memory to be played
     notyUpdates,
     keyboard = [],
-    hotkeyDelay = 50,
     clrRunning = false,
     css_editor,
     images = {};
 
-robot.setKeyboardDelay(hotkeyDelay);
 var app_version = remote.getGlobal('app_version');
 var releaseUrl = remote.getGlobal('release_url');
 

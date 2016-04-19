@@ -9,7 +9,8 @@ const electron = require('electron'),
     path = require('path'),
     jsonfile = require('jsonfile'),
     moment = require('moment'),
-    spawn = require('child_process').spawn;
+    spawn = require('child_process').spawn,
+    robot = require("robotjs");
 
 
 //Squirrel Auto Update Handlers
@@ -80,6 +81,7 @@ var mainWindow, //Main application window
 app.setAppUserModelId('com.squirrel.ControlCast.ControlCast');
 jsonfile.spaces = 2; //Set the indentation for saving json files
 const configFile = path.normalize("../config.json"); //Set config file path
+robot.setKeyboardDelay(50);
 
 global.app_version = app.getVersion(); //Store app version for in app displays
 global.release_url = require('./package.json').releaseUrl; //Store releaseUrl for update queries
@@ -324,6 +326,11 @@ ipc.on('set_port', (e, data) => {
     sendMessageToMain('update_port', data);
     config.app.clr.port = data; //Set single option
     saveConfig();
+});
+
+
+ipc.on('send_key', (e, data) => {
+    robot.keyToggle(data.key, data.action);
 });
 
 function checkConfigVer() {

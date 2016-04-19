@@ -3,9 +3,9 @@ function keyEvent(source, key, action, edit) { //All midi and gui key events lan
     //console.log(source + " key " + ((action == 'press') ? "pressed" : "release") + ": " + key); //Log the key action
     if (!edit) { //Only perform these actions if not right-click on key
         colorKey(key, action); //Color the key based on the action
-        sendHotkey(key, action); //Send Hotkey if used
         playAudio(key, action); //Play Audio if used
         sendCLR(key, action); //Send CLR event if used
+        sendHotkey(key, action); //Send Hotkey if used
     }
     if (action == 'press') {
         lastKey = key; //Update what the last key pressed was
@@ -173,9 +173,7 @@ function sendHotkey(key, action) {
         case 'send': //Send and release hotkeys
             if (action != 'press') return;
             kbAction(keys, 'down', () => {
-                setTimeout(()=> {
-                    kbAction(keys, 'up');
-                }, hotkeyDelay);
+                kbAction(keys, 'up');
             });
             break;
         case 'hold':
@@ -192,10 +190,20 @@ function sendHotkey(key, action) {
 }
 
 function resolveKey(key) { //Match up the different key names from the 2 different libraries we are using
-    key = key.toLowerCase();
+    key = key.toLowerCase().replace("numpad ", "NUM");
     switch (key) {
         case 'ctrl':
             return 'control';
+            break;
+        case 'esc':
+            return 'escape';
+            break;
+        case 'page up':
+            return 'pageup';
+            break;
+        case 'page down':
+            return 'pagedown';
+            break;
         default:
             return key;
             break;
@@ -217,7 +225,7 @@ function kbAction(keys, action, callback) {
                 if (c != 0) continue;
                 break;
         }
-        robot.keyToggle(resolveKey(keys[i]), action);
+        ipc.send('send_key', {key: resolveKey(keys[i]), action: action});
     }
     if (callback) callback();
 }
