@@ -332,7 +332,7 @@ ipc.on('send_key', (e, data) => {
     try {
         robot.keyToggle(data.key, data.action);
     } catch(e) {
-        console.log("robot error: ", e.message);
+        console.log("robot error: ", e.message, data.key);
     }
 });
 
