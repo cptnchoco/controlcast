@@ -328,9 +328,20 @@ ipc.on('set_port', (e, data) => {
     saveConfig();
 });
 
-
 ipc.on('send_key', (e, data) => {
-    robot.keyToggle(data.key, data.action);
+    try {
+        robot.keyToggle(data.key, data.action);
+    } catch(e) {
+        console.log("robot error: ", e.message, data.key);
+    }
+});
+
+ipc.on('reset_position', () => {
+    if (mainWindow) {
+        mainWindow.setSkipTaskbar(false); //Show Taskbar Icon
+        mainWindow.restore(); //Restore main window
+        mainWindow.setPosition(0,0); //Move to main screen, 0,0
+    }
 });
 
 function checkConfigVer() {

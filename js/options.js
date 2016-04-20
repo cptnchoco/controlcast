@@ -126,6 +126,16 @@ $(document).ready(function () {
         $(this).keydown(function (e) { //Key pressed while focused
             e.preventDefault(); //Cancel any normal inputs from being entered
             let keyName = keycode(e).toUpperCase(); //Get text keyName
+            console.log(keyName);
+            let ignoredKeys = [
+                "CAPS LOCK",
+                "NUM LOCK",
+                "SCROLL LOCK",
+                "PAUSE/BREAK",
+                "MY CALCULATOR"
+            ];
+            if (ignoredKeys.indexOf(keyName) != -1) return;
+            if (keyName.indexOf('NUMPAD') != -1) return;
             switch (keyName) { //Save the modifiers being pressed
                 case 'CTRL':
                     combo.ctrl = true;
@@ -153,7 +163,7 @@ $(document).ready(function () {
             colorKey(lastKey, 'release');
             checkmarks();
         }).alphanum({
-            allow: '+',
+            allow: '+`-[]\\;\',./',
             allowOtherCharSets: false
         });
         $(this).keyup(function (e) { //Key released while focused

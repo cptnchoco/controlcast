@@ -204,6 +204,9 @@ function resolveKey(key) { //Match up the different key names from the 2 differe
         case 'page down':
             return 'pagedown';
             break;
+        case 'pause/break':
+            return 'pausebreak';
+            break;
         default:
             return key;
             break;
