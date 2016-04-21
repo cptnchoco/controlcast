@@ -14,4 +14,10 @@ Edit individual midi keys to:
 * Play a local or remote audio file.
 * Show images or gifs in an overlay with animations.
 
+##Updating
+* Updates are downloaded and applied automatically in the background.
+* When presented with the update icon in the upper right of the app, click to close and reopen to latest version.
+* Config settings remain persistent between updates.
+* WARNING: Reinstalling via the Setup.exe file will override the config file.
+
 Artwork and beta testing by Annemunition
