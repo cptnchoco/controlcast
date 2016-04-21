@@ -130,7 +130,7 @@ function playAudio(key, action) { //Handle Audio playback
                 tracks[key.join(",")] = new Audio(audio.path); //Create and add new track to tracks
                 tracks[key.join(",")].play();
             }
-            if (track.played.length == 0 || track.ended) { //Start the track if it hasn't played before or has finished playing
+            if (!track.played || track.played.length == 0 || track.ended) { //Start the track if it hasn't played before or has finished playing
                 if (audio.path != track.src) { //The path was changed or local file
                     let localPath = "file:///" + audio.path.replace(/\\/g, "/").replace(/ /g, "%20"); //Convert to local format and check for match
                     if (localPath != track.src) track = new Audio(audio.path); //Yup, the path was changed, load new audio object
