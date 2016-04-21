@@ -189,7 +189,6 @@ $(document).ready(function () {
 
 
     $('#audio_path').change(function () { //Audio path was changed
-        console.log('start');
         if ($(this).val() == "") return; //Return if blank
         let audioPath = path.parse($(this).val()); //Parse path
         let ext = audioPath.ext.toLowerCase(); //Get file extension
