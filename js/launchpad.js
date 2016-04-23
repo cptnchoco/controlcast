@@ -124,17 +124,15 @@ function playAudio(key, action) { //Handle Audio playback
     let audio = get(config, "keys." + key.join(",") + ".audio"); //Get key audio settings if they exist
     if (!audio || !audio.path) return; //Return if no settings or disabled
     let track = tracks[key.join(",")]; //Get loaded track from memory
+    let audioPath = path.normalize(audio.path);
     switch (action) {
         case 'press':
-            if (!track) { //Track was created in edit mode
-                tracks[key.join(",")] = new Audio(audio.path); //Create and add new track to tracks
+            if (!track) { //Track was just created in edit mode
+                tracks[key.join(",")] = new Audio(audioPath); //Create and add new track to tracks
                 tracks[key.join(",")].play();
+                return;
             }
             if (!track.played || track.played.length == 0 || track.ended) { //Start the track if it hasn't played before or has finished playing
-                if (audio.path != track.src) { //The path was changed or local file
-                    let localPath = "file:///" + audio.path.replace(/\\/g, "/").replace(/ /g, "%20"); //Convert to local format and check for match
-                    if (localPath != track.src) track = new Audio(audio.path); //Yup, the path was changed, load new audio object
-                }
                 track.play();
                 return;
             }
@@ -152,6 +150,7 @@ function playAudio(key, action) { //Handle Audio playback
             }
             break;
         case 'release':
+            if (!track) return;
             if (track && !track.ended && audio.type == 'hold') {
                 stopAudio(track); //Stop audio on release if that is what's set
             }

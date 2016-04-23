@@ -175,9 +175,9 @@ function loadTracks() { //Load track data to array
         if (config.keys.hasOwnProperty(key)) {
             let audio = config.keys[key].audio; //Get key audio settings
             if (!audio || !audio.path) continue; //Return if no audio is set
-            let localPath = "file:///" + audio.path.replace(/\\/g, "/").replace(/ /g, "%20"); //Convert to local format
-            if (!tracks[key] || (tracks[key].src != audio.path && tracks[key].src != localPath)) {
-                tracks[key] = new Audio(audio.path);
+            let audioPath = path.normalize(audio.path);
+            if (!tracks[key] || tracks[key].src != audioPath) {
+                tracks[key] = new Audio(audioPath);
             }
             tracks[key].volume = audio.volume / 100;
         }
