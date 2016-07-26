@@ -162,10 +162,6 @@ function createMainWindow() { //Loads main application window
         saveConfig(); //Save config to disk
     });
 
-    mainWindow.webContents.on('dom-ready', event => { //The window elements have all loaded
-        event.sender.send('config', config); //Send the config object over ASAP
-    });
-
     mainWindow.setMenu(null); //Disable the default app menu
     mainWindow.loadURL('file://' + path.join(__dirname, '/index.html')); //Display the main window html
 }
@@ -330,8 +326,9 @@ ipc.on('set_port', (e, data) => {
 
 ipc.on('send_key', (e, data) => {
     try {
+        console.log(data.action, data.key);
         robot.keyToggle(data.key, data.action);
-    } catch(e) {
+    } catch (e) {
         console.log("robot error: ", e.message, data.key);
     }
 });
@@ -340,7 +337,7 @@ ipc.on('reset_position', () => {
     if (mainWindow) {
         mainWindow.setSkipTaskbar(false); //Show Taskbar Icon
         mainWindow.restore(); //Restore main window
-        mainWindow.setPosition(0,0); //Move to main screen, 0,0
+        mainWindow.setPosition(0, 0); //Move to main screen, 0,0
     }
 });
 

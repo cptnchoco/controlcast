@@ -126,7 +126,6 @@ $(document).ready(function () {
         $(this).keydown(function (e) { //Key pressed while focused
             e.preventDefault(); //Cancel any normal inputs from being entered
             let keyName = keycode(e).toUpperCase(); //Get text keyName
-            console.log(keyName);
             let ignoredKeys = [
                 "CAPS LOCK",
                 "NUM LOCK",
@@ -135,7 +134,6 @@ $(document).ready(function () {
                 "MY CALCULATOR"
             ];
             if (ignoredKeys.indexOf(keyName) != -1) return;
-            if (keyName.indexOf('NUMPAD') != -1) return;
             switch (keyName) { //Save the modifiers being pressed
                 case 'CTRL':
                     combo.ctrl = true;
@@ -335,9 +333,11 @@ $(document).ready(function () {
         maxPreDecimalPlaces: 3
     });
 
-    $('#flush_clr').click(function() {
+    $('#flush_clr').click(function () {
         clrIO.emit('flush');
     });
+
+    ipc.send('get_config');
 });
 
 function setKeyOptions() { //Update all the key gui elements
