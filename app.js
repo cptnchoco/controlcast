@@ -326,7 +326,6 @@ ipc.on('set_port', (e, data) => {
 
 ipc.on('send_key', (e, data) => {
     try {
-        console.log(data.action, data.key);
         robot.keyToggle(data.key, data.action);
     } catch (e) {
         console.log("robot error: ", e.message, data.key);
